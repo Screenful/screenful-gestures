@@ -3,7 +3,7 @@ package javacv.skeleton;
 import java.nio.ByteOrder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.bytedeco.javacpp.freenect.FREENECT_DEPTH_MM;
+import static org.bytedeco.javacpp.freenect.FREENECT_DEPTH_REGISTERED;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.FrameGrabber;
@@ -13,7 +13,8 @@ public class ShowDepth {
 
     public static void main(String[] args) {
         OpenKinectFrameGrabber grabber = new OpenKinectFrameGrabber(0);
-        grabber.setDepthFormat(FREENECT_DEPTH_MM);
+	// Depth format: millimeters and registered with RGB image
+        grabber.setDepthFormat(FREENECT_DEPTH_REGISTERED);
 	// IMPORTANT FOR KINECT! (some models only?)
         grabber.setByteOrder(ByteOrder.LITTLE_ENDIAN);
 
