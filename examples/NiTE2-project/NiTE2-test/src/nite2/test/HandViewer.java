@@ -69,6 +69,7 @@ public class HandViewer extends Component
         for (GestureData gesture : mLastFrame.getGestures()) {
             if (gesture.isComplete()) {
                 // start hand tracking
+                System.out.println("Starting hand tracking");
                 mTracker.startHandTracking(gesture.getCurrentPosition());
             }
         }
@@ -99,7 +100,7 @@ public class HandViewer extends Component
     private void calcHist(ByteBuffer depthBuffer) {
         // make sure we have enough room
         if (mHistogram == null) {
-            mHistogram = new float[10000];
+            mHistogram = new float[10001];
         }
 
         // reset

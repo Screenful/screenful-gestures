@@ -148,7 +148,7 @@ public class UserViewer extends Component
     private void calcHist(ByteBuffer depthBuffer) {
         // make sure we have enough room
         if (mHistogram == null) {
-            mHistogram = new float[10000];
+            mHistogram = new float[10001];
         }
 
         // reset
