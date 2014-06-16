@@ -26,7 +26,7 @@ public class Contours {
     private static IplImage canny(IplImage img) {
         // create temporary image the same size as the input image
         IplImage tmp = cvCreateImage(cvSize(img.width(), img.height()), IPL_DEPTH_8U, 1);
-        // downscale values from 16-bit range (actually 0-4096) to 8-bit range 0-255
+        // downscale values from 16-bit range (actually the sensor's range is smaller) to 8-bit range 0-255
         cvCvtScaleAbs(img, tmp, IPL_DEPTH_8U, 1 / 256.0);
         // create a destination image
         IplImage cannied = IplImage.create(cvGetSize(tmp), tmp.depth(), 0);
