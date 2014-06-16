@@ -1,0 +1,7 @@
+# ignore proprietary NiTE2 files
+examples/NiTE2-project/NiTE2-test/NiTE2/Data/
+examples/NiTE2-project/NiTE2-test/NiTE2/FeatureExtraction.ini
+examples/NiTE2-project/NiTE2-test/NiTE2/HandAlgorithms.ini
+examples/NiTE2-project/NiTE2-test/NiTE2/h.dat
+examples/NiTE2-project/NiTE2-test/NiTE2/s.dat
+

@@ -91,7 +91,10 @@ public class UserViewer extends Component
 
         // draw it in another color than the use color
         g.setColor(new Color(mColors[(user.getId() + 1) % mColors.length]));
-        g.drawLine(x + fromPos.getX().intValue(), y + fromPos.getY().intValue(), x + toPos.getX().intValue(), y + toPos.getY().intValue());
+        // Draw thicker lines
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setStroke(new BasicStroke(6));
+        g2.drawLine(x + fromPos.getX().intValue(), y + fromPos.getY().intValue(), x + toPos.getX().intValue(), y + toPos.getY().intValue());
     }
 
     public synchronized void onNewFrame(UserTracker tracker) {
