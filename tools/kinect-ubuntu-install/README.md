@@ -1,7 +1,8 @@
-### Installing OpenNI2, libfreenect and the Kinect sensor on Ubuntu 14.04
+### Installing OpenNI2, libfreenect and the Kinect sensor on Ubuntu 14.04 (64-bit)
 
 **Note: openni.org referenced in some documentation is not online anymore.**
 
+* Note: you need to be running a 64-bit OS
 * Commands are for Ubuntu 14.04 LTS or similar Debian based system.
 * The script has been tested with Ubuntu 14.04 LTS booted in live mode.
 
