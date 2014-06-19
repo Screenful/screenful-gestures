@@ -51,6 +51,7 @@ public class HandViewer extends Component
         // draw hands
         for (HandData hand : mLastFrame.getHands()) {
             if (hand.isTracking()) {
+                System.out.println("Tracking hand");
                 com.primesense.nite.Point2D<Float> pos = mTracker.convertHandCoordinatesToDepth(hand.getPosition());
                 g.drawRect(framePosX + pos.getX().intValue() - 3, framePosY + pos.getY().intValue() - 3, 5, 5);
             }
@@ -64,7 +65,7 @@ public class HandViewer extends Component
         }
 
         mLastFrame = mTracker.readFrame();
-
+        System.out.println("Gestures: " + mLastFrame.getGestures().size());
         // check if any gesture detected
         for (GestureData gesture : mLastFrame.getGestures()) {
             if (gesture.isComplete()) {
@@ -111,9 +112,9 @@ public class HandViewer extends Component
         int points = 0;
         while (depthBuffer.remaining() > 0) {
             int depth = depthBuffer.getShort() & 0xFFFF;
-            if (depth > 9999) {
-                System.out.println("here: " + depth);
-            }
+//            if (depth > 9999) {
+//                System.out.println("here: " + depth);
+//            }
             if (depth != 0) {
                 mHistogram[depth]++;
                 points++;

@@ -68,12 +68,6 @@ public class HandViewerApplication {
     }
 
     public static void main(String s[]) {
-
-        //System.load("/home/joga/code/openni2-nite2/OpenNI-Linux-x64-2.2/Redist/libOpenNI2.so");
-        //System.load("/home/joga/code/openni2-nite2/OpenNI-Linux-x64-2.2/Redist/libOpenNI2.jni.so");
-        // initialize OpenNI and NiTE
-        //System.load("/usr/local/lib/libNiTE2.so");
-        //System.load("/usr/local/lib/libNiTE2.jni.so");
         OpenNI.initialize();
         NiTE.initialize();
 

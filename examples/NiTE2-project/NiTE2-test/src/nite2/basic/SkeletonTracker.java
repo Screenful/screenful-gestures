@@ -7,8 +7,14 @@ import com.primesense.nite.UserTrackerFrameRef;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import nite2.gui.GraphicsRenderer;
+import nite2.gui.SimpleGraphicsWindow;
+import nite2.gui.SkeletonWindow;
 import org.openni.OpenNI;
 
+/**
+ * UserTracker with optional visualization
+ */
 public class SkeletonTracker implements UserTracker.NewFrameListener {
 
     private final ArrayList<SkeletonListener> listeners;
@@ -29,7 +35,6 @@ public class SkeletonTracker implements UserTracker.NewFrameListener {
         NiTE.initialize();
         listeners = new ArrayList<>();
         tracker = UserTracker.create();
-        // start listening for new frames
         tracker.addNewFrameListener(this);
     }
 
@@ -87,11 +92,20 @@ public class SkeletonTracker implements UserTracker.NewFrameListener {
     /**
      * Spawn an image window for drawing the skeletons
      */
-    public void showImageWindow() {
+    public void showSkeletonWindow() {
         SkeletonWindow win = new SkeletonWindow(this);
         // Add window's renderer to SkeletonListeners
         this.addSkeletonListener(win.getSkeletonRender());
         new Thread(win).start();
     }
 
+    /**
+     * Open a graphics window for drawing something else
+     */
+    public void showGraphicsWindow(GraphicsRenderer gfx) {
+        GraphicsRenderer render = gfx;
+        SimpleGraphicsWindow win = new SimpleGraphicsWindow(this, render);
+        this.addSkeletonListener(render);
+        new Thread(win).start();
+    }
 }

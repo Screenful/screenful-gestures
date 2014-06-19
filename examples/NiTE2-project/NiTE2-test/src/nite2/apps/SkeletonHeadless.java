@@ -17,7 +17,7 @@ public class SkeletonHeadless {
     public static void main(String[] args) {
         SkeletonTracker tracker = new SkeletonTracker();
         // uncomment to get a viewer window also
-        // tracker.showImageWindow();
+        // tracker.showSkeletonWindow();
 
         System.out.println("*** Press ENTER to quit.");
         try {

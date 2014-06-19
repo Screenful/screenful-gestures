@@ -1,10 +1,11 @@
-package nite2.basic;
+package nite2.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import nite2.basic.SkeletonTracker;
 
 /**
  * Window frame for drawing the depth image and skeleton joints
@@ -12,16 +13,16 @@ import javax.swing.JFrame;
 public class SkeletonWindow implements Runnable {
 
     private final JFrame viewFrame;
-    private final SkeletonRender renderer;
+    private final SkeletonRenderer renderer;
     private boolean shouldRun = true;
 
-    public SkeletonRender getSkeletonRender() {
+    public SkeletonRenderer getSkeletonRender() {
         return renderer;
     }
 
     public SkeletonWindow(SkeletonTracker skel) {
         viewFrame = new JFrame("NiTE User Tracker Viewer");
-        renderer = new SkeletonRender(skel);
+        renderer = new SkeletonRenderer(skel);
 
         // register to key events
         viewFrame.addKeyListener(new KeyListener() {
