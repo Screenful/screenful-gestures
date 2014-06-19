@@ -85,6 +85,9 @@ public class SkeletonTracker implements UserTracker.NewFrameListener {
 
     }
 
+    /**
+     * Spawn an image window for drawing the skeletons
+     */
     public void showImageWindow() {
         SkeletonWindow win = new SkeletonWindow(this);
         // Add window's renderer to SkeletonListeners
