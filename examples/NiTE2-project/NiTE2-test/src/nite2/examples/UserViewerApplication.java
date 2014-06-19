@@ -1,4 +1,4 @@
-package nite2.test;
+package nite2.examples;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -77,8 +77,7 @@ public class UserViewerApplication {
             JOptionPane.showMessageDialog(null, "No device is connected", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        Device device = Device.open(devicesInfo.get(0).getUri());
+        //Device device = Device.open(devicesInfo.get(0).getUri());
         UserTracker tracker = UserTracker.create();
 
         final UserViewerApplication app = new UserViewerApplication(tracker);

@@ -1,4 +1,4 @@
-package nite2.test;
+package nite2.examples;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
