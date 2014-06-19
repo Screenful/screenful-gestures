@@ -60,7 +60,6 @@ public class SkeletonTracker implements UserTracker.NewFrameListener {
         } else {
             return new ArrayList<UserData>();
         }
-
     }
 
     @Override
