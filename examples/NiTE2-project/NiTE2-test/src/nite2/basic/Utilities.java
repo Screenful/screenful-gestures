@@ -11,7 +11,11 @@ public final class Utilities {
     }
 
     /**
-     * Calculate euclidean distance between two 3D points
+     * Calculate euclidean distance between two 3D points.
+     *
+     * @param from 3D start point
+     * @param to 3D end point
+     * @return distance between the points
      */
     public static double distance3d(Point3D from, Point3D to) {
         float dx = Math.round((float) to.getX()) - Math.round((float) from.getX());
@@ -19,5 +23,4 @@ public final class Utilities {
         float dz = Math.round((float) to.getZ()) - Math.round((float) from.getZ());
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
-
 }

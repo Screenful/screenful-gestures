@@ -5,3 +5,5 @@ examples/NiTE2-project/NiTE2-test/NiTE2/HandAlgorithms.ini
 examples/NiTE2-project/NiTE2-test/NiTE2/h.dat
 examples/NiTE2-project/NiTE2-test/NiTE2/s.dat
 
+examples/NiTE2-project/NiTE2-test/dist/
+!examples/NiTE2-project/NiTE2-test/dist/javadoc

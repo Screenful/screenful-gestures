@@ -15,7 +15,14 @@ import java.util.List;
 import org.openni.OpenNI;
 
 /**
- * Tracker for NUI features, ie. both skeleton tracking and hand tracking.
+ * Tracker for NUI features. When a NuiTracker is created, it creates instances
+ * of UserTracker and HandTracker, starts them and adds itself to their
+ * listeners to get notified of new data.
+ *
+ * To access the data, you can use NuiTracker.getSkeletons() etc.
+ *
+ * You can pass the NuiTracker object to a Visualization object to get a
+ * graphical window, see NuiViewer.
  *
  */
 public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.NewFrameListener {
@@ -32,34 +39,54 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     BufferedImage bufferedImage;
 
     /**
-     * Return tracker objects (used in limb coordinate calculations when
-     * rendering)
+     * Return hand tracker for reading hand positions and gestures
+     *
+     * @return HandTracker object
      */
     public HandTracker getHandTracker() {
         return handTracker;
     }
 
+    /**
+     * Return user tracker for reading user poses and skeletal data
+     *
+     * @return UserTracker object
+     */
     public UserTracker getUserTracker() {
         return userTracker;
     }
 
     /**
-     * Access current frames
+     * Access current hand tracker frame
+     *
+     * @return current hand tracker frame
      */
     public synchronized HandTrackerFrameRef getHandFrame() {
         return lastHandFrame;
     }
 
+    /**
+     * Access current user tracker frame
+     *
+     * @return current user tracker frame
+     */
     public synchronized UserTrackerFrameRef getUserFrame() {
         return lastUserFrame;
     }
 
+    /**
+     * Access current depth image frame
+     *
+     * @return current depth image frame
+     */
     public synchronized BufferedImage getBufferedImage() {
         return bufferedImage;
     }
 
     /**
      * Add a listener for new hand frames
+     *
+     * @param listener HandListener to add
      */
     public void addHandListener(HandListener listener) {
         handListeners.add(listener);
@@ -67,13 +94,15 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
 
     /**
      * Add a listener for new user frames
+     *
+     * @param listener SkeletonListener to add
      */
     public void addSkeletonListener(SkeletonListener listener) {
         userListeners.add(listener);
     }
 
     /**
-     * Notify listeners of new hand or user frames
+     * Notify listeners of new hand frames
      */
     private void notifyHandListeners() {
         for (HandListener listener : handListeners) {
@@ -81,6 +110,9 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
         }
     }
 
+    /**
+     * Notify listeners of new user frames
+     */
     private void notifyUserListeners() {
         for (SkeletonListener listener : userListeners) {
             listener.onNewSkeletonFrame(lastUserFrame);
@@ -88,9 +120,9 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     }
 
     /**
-     * Initialize OpenNI and NiTE, add tracker to skeleton and hand data
-     * listeners and configure hand tracker to look for click and wave gestures
-     * to initiate tracking.
+     * Initialize OpenNI and NiTE, create user and hand trackers, add NuiTracker
+     * to their listeners and configure hand tracker to look for click and wave
+     * gestures to initiate hand tracking.
      */
     public NuiTracker() {
         OpenNI.initialize();
@@ -111,26 +143,26 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     /**
      * Return list of detected hands
      *
-     * @return List<HandData> of hand data
+     * @return List of hand data
      */
     public List<HandData> getHands() {
         if (lastUserFrame != null) {
             return lastHandFrame.getHands();
         } else {
-            return new ArrayList<HandData>();
+            return new ArrayList<>();
         }
     }
 
     /**
      * Return list of detected skeletons
      *
-     * @return List<UserData> of skeletons
+     * @return List of user data
      */
     public List<UserData> getSkeletons() {
         if (lastUserFrame != null) {
             return lastUserFrame.getUsers();
         } else {
-            return new ArrayList<UserData>();
+            return new ArrayList<>();
         }
     }
 

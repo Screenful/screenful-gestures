@@ -18,6 +18,10 @@ public final class JointMetrics {
 
     /**
      * Return X distance of elbow and hand, either side
+     *
+     * @param user user data object
+     * @param side Side.LEFT or Side.RIGHT
+     * @return euclidean distance between elbow and hand in 3D space
      */
     public static double elbowHandXOffset(UserData user, Side side) {
         Skeleton skeleton = user.getSkeleton();
@@ -34,6 +38,12 @@ public final class JointMetrics {
         return Math.round((float) elbow.getX()) - Math.round((float) hand.getX());
     }
 
+    /**
+     * Returns true if a user's both hands are above the neck..
+     *
+     * @param user user data object
+     * @return true if hands above neck
+     */
     public static boolean handsAboveNeck(UserData user) {
         Skeleton skeleton = user.getSkeleton();
         int lefthandY, righthandY, neckY;
