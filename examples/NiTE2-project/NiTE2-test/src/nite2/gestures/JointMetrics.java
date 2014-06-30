@@ -34,4 +34,12 @@ public final class JointMetrics {
         return Math.round((float) elbow.getX()) - Math.round((float) hand.getX());
     }
 
+    public static boolean handsAboveNeck(UserData user) {
+        Skeleton skeleton = user.getSkeleton();
+        int lefthandY, righthandY, neckY;
+        lefthandY = Math.round(skeleton.getJoint(JointType.LEFT_HAND).getPosition().getY());
+        righthandY = Math.round(skeleton.getJoint(JointType.RIGHT_HAND).getPosition().getY());
+        neckY = Math.round(skeleton.getJoint(JointType.NECK).getPosition().getY());
+        return (lefthandY > neckY) && (righthandY > neckY);
+    }
 }

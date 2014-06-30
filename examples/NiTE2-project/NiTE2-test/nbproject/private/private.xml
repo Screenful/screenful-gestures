@@ -3,8 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/joga/NetBeansProjects/NiTE2-test/src/nite2/test/HandViewer.java</file>
-            <file>file:/home/joga/NetBeansProjects/NiTE2-test/src/nite2/test/HandViewerApplication.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/SkeletonHeadless.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/RenderJoystick.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/ShoulderClick.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/examples/HandViewer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/examples/UserViewerApplication.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/SkeletonRenderer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/JointMetrics.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/SimpleGraphicsWindow.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/basic/Utilities.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/basic/SkeletonTracker.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/SkeletonWindow.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/ElbowJoystick.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/examples/HandViewerApplication.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/SkeletonViewer.java</file>
         </group>
     </open-files>
 </project-private>

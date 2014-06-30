@@ -1,4 +1,4 @@
-package nite2.examples;
+package nite2.distexamples;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -10,26 +10,26 @@ import com.primesense.nite.*;
 
 public class HandViewer extends Component
         implements HandTracker.NewFrameListener {
-
+    
     float mHistogram[];
     int[] mDepthPixels;
     HandTracker mTracker;
     HandTrackerFrameRef mLastFrame;
     BufferedImage mBufferedImage;
-
+    
     public HandViewer(HandTracker tracker) {
         mTracker = tracker;
         mTracker.addNewFrameListener(this);
     }
-
+    
     public synchronized void paint(Graphics g) {
         if (mLastFrame == null) {
             return;
         }
-
+        
         int framePosX = 0;
         int framePosY = 0;
-
+        
         VideoFrameRef depthFrame = mLastFrame.getDepthFrame();
         if (depthFrame != null) {
             int width = depthFrame.getWidth();
@@ -39,31 +39,35 @@ public class HandViewer extends Component
             if (mBufferedImage == null || mBufferedImage.getWidth() != width || mBufferedImage.getHeight() != height) {
                 mBufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             }
-
+            
             mBufferedImage.setRGB(0, 0, width, height, mDepthPixels, 0, width);
-
+            
             framePosX = (getWidth() - width) / 2;
             framePosY = (getHeight() - height) / 2;
-
+            
             g.drawImage(mBufferedImage, framePosX, framePosY, null);
         }
 
         // draw hands
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setStroke(new BasicStroke(6));
+        g2.setColor(Color.RED);
+        
         for (HandData hand : mLastFrame.getHands()) {
             if (hand.isTracking()) {
                 System.out.println("Tracking hand");
                 com.primesense.nite.Point2D<Float> pos = mTracker.convertHandCoordinatesToDepth(hand.getPosition());
-                g.drawRect(framePosX + pos.getX().intValue() - 3, framePosY + pos.getY().intValue() - 3, 5, 5);
+                g2.drawRect(framePosX + pos.getX().intValue() - 6, framePosY + pos.getY().intValue() - 6, 10, 10);
             }
         }
     }
-
+    
     public synchronized void onNewFrame(HandTracker tracker) {
         if (mLastFrame != null) {
             mLastFrame.release();
             mLastFrame = null;
         }
-
+        
         mLastFrame = mTracker.readFrame();
         System.out.println("Gestures: " + mLastFrame.getGestures().size());
         // check if any gesture detected
@@ -74,7 +78,7 @@ public class HandViewer extends Component
                 mTracker.startHandTracking(gesture.getCurrentPosition());
             }
         }
-
+        
         VideoFrameRef depthFrame = mLastFrame.getDepthFrame();
         if (depthFrame != null) {
             ByteBuffer frameData = depthFrame.getData().order(ByteOrder.LITTLE_ENDIAN);
@@ -83,7 +87,7 @@ public class HandViewer extends Component
             if (mDepthPixels == null || mDepthPixels.length < depthFrame.getWidth() * depthFrame.getHeight()) {
                 mDepthPixels = new int[depthFrame.getWidth() * depthFrame.getHeight()];
             }
-
+            
             calcHist(frameData);
             frameData.rewind();
             int pos = 0;
@@ -94,10 +98,10 @@ public class HandViewer extends Component
                 pos++;
             }
         }
-
+        
         repaint();
     }
-
+    
     private void calcHist(ByteBuffer depthBuffer) {
         // make sure we have enough room
         if (mHistogram == null) {
@@ -108,7 +112,7 @@ public class HandViewer extends Component
         for (int i = 0; i < mHistogram.length; ++i) {
             mHistogram[i] = 0;
         }
-
+        
         int points = 0;
         while (depthBuffer.remaining() > 0) {
             int depth = depthBuffer.getShort() & 0xFFFF;
@@ -120,11 +124,11 @@ public class HandViewer extends Component
                 points++;
             }
         }
-
+        
         for (int i = 1; i < mHistogram.length; i++) {
             mHistogram[i] += mHistogram[i - 1];
         }
-
+        
         if (points > 0) {
             for (int i = 1; i < mHistogram.length; i++) {
                 mHistogram[i] = (int) (256 * (1.0f - (mHistogram[i] / (float) points)));

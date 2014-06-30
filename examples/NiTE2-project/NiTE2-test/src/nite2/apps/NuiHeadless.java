@@ -7,17 +7,26 @@ import com.primesense.nite.UserData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nite2.basic.SkeletonTracker;
+import nite2.basic.NuiTracker;
+import nite2.gui.visualization.HandVisualization;
+import nite2.gui.visualization.SkeletonVisualization;
 
 /**
  * Show tracked torso coordinates until Enter is pressed
  */
-public class SkeletonHeadless {
+public class NuiHeadless {
 
     public static void main(String[] args) {
-        SkeletonTracker tracker = new SkeletonTracker();
-        // uncomment to get a viewer window also
-        // tracker.showSkeletonWindow();
+        NuiTracker tracker = new NuiTracker();
+        // uncomment for visualization windows
+        /*
+         // Add visualizations
+         SkeletonVisualization skeleton = new SkeletonVisualization(tracker, "Skeleton tracker window");
+         HandVisualization hands = new HandVisualization(tracker, "Hand tracker window");
+         // Show visualizations
+         skeleton.show();
+         hands.show();
+         */
 
         System.out.println("*** Press ENTER to quit.");
         try {
@@ -36,7 +45,7 @@ public class SkeletonHeadless {
                 Thread.sleep(100);
             }
         } catch (Exception ex) {
-            Logger.getLogger(SkeletonHeadless.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NuiHeadless.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

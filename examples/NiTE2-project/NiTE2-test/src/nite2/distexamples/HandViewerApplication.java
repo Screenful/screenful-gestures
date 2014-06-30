@@ -1,4 +1,4 @@
-package nite2.examples;
+package nite2.distexamples;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,15 +15,15 @@ import com.primesense.nite.*;
 
 import javax.swing.JOptionPane;
 
-public class UserViewerApplication {
+public class HandViewerApplication {
 
     private JFrame mFrame;
-    private UserViewer mViewer;
+    private HandViewer mViewer;
     private boolean mShouldRun = true;
 
-    public UserViewerApplication(UserTracker tracker) {
-        mFrame = new JFrame("NiTE User Tracker Viewer");
-        mViewer = new UserViewer(tracker);
+    public HandViewerApplication(HandTracker tracker) {
+        mFrame = new JFrame("NiTE Hand Tracker Viewer");
+        mViewer = new HandViewer(tracker);
 
         // register to key events
         mFrame.addKeyListener(new KeyListener() {
@@ -68,7 +68,6 @@ public class UserViewerApplication {
     }
 
     public static void main(String s[]) {
-        // initialize OpenNI and NiTE
         OpenNI.initialize();
         NiTE.initialize();
 
@@ -77,10 +76,13 @@ public class UserViewerApplication {
             JOptionPane.showMessageDialog(null, "No device is connected", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        //Device device = Device.open(devicesInfo.get(0).getUri());
-        UserTracker tracker = UserTracker.create();
 
-        final UserViewerApplication app = new UserViewerApplication(tracker);
+        Device device = Device.open(devicesInfo.get(0).getUri());
+        HandTracker tracker = HandTracker.create();
+        tracker.startGestureDetection(GestureType.CLICK);
+        tracker.startGestureDetection(GestureType.WAVE);
+
+        final HandViewerApplication app = new HandViewerApplication(tracker);
         app.run();
     }
 }

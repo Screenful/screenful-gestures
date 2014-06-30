@@ -5,24 +5,17 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import nite2.basic.SkeletonTracker;
 
 /**
- * Window frame for drawing the depth image and skeleton joints
+ * Generic frame for displaying graphics. Can be closed by pressing Escape.
  */
-public class SkeletonWindow implements Runnable {
+public class GenericWindow implements Runnable {
 
-    private final JFrame viewFrame;
-    private final SkeletonRenderer renderer;
+    protected JFrame viewFrame;
     private boolean shouldRun = true;
 
-    public SkeletonRenderer getSkeletonRender() {
-        return renderer;
-    }
-
-    public SkeletonWindow(SkeletonTracker skel) {
-        viewFrame = new JFrame("NiTE User Tracker Viewer");
-        renderer = new SkeletonRenderer(skel);
+    public GenericWindow(String name) {
+        viewFrame = new JFrame(name);
 
         // register to key events
         viewFrame.addKeyListener(new KeyListener() {
@@ -48,11 +41,6 @@ public class SkeletonWindow implements Runnable {
                 shouldRun = false;
             }
         });
-
-        renderer.setSize(800, 600);
-        viewFrame.add("Center", renderer);
-        viewFrame.setSize(renderer.getWidth(), renderer.getHeight());
-        viewFrame.setVisible(true);
     }
 
     @Override
@@ -67,4 +55,5 @@ public class SkeletonWindow implements Runnable {
         }
         viewFrame.dispose();
     }
+
 }

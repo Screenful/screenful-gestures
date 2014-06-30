@@ -1,4 +1,4 @@
-package nite2.gui;
+package nite2.gui.rendering;
 
 import com.primesense.nite.*;
 import java.awt.*;
@@ -6,26 +6,22 @@ import java.awt.image.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import nite2.basic.SkeletonListener;
-import nite2.basic.SkeletonTracker;
-
 import org.openni.*;
 
 /**
- * Draw stick man from skeleton data on top of depth image
+ * Draw stick characters from skeleton data on top of depth image
  */
 public class SkeletonRenderer extends Component implements SkeletonListener {
 
     float[] histogram;
     int[] depthPixels;
-    SkeletonTracker skelTracker;
     UserTracker tracker;
     UserTrackerFrameRef lastFrame;
     BufferedImage bufferedImage;
     int[] colors;
 
-    public SkeletonRenderer(SkeletonTracker skel) {
-        this.skelTracker = skel;
-        this.tracker = skel.getTracker();
+    public SkeletonRenderer(UserTracker skel) {
+        tracker = skel;
         colors = new int[]{0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF};
     }
 
