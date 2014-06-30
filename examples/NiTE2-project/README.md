@@ -1,5 +1,7 @@
 ### NiTE 2.2 example NetBeans project
 
+API: http://htmlpreview.github.io/?https://github.com/Screenful/screenful-gestures/blob/master/examples/NiTE2-project/NiTE2-test/dist/javadoc/index.html
+
 **(Note: the data files in the last step are not included, you must copy them yourself. Why? NiTE's license.)**
 
 1. Modify project library paths (.jars) to point to correct ones
