@@ -94,12 +94,30 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     }
 
     /**
+     * Remove a hand listener
+     *
+     * @param listener HandsListener to remove
+     */
+    public void removeHandsListener(HandsListener listener) {
+        handsListeners.remove(listener);
+    }
+
+    /**
      * Add a listener for new user frames
      *
      * @param listener BonesListener to add
      */
     public void addBonesListener(BonesListener listener) {
         bonesListeners.add(listener);
+    }
+
+    /**
+     * Remove a hand listener
+     *
+     * @param listener HandsListener to remove
+     */
+    public void removeBonesListener(BonesListener listener) {
+        bonesListeners.remove(listener);
     }
 
     /**
