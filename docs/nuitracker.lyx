@@ -1,0 +1,519 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\pagestyle{empty}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 1.5cm
+\rightmargin 2cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Part*
+NuiTracker API (July 1st, 2014)
+\end_layout
+
+\begin_layout Section*
+nite2.apps
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+NuiHeadless
+\series default
+: Show tracked torso coordinates until Enter is pressed
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+NuiViewer
+\series default
+: Views both input methods (skeleton / hand) simultaneously
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+nite2.basic
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HandListener (Interface)
+\series default
+: Any class that wants hand data should implement this interface and add
+ itself to NuiTracker's hand tracker listeners.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewHandFrame(HandTrackerFrameRef frame)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+SkeletonListener (Interface)
+\series default
+: Any class that wants skeleton data should implement this interface and
+ add itself to SkeletonTracker listeners.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewSkeletonFrame(UserTrackerFrameRef frame)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+\color red
+NuiTracker
+\series default
+\color inherit
+: Tracker for NUI features (implements HandListener and SkeletonListener)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+addHandListener(HandListener listener)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+addSkeletonListener(SkeletonListener listener)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getBufferedImage(): BufferedImage
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getHandFrame(): HandTrackerFrameRef
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getUserFrame(): UserTrackerFrameRef
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color red
+getHands(): List<HandData>
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Get hand tracking data - see HandRenderer for example of use
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getHandTracker(): HandTracker
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color red
+getSkeletons(): List<UserData>
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Get skeleton data - see SkeletonRenderer or NuiHeadless for example of use
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getUserTracker(): UserTracker
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+onNewFrame(HandTracker ht)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+onNewFrame(UserTracker ut)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Utilities
+\series default
+: Some general utility methods
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+distance3d(Point3D from, Point3D to): double
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+nite2.distexamples (obsolete)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HandViewer
+\series default
+: NiTE example programs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewFrame(HandTracker tracker)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+paint(Graphics g)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+HandViewerApplication
+\series default
+: NiTE example programs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+UserViewer
+\series default
+: NiTE example programs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewFrame(UserTracker tracker)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+paint(Graphics g)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+UserViewerApplication
+\series default
+: NiTE example programs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+nite2.gestures
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+JointMetrics
+\series default
+: Static methods for getting skeleton measurements etc.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+elbowHandXOffset(UserData user, JointMetrics.Side side): double
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Returns the X axis distance in millimeters between elbow and hand
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+handsAboveNeck(UserData user): boolean
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Returns true if a user's both hands are above the neck.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+JointMetrics.Side
+\series default
+: Side.LEFT or Side.RIGHT
+\end_layout
+
+\begin_layout Section*
+nite2.gui
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+GenericWindow
+\series default
+: Generic frame for displaying graphics.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+run()
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+nite2.gui.rendering
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HandRenderer
+\series default
+: Draw something with the hand tracker data
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewHandFrame(HandTrackerFrameRef frame)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+paint(Graphics g)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Draw depth image and tracked hands.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+SkeletonRenderer
+\series default
+: Draw stick characters from skeleton data on top of depth image
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewSkeletonFrame(UserTrackerFrameRef frame)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+paint(Graphics g)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Draw depth image and skeletons
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section*
+nite2.gui.visualization
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Visualization (Interface)
+\series default
+: Interface for classes that provide some sort of graphical presentation
+ of the sensor data.
+ A visualization will take a NuiTracker in its constructor to start listening
+ to events.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+show()
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+HandVisualization
+\series default
+: Hand tracker visualization window
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+show()
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+SkeletonVisualization
+\series default
+: Skeleton tracker visualization window
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+show()
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
