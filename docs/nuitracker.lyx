@@ -135,7 +135,7 @@ onNewHandFrame(HandTrackerFrameRef frame)
 BonesListener (Interface)
 \series default
 : Any class that wants skeleton data should implement this interface and
- add itself to NuiTracker bones listeners.
+ add itself to NuiTracker's bones listeners.
 \end_layout
 
 \begin_deeper
@@ -196,7 +196,7 @@ getHands(): List<HandData>
 
 \begin_deeper
 \begin_layout Itemize
-Get hand tracking data - see HandRenderer for example of use
+Get hand tracking data - see HandsRenderer for example of use
 \end_layout
 
 \end_deeper
@@ -215,7 +215,7 @@ getSkeletons(): List<UserData>
 
 \begin_deeper
 \begin_layout Itemize
-Get skeleton data - see SkeletonRenderer or NuiHeadless for example of use
+Get skeleton data - see BonesRenderer or TorsoPrinter for example of use
 \end_layout
 
 \end_deeper
