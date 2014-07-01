@@ -210,7 +210,7 @@ getHandTracker(): HandTracker
 
 \series bold
 \color red
-getSkeletons(): List<UserData>
+getBones(): List<UserData>
 \end_layout
 
 \begin_deeper
