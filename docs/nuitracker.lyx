@@ -79,7 +79,7 @@ nite2.apps
 \begin_layout Itemize
 
 \series bold
-NuiHeadless
+TorsoPrinter
 \series default
 : Show tracked torso coordinates until Enter is pressed
 \end_layout
@@ -95,7 +95,7 @@ main(String[] args)
 \begin_layout Itemize
 
 \series bold
-NuiViewer
+BonesAndHandsViewer
 \series default
 : Views both input methods (skeleton / hand) simultaneously
 \end_layout
@@ -115,10 +115,10 @@ nite2.basic
 \begin_layout Itemize
 
 \series bold
-HandListener (Interface)
+HandsListener (Interface)
 \series default
 : Any class that wants hand data should implement this interface and add
- itself to NuiTracker's hand tracker listeners.
+ itself to NuiTracker's hands listeners.
 \end_layout
 
 \begin_deeper
@@ -132,17 +132,17 @@ onNewHandFrame(HandTrackerFrameRef frame)
 \begin_layout Itemize
 
 \series bold
-SkeletonListener (Interface)
+BonesListener (Interface)
 \series default
 : Any class that wants skeleton data should implement this interface and
- add itself to SkeletonTracker listeners.
+ add itself to NuiTracker bones listeners.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-onNewSkeletonFrame(UserTrackerFrameRef frame)
+onNewBonesFrame(UserTrackerFrameRef frame)
 \end_layout
 
 \end_deeper
@@ -160,13 +160,13 @@ NuiTracker
 \begin_layout Itemize
 
 \series bold
-addHandListener(HandListener listener)
+addHandsListener(HandsListener listener)
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-addSkeletonListener(SkeletonListener listener)
+addBonesListener(BonesListener listener)
 \end_layout
 
 \begin_layout Itemize
@@ -255,86 +255,6 @@ distance3d(Point3D from, Point3D to): double
 
 \end_deeper
 \begin_layout Section*
-nite2.distexamples (obsolete)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-HandViewer
-\series default
-: NiTE example programs
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-onNewFrame(HandTracker tracker)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-paint(Graphics g)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-HandViewerApplication
-\series default
-: NiTE example programs
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-main(String[] args)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-UserViewer
-\series default
-: NiTE example programs
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-onNewFrame(UserTracker tracker)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-paint(Graphics g)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-UserViewerApplication
-\series default
-: NiTE example programs
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-main(String[] args)
-\end_layout
-
-\end_deeper
-\begin_layout Section*
 nite2.gestures
 \end_layout
 
@@ -407,7 +327,7 @@ nite2.gui.rendering
 \begin_layout Itemize
 
 \series bold
-HandRenderer
+HandsRenderer
 \series default
 : Draw something with the hand tracker data
 \end_layout
@@ -416,7 +336,7 @@ HandRenderer
 \begin_layout Itemize
 
 \series bold
-onNewHandFrame(HandTrackerFrameRef frame)
+onNewHandsFrame(HandTrackerFrameRef frame)
 \end_layout
 
 \begin_layout Itemize
@@ -435,7 +355,7 @@ Draw depth image and tracked hands.
 \begin_layout Itemize
 
 \series bold
-SkeletonRenderer
+BonesRenderer
 \series default
 : Draw stick characters from skeleton data on top of depth image
 \end_layout
@@ -444,7 +364,7 @@ SkeletonRenderer
 \begin_layout Itemize
 
 \series bold
-onNewSkeletonFrame(UserTrackerFrameRef frame)
+onNewBonesFrame(UserTrackerFrameRef frame)
 \end_layout
 
 \begin_layout Itemize
@@ -486,7 +406,7 @@ show()
 \begin_layout Itemize
 
 \series bold
-HandVisualization
+HandsVisualization
 \series default
 : Hand tracker visualization window
 \end_layout
@@ -502,7 +422,7 @@ show()
 \begin_layout Itemize
 
 \series bold
-SkeletonVisualization
+BonesVisualization
 \series default
 : Skeleton tracker visualization window
 \end_layout

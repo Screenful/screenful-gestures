@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.image.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import nite2.basic.HandListener;
+import nite2.basic.HandsListener;
 
 import org.openni.*;
 
 /**
  * Draw something with the hand tracker data
  */
-public class HandRenderer extends Component implements HandListener {
+public class HandsRenderer extends Component implements HandsListener {
 
     float[] histogram;
     int[] depthPixels;
@@ -21,7 +21,7 @@ public class HandRenderer extends Component implements HandListener {
     BufferedImage bufferedImage;
     int[] colors;
 
-    public HandRenderer(HandTracker hands) {
+    public HandsRenderer(HandTracker hands) {
         tracker = hands;
         colors = new int[]{0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF};
     }
@@ -101,7 +101,7 @@ public class HandRenderer extends Component implements HandListener {
     }
 
     @Override
-    public synchronized void onNewHandFrame(HandTrackerFrameRef frame) {
+    public synchronized void onNewHandsFrame(HandTrackerFrameRef frame) {
         if (lastFrame != null) {
             lastFrame.release();
             lastFrame = null;

@@ -5,13 +5,13 @@ import java.awt.*;
 import java.awt.image.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import nite2.basic.SkeletonListener;
+import nite2.basic.BonesListener;
 import org.openni.*;
 
 /**
  * Draw stick characters from skeleton data on top of depth image
  */
-public class SkeletonRenderer extends Component implements SkeletonListener {
+public class BonesRenderer extends Component implements BonesListener {
 
     float[] histogram;
     int[] depthPixels;
@@ -20,7 +20,7 @@ public class SkeletonRenderer extends Component implements SkeletonListener {
     BufferedImage bufferedImage;
     int[] colors;
 
-    public SkeletonRenderer(UserTracker skel) {
+    public BonesRenderer(UserTracker skel) {
         tracker = skel;
         colors = new int[]{0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF};
     }
@@ -136,7 +136,7 @@ public class SkeletonRenderer extends Component implements SkeletonListener {
     }
 
     @Override
-    public synchronized void onNewSkeletonFrame(UserTrackerFrameRef frame) {
+    public synchronized void onNewBonesFrame(UserTrackerFrameRef frame) {
         if (lastFrame != null) {
             lastFrame.release();
             lastFrame = null;

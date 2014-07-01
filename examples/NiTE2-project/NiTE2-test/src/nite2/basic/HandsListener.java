@@ -4,10 +4,10 @@ import com.primesense.nite.HandTrackerFrameRef;
 
 /**
  * Any class that wants hand data should implement this interface and add itself
- * to NuiTracker's hand tracker listeners.
+ * to NuiTracker's listeners.
  */
-public interface HandListener {
+public interface HandsListener {
 
-    void onNewHandFrame(HandTrackerFrameRef frame);
+    void onNewHandsFrame(HandTrackerFrameRef frame);
 
 }

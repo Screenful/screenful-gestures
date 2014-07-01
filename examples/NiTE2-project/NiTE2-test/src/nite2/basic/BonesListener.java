@@ -4,10 +4,10 @@ import com.primesense.nite.UserTrackerFrameRef;
 
 /**
  * Any class that wants skeleton data should implement this interface and add
- * itself to SkeletonTracker listeners.
+ * itself to NuiTracker listeners.
  */
-public interface SkeletonListener {
+public interface BonesListener {
 
-    void onNewSkeletonFrame(UserTrackerFrameRef frame);
+    void onNewBonesFrame(UserTrackerFrameRef frame);
 
 }

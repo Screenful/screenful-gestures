@@ -1,15 +1,15 @@
 package nite2.gui.visualization;
 
-import nite2.gui.rendering.HandRenderer;
+import nite2.gui.rendering.HandsRenderer;
 import nite2.basic.NuiTracker;
 import nite2.gui.GenericWindow;
 
 /**
  * Hand tracker visualization window
  */
-public class HandVisualization extends GenericWindow implements Visualization {
+public class HandsVisualization extends GenericWindow implements Visualization {
 
-    HandRenderer renderer;
+    HandsRenderer renderer;
 
     public void show() {
         renderer.setSize(800, 600);
@@ -19,10 +19,10 @@ public class HandVisualization extends GenericWindow implements Visualization {
         new Thread(this).start();
     }
 
-    public HandVisualization(NuiTracker nui, String name) {
+    public HandsVisualization(NuiTracker nui, String name) {
         super(name);
-        renderer = new HandRenderer(nui.getHandTracker());
-        nui.addHandListener(renderer);
+        renderer = new HandsRenderer(nui.getHandTracker());
+        nui.addHandsListener(renderer);
     }
 
 }

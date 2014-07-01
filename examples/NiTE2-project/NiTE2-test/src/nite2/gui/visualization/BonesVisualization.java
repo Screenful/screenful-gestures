@@ -1,15 +1,15 @@
 package nite2.gui.visualization;
 
-import nite2.gui.rendering.SkeletonRenderer;
+import nite2.gui.rendering.BonesRenderer;
 import nite2.basic.NuiTracker;
 import nite2.gui.GenericWindow;
 
 /**
  * Skeleton tracker visualization window
  */
-public class SkeletonVisualization extends GenericWindow implements Visualization {
+public class BonesVisualization extends GenericWindow implements Visualization {
 
-    SkeletonRenderer renderer;
+    BonesRenderer renderer;
 
     @Override
     public void show() {
@@ -20,10 +20,10 @@ public class SkeletonVisualization extends GenericWindow implements Visualizatio
         new Thread(this).start();
     }
 
-    public SkeletonVisualization(NuiTracker nui, String name) {
+    public BonesVisualization(NuiTracker nui, String name) {
         super(name);
-        renderer = new SkeletonRenderer(nui.getUserTracker());
-        nui.addSkeletonListener(renderer);
+        renderer = new BonesRenderer(nui.getUserTracker());
+        nui.addBonesListener(renderer);
     }
 
 }

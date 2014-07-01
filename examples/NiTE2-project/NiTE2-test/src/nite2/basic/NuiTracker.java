@@ -19,16 +19,17 @@ import org.openni.OpenNI;
  * of UserTracker and HandTracker, starts them and adds itself to their
  * listeners to get notified of new data.
  *
- * To access the data, you can use NuiTracker.getSkeletons() etc.
+ * To access the data, you can use NuiTracker.getBones() etc. or add a class
+ * implementing HandsListener or BonesListener to its listeners.
  *
  * You can pass the NuiTracker object to a Visualization object to get a
- * graphical window, see NuiViewer.
+ * graphical window, see BonesAndHandsViewer.
  *
  */
 public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.NewFrameListener {
 
-    private final ArrayList<HandListener> handListeners;
-    private final ArrayList<SkeletonListener> userListeners;
+    private final ArrayList<HandsListener> handsListeners;
+    private final ArrayList<BonesListener> bonesListeners;
 
     final HandTracker handTracker;
     final UserTracker userTracker;
@@ -86,36 +87,36 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     /**
      * Add a listener for new hand frames
      *
-     * @param listener HandListener to add
+     * @param listener HandsListener to add
      */
-    public void addHandListener(HandListener listener) {
-        handListeners.add(listener);
+    public void addHandsListener(HandsListener listener) {
+        handsListeners.add(listener);
     }
 
     /**
      * Add a listener for new user frames
      *
-     * @param listener SkeletonListener to add
+     * @param listener BonesListener to add
      */
-    public void addSkeletonListener(SkeletonListener listener) {
-        userListeners.add(listener);
+    public void addBonesListener(BonesListener listener) {
+        bonesListeners.add(listener);
     }
 
     /**
      * Notify listeners of new hand frames
      */
-    private void notifyHandListeners() {
-        for (HandListener listener : handListeners) {
-            listener.onNewHandFrame(lastHandFrame);
+    private void notifyHandsListeners() {
+        for (HandsListener listener : handsListeners) {
+            listener.onNewHandsFrame(lastHandFrame);
         }
     }
 
     /**
      * Notify listeners of new user frames
      */
-    private void notifyUserListeners() {
-        for (SkeletonListener listener : userListeners) {
-            listener.onNewSkeletonFrame(lastUserFrame);
+    private void notifyBonesListeners() {
+        for (BonesListener listener : bonesListeners) {
+            listener.onNewBonesFrame(lastUserFrame);
         }
     }
 
@@ -127,8 +128,8 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
     public NuiTracker() {
         OpenNI.initialize();
         NiTE.initialize();
-        handListeners = new ArrayList<>();
-        userListeners = new ArrayList<>();
+        handsListeners = new ArrayList<>();
+        bonesListeners = new ArrayList<>();
 
         userTracker = UserTracker.create();
         userTracker.addNewFrameListener(this);
@@ -158,7 +159,7 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
      *
      * @return List of user data
      */
-    public List<UserData> getSkeletons() {
+    public List<UserData> getBones() {
         if (lastUserFrame != null) {
             return lastUserFrame.getUsers();
         } else {
@@ -186,7 +187,7 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
                 handTracker.startHandTracking(gesture.getCurrentPosition());
             }
         }
-        notifyHandListeners();
+        notifyHandsListeners();
     }
 
     @Override
@@ -206,6 +207,6 @@ public class NuiTracker implements HandTracker.NewFrameListener, UserTracker.New
                 userTracker.startSkeletonTracking(user.getId());
             }
         }
-        notifyUserListeners();
+        notifyBonesListeners();
     }
 }

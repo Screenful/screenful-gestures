@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nite2.basic.NuiTracker;
-import nite2.gui.visualization.HandVisualization;
-import nite2.gui.visualization.SkeletonVisualization;
+import nite2.gui.visualization.HandsVisualization;
+import nite2.gui.visualization.BonesVisualization;
 
 /**
  * Show tracked torso coordinates until Enter is pressed
  */
-public class NuiHeadless {
+public class TorsoPrinter {
 
     public static void main(String[] args) {
         NuiTracker tracker = new NuiTracker();
@@ -31,7 +31,7 @@ public class NuiHeadless {
         System.out.println("*** Press ENTER to quit.");
         try {
             while (System.in.available() == 0) {
-                List<UserData> users = tracker.getSkeletons();
+                List<UserData> users = tracker.getBones();
                 if (users.size() > 0) {
                     for (UserData user : users) {
                         SkeletonJoint torso = user.getSkeleton().getJoint(JointType.TORSO);
@@ -45,7 +45,7 @@ public class NuiHeadless {
                 Thread.sleep(100);
             }
         } catch (Exception ex) {
-            Logger.getLogger(NuiHeadless.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TorsoPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
