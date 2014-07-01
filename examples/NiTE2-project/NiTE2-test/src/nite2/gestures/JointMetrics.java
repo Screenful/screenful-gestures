@@ -4,6 +4,7 @@ import com.primesense.nite.JointType;
 import com.primesense.nite.Point3D;
 import com.primesense.nite.Skeleton;
 import com.primesense.nite.UserData;
+import nite2.basic.Utilities;
 import static nite2.gestures.JointMetrics.Side.*;
 
 /**
@@ -14,6 +15,19 @@ public final class JointMetrics {
     public enum Side {
 
         LEFT, RIGHT;
+    }
+
+    /**
+     * Calculate euclidean distance between two joints in space
+     *
+     * @param user user data
+     * @param from the first joint, eg. JointType.RIGHT_HAND
+     * @param to the second joint, eg. JointType.NECK
+     * @return distance in millimeters
+     */
+    public static double jointToJointDistance(UserData user, JointType from, JointType to) {
+        Skeleton skeleton = user.getSkeleton();
+        return Utilities.distance3d(skeleton.getJoint(from).getPosition(), skeleton.getJoint(to).getPosition());
     }
 
     /**
@@ -36,20 +50,5 @@ public final class JointMetrics {
             return 0;
         }
         return Math.round((float) elbow.getX()) - Math.round((float) hand.getX());
-    }
-
-    /**
-     * Returns true if a user's both hands are above the neck..
-     *
-     * @param user user data object
-     * @return true if hands above neck
-     */
-    public static boolean handsAboveNeck(UserData user) {
-        Skeleton skeleton = user.getSkeleton();
-        int lefthandY, righthandY, neckY;
-        lefthandY = Math.round(skeleton.getJoint(JointType.LEFT_HAND).getPosition().getY());
-        righthandY = Math.round(skeleton.getJoint(JointType.RIGHT_HAND).getPosition().getY());
-        neckY = Math.round(skeleton.getJoint(JointType.NECK).getPosition().getY());
-        return (lefthandY > neckY) && (righthandY > neckY);
     }
 }

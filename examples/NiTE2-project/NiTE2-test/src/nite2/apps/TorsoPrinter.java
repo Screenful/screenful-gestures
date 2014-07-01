@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nite2.basic.NuiTracker;
-import nite2.gui.visualization.HandsVisualization;
+import static nite2.gestures.Poses.dorkyClick;
 import nite2.gui.visualization.BonesVisualization;
+import nite2.gui.visualization.HandsVisualization;
 
 /**
  * Show tracked torso coordinates until Enter is pressed
@@ -40,6 +41,9 @@ public class TorsoPrinter {
                             System.out.printf("Torso #%d: (%6d %6d %6d)\n",
                                     user.getId(), Math.round((float) pos.getX()), Math.round((float) pos.getY()), Math.round((float) pos.getZ()));
                         }
+                        if (dorkyClick(user)) {
+                            click();
+                        }
                     }
                 }
                 Thread.sleep(100);
@@ -47,5 +51,18 @@ public class TorsoPrinter {
         } catch (Exception ex) {
             Logger.getLogger(TorsoPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void click() {
+        System.out.println("       _________________\n"
+                + "      |.---------------.|\n"
+                + "      ||    _          ||\n"
+                + "      ||   |_)| |\\ /   ||\n"
+                + "      ||   |_)|_/ |    ||\n"
+                + "      ||          ,    ||\n"
+                + "      ||__________|`.__||\n"
+                + " jgs  '-----------|_ r--'\n"
+                + "                    \\\n"
+                + "                     `\n");
     }
 }

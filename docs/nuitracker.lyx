@@ -72,6 +72,69 @@
 NuiTracker API (July 1st, 2014)
 \end_layout
 
+\begin_layout Standard
+For readability, classes and methods that contribute to the library use
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Hands
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Bones
+\begin_inset Quotes erd
+\end_inset
+
+ in their names when referring to 
+\begin_inset Quotes eld
+\end_inset
+
+hand tracking
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+skeletal tracking
+\begin_inset Quotes erd
+\end_inset
+
+ functionality to distinguish them from 
+\begin_inset Quotes eld
+\end_inset
+
+Hand
+\begin_inset Quotes erd
+\end_inset
+
+/
+\begin_inset Quotes erd
+\end_inset
+
+User
+\begin_inset Quotes erd
+\end_inset
+
+/
+\begin_inset Quotes erd
+\end_inset
+
+Skeleton
+\begin_inset Quotes erd
+\end_inset
+
+ used in NiTE naming scheme.
+ Accessors will work as expected, ie.
+ NuiTracker.getUserTracker() will return a NiTE UserTracker.
+\end_layout
+
 \begin_layout Section*
 nite2.apps
 \end_layout
@@ -81,7 +144,7 @@ nite2.apps
 \series bold
 TorsoPrinter
 \series default
-: Show tracked torso coordinates until Enter is pressed
+: Show tracked torso coordinates until Enter is pressed.
 \end_layout
 
 \begin_deeper
@@ -97,7 +160,7 @@ main(String[] args)
 \series bold
 BonesAndHandsViewer
 \series default
-: Views both input methods (skeleton / hand) simultaneously
+: Views both input methods (skeleton / hand) simultaneously.
 \end_layout
 
 \begin_deeper
@@ -153,7 +216,8 @@ onNewBonesFrame(UserTrackerFrameRef frame)
 NuiTracker
 \series default
 \color inherit
-: Tracker for NUI features (implements HandListener and SkeletonListener)
+: Tracker for NUI features (implements HandListener and SkeletonListener
+ from the NiTE library).
 \end_layout
 
 \begin_deeper
@@ -196,7 +260,7 @@ getHands(): List<HandData>
 
 \begin_deeper
 \begin_layout Itemize
-Get hand tracking data - see HandsRenderer for example of use
+Get hand tracking data - see HandsRenderer for example of use.
 \end_layout
 
 \end_deeper
@@ -215,7 +279,7 @@ getBones(): List<UserData>
 
 \begin_deeper
 \begin_layout Itemize
-Get skeleton data - see BonesRenderer or TorsoPrinter for example of use
+Get skeleton data - see BonesRenderer or TorsoPrinter for example of use.
 \end_layout
 
 \end_deeper
@@ -270,12 +334,66 @@ JointMetrics
 \begin_layout Itemize
 
 \series bold
+jointToJointDistance(UserData user, JointType from, JointType to): double
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Returns euclidian distance in space between two skeletal joints, eg.
+ JointType.RIGHT_HAND, JointType.NECK etc.
+ in millimeters
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
 elbowHandXOffset(UserData user, JointMetrics.Side side): double
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Returns the X axis distance in millimeters between elbow and hand
+Returns the X axis distance in millimeters between elbow and hand.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+JointMetrics.Side
+\series default
+: Side.LEFT or Side.RIGHT
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Poses
+\series default
+: Methods to detect skeletal poses based on joint positions, eg.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+hands above neck
+\begin_inset Quotes erd
+\end_inset
+
+ etc.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+dorkyClick(UserData user): boolean
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Returns true if hands are above the neck and distance between the hands
+ was less than 150 mm.
 \end_layout
 
 \end_deeper
@@ -292,14 +410,6 @@ Returns true if a user's both hands are above the neck.
 
 \end_deeper
 \end_deeper
-\begin_layout Itemize
-
-\series bold
-JointMetrics.Side
-\series default
-: Side.LEFT or Side.RIGHT
-\end_layout
-
 \begin_layout Section*
 nite2.gui
 \end_layout
@@ -309,7 +419,7 @@ nite2.gui
 \series bold
 GenericWindow
 \series default
-: Generic frame for displaying graphics.
+: Generic frame for displaying graphics
 \end_layout
 
 \begin_deeper
@@ -329,7 +439,7 @@ nite2.gui.rendering
 \series bold
 HandsRenderer
 \series default
-: Draw something with the hand tracker data
+: Draw tracked hands (red rectangles when tracking) on top of depth image.
 \end_layout
 
 \begin_deeper
@@ -357,7 +467,7 @@ Draw depth image and tracked hands.
 \series bold
 BonesRenderer
 \series default
-: Draw stick characters from skeleton data on top of depth image
+: Draw stick characters from skeleton data on top of depth image.
 \end_layout
 
 \begin_deeper
@@ -375,7 +485,7 @@ paint(Graphics g)
 
 \begin_deeper
 \begin_layout Itemize
-Draw depth image and skeletons
+Draw depth image and skeletons.
 \end_layout
 
 \end_deeper
