@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/GestureData.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/basic/NiTETracker.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/Utilities.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/JointMetrics.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/BonesAndHandsViewer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/rendering/HandsRenderer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/visualization/HandsVisualization.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/GestureListener.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/detectors/ConsecutiveFrames.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/detectors/Detector.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/detectors/DirectionDetector.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/Gesture.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/HandsDirectionApp.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/visualization/DirectionVisualization.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/rendering/DirectionRenderer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/apps/TorsoPrinter.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/basic/BonesListener.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/basic/HandsListener.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gestures/Poses.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/GenericWindow.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/rendering/BonesRenderer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/visualization/BonesVisualization.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/NiTE2-test/src/nite2/gui/visualization/Visualization.java</file>
+        </group>
+    </open-files>
+</project-private>

@@ -69,12 +69,12 @@
 \begin_body
 
 \begin_layout Part*
-NuiTracker API (July 1st, 2014)
+Screenful NiTETracker API (July 4th, 2014)
 \end_layout
 
 \begin_layout Standard
-For readability, classes and methods that contribute to the library use
- 
+For readability, classes and methods that contribute to the library generally
+ use 
 \begin_inset Quotes eld
 \end_inset
 
@@ -132,11 +132,11 @@ Skeleton
 
  used in NiTE naming scheme.
  Accessors will work as expected, ie.
- NuiTracker.getUserTracker() will return a NiTE UserTracker.
+ NiTETracker.getUserTracker() will return a NiTE UserTracker.
 \end_layout
 
 \begin_layout Section*
-nite2.apps
+screenful.apps
 \end_layout
 
 \begin_layout Itemize
@@ -171,27 +171,26 @@ main(String[] args)
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-nite2.basic
-\end_layout
-
 \begin_layout Itemize
 
 \series bold
-HandsListener (Interface)
+HandsDirectionViewer
 \series default
-: Any class that wants hand data should implement this interface and add
- itself to NuiTracker's hands listeners.
+: Show general direction of tracked hand movement.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-onNewHandFrame(HandTrackerFrameRef frame)
+main(String[] args)
 \end_layout
 
 \end_deeper
+\begin_layout Section*
+screenful.basic
+\end_layout
+
 \begin_layout Itemize
 
 \series bold
@@ -212,8 +211,25 @@ onNewBonesFrame(UserTrackerFrameRef frame)
 \begin_layout Itemize
 
 \series bold
+HandsListener (Interface)
+\series default
+: Any class that wants hand data should implement this interface and add
+ itself to NuiTracker's hands listeners.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onNewHandFrame(HandTrackerFrameRef frame)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
 \color red
-NuiTracker
+NiTETracker
 \series default
 \color inherit
 : Tracker for NUI features (implements HandListener and SkeletonListener
@@ -302,26 +318,245 @@ onNewFrame(UserTracker ut)
 \end_layout
 
 \end_deeper
+\begin_layout Section*
+screenful.detectors
+\end_layout
+
 \begin_layout Itemize
 
 \series bold
-Utilities
+ConsecutiveFrames
 \series default
-: Some general utility methods
+:
+\series bold
+ 
+\series default
+A container object for passing two consecutive hand and user tracker frames.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-distance3d(Point3D from, Point3D to): double
+ConsecutiveFrames(HandTrackerFrameRef handsFrame, HandTrackerFrameRef previousHa
+ndsFrame, UserTrackerFrameRef bonesFrame, UserTrackerFrameRef previousBonesFrame
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Detector
+\series default
+:
+\series bold
+ 
+\series default
+Interface for detectors, ie.
+ an object that determines whether the movement of something during two
+ consecutive (hand and/or skeleton) frames was appropriate (true / false).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+detected(ConsecutiveFrames frames): boolean
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getData(): GestureData
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+DirectionDetector
+\series default
+:
+\series bold
+ 
+\series default
+Detects hand point movement direction by calculating the displacement vector
+ of each hand point (could also use skeletons) between two consecutive frames.
+ When any tracked hand performs a big enough movement (sensitivity set in
+ millimeters), the detected(..) method returns true.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+getSensitivity(): int
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+setSensitivity(int sensitivity)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+DirectionDetector(int sensitivity)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+constructor
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+detected(ConsecutiveFrames frames): boolean
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getData(): GestureData 
 \end_layout
 
 \end_deeper
 \begin_layout Section*
-nite2.gestures
+screenful.gestures
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Gesture
+\series default
+: Gesture implements a generic gesture that notifies its listeners when
+ a gesture has been detected for long enough.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Gesture(Detector detector, int framecount, int cooldown)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+constructor, cooldown is in milliseconds
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+addListener(GestureListener listener)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+onNewHandsFrame(HandTrackerFrameRef frame)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+onNewBonesFrame(UserTrackerFrameRef frame)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+GestureData
+\series default
+: Extra data related to a detected gesture.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+GestureData(CardinalDirection direction)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+constructor
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+GestureData(Point3D directionVector, CardinalDirection direction)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+constructor
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+GestureData()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+constructor
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getDirectionVector(): Point3D
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+setDirectionVector(Point3D directionVector)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+getDirection(): CardinalDirection
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+setDirection(CardinalDirection dir)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+GestureListener
+\series default
+: A class that wants notifications when a gesture is detected should implement
+ GestureListener and add itself to the gesture's listeners.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onGesture(GestureData gesture)
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
@@ -410,8 +645,62 @@ Returns true if a user's both hands are above the neck.
 
 \end_deeper
 \end_deeper
+\begin_layout Itemize
+
+\series bold
+Utilities
+\series default
+: Some general utility methods
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+convertPoint(Point3D nitepoint): javafx.Geometry.Point3D
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+convert a NiTE Point3D into javafx Point3D and round the coordinates to
+ integers
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+determineCardinalDirection(javafx.geometry.Point3D vector, int minSensitivity):
+ CardinalDirection
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+return a cardinal direction that most closely matches the vector
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+displacementVector(Point3D from, Point3D to): javafx.geometry.Point3D
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+calculate displacement vector between two points
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+distance3d(Point3D from, Point3D to): double
+\end_layout
+
+\end_deeper
 \begin_layout Section*
-nite2.gui
+screenful.gui
 \end_layout
 
 \begin_layout Itemize
@@ -431,7 +720,7 @@ run()
 
 \end_deeper
 \begin_layout Section*
-nite2.gui.rendering
+screenful.gui.rendering
 \end_layout
 
 \begin_layout Itemize
@@ -490,8 +779,36 @@ Draw depth image and skeletons.
 
 \end_deeper
 \end_deeper
+\begin_layout Itemize
+
+\series bold
+DirectionRenderer
+\series default
+: Draw some feedback to directional gestures.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onGesture(GestureData gesture)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+paint(Graphics g)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Draw text to indicate directions.
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Section*
-nite2.gui.visualization
+screenful.gui.visualization
 \end_layout
 
 \begin_layout Itemize
@@ -513,6 +830,14 @@ show()
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+
+\series bold
+DirectionVisualization
+\series default
+: Directional gesture visualization window
+\end_layout
+
 \begin_layout Itemize
 
 \series bold
