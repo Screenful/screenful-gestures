@@ -60,9 +60,7 @@ public class DirectionDetector implements Detector {
                 previousHandMap.put(current.getId(), current);
                 this.data = new GestureData(displacementVector, determineCardinalDirection(displacementVector, sensitivity));
                 // return direction only if there was one
-                if (getData().getDirection() == STABLE) {
-                    return false;
-                } else {
+                if (getData().getDirection() != STABLE) {
                     return true;
                 }
             }

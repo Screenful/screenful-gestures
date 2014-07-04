@@ -5,7 +5,8 @@ examples/NiTE2-project/Screenful-NiTE2/NiTE2/HandAlgorithms.ini
 examples/NiTE2-project/Screenful-NiTE2/NiTE2/h.dat
 examples/NiTE2-project/Screenful-NiTE2/NiTE2/s.dat
 
-/*.log
+*.log
 examples/NiTE2-project/Screenful-NiTE2/dist/
 !examples/NiTE2-project/Screenful-NiTE2/dist/javadoc
 /examples/NiTE2-project/Screenful-NiTE2/nbproject/private/
+/examples/NiTE2-project/Screenful-NiTE2/build/

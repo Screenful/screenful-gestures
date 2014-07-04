@@ -592,15 +592,15 @@ Returns the X axis distance in millimeters between elbow and hand.
 \end_layout
 
 \end_deeper
-\end_deeper
 \begin_layout Itemize
 
 \series bold
-JointMetrics.Side
+Side
 \series default
-: Side.LEFT or Side.RIGHT
+: Side.LEFT or Side.RIGHT (enum)
 \end_layout
 
+\end_deeper
 \begin_layout Itemize
 
 \series bold
@@ -818,7 +818,7 @@ Visualization (Interface)
 \series default
 : Interface for classes that provide some sort of graphical presentation
  of the sensor data.
- A visualization will take a NuiTracker in its constructor to start listening
+ A visualization will take a NiTETracker in its constructor to start listening
  to events.
 \end_layout
 
