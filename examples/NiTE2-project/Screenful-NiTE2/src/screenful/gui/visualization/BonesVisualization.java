@@ -13,7 +13,7 @@ public class BonesVisualization extends GenericWindow implements Visualization {
 
     @Override
     public void show() {
-        renderer.setSize(800, 600);
+        renderer.setSize(320, 240);
         viewFrame.add("Center", renderer);
         viewFrame.setSize(renderer.getWidth(), renderer.getHeight());
         viewFrame.setVisible(true);
