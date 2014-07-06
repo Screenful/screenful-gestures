@@ -96,6 +96,13 @@ This script automates all the manual steps in the next section. Note that it nee
 	cd ${OPENNI_DIR}/Bin/x64-Release/
 	./NiViewer	
 	```
+
+9. To add the various .so library files to system wide configuration:
+	```bash
+	sudo echo "${OPENNI_DIR}/Bin/x64-Release/" > /etc/ld.so.conf.d/openni2.conf
+	sudo ldconfig
+	```
+
 * **Press '?' in NiViewer to get help and try out the various modes.**
 * **To start recording sensor data into a file, press 'c'. To stop recording, press 'x'. A .oni file is generated in the working directory.**
 

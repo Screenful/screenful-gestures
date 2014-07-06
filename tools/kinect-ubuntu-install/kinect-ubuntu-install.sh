@@ -14,6 +14,8 @@ DESTDIR="${PWD}/OpenNI-libs"
 NICLONEDIR="OpenNI2"
 FREENECTCLONEDIR="libfreenect"
 OPENNI_DIR="${DESTDIR}/${NICLONEDIR}"
+NITE_ARCHIVE="NiTE-Linux-x64-2.2.tar.bz2"
+NITE_DIR="${DESTDIR}/${NITE_ARCHIVE}"
 
 # uncomment to check out the versions this script was written for
 #NICOMMIT="7bef8f639e4d64a85a794e85fe3049dbb2acd32e"
@@ -116,6 +118,13 @@ function fix-owner () {
 	chown -R "${SUDO_USER}":"${SUDO_USER}" "${DESTDIR}"
 }
 
+function add-ld-confs () {
+	msg "Adding library directories to /etc/ld.so.conf.d/"
+	echo "${OPENNI_DIR}/Bin/x64-Release/" > /etc/ld.so.conf.d/openni2.conf
+	echo "${NITE_DIR}/Redist" > /etc/ld.so.conf.d/nite2.conf
+	ldconfig
+}
+
 function ready () {
 	msg "All done, plug in Kinect (wait a few seconds) and press Enter to run NiViewer as $(whoami) for testing, or Ctrl-C to exit at this point."
 	echo "--- * Important: to use as normal user, login again or type 'newgrp video'"
@@ -127,8 +136,20 @@ function ready () {
 	./NiViewer
 }
 
-# TODO
-# function build-nite () { do_it; }
+function install-nite () {
+	msg "Installing NiTE library"
+	echo "--- * Note: NiTE library is not publicly available online anymore. If you have the file NiTE-Linux-x64-2.2.tar.bz2, put it in ${DESTDIR}/ now. This is the last and optional step and will extract the archive and set the environment variables to the user's .bashrc."
+	echo "--- * Press Ctrl-C to cancel or Enter to continue."
+	read
+	cd "${DESTDIR}"
+	if [ -f "${NITE_ARCHIVE}" ]
+		then tar xjf "${NITE_ARCHIVE}"
+		     cd "$(basename ${NITE_ARCHIVE} .tar.bz2)"
+		     ./install.sh
+		     cat NiTEDevEnvironment >> ~"${SUDO_USER}"/.bashrc
+		else echo "--- * No ${DESTDIR}/NiTE-Linux-x64-2.2.tar.bz2 found, finishing."
+	fi
+}
 
 
 # Install sequence.
@@ -143,12 +164,15 @@ install-java8
 clone-fix-openni2
 build-openni2
 build-freenect
-# build-nite (TODO)
 
 add-udev-rules
 add-user-to-video
 fix-owner
+add-ld-confs
 
 ready
+
+# optional step for installing the NiTE library, if the archive is available
+install-nite
 
 # Finished
