@@ -15,7 +15,7 @@ NICLONEDIR="OpenNI2"
 FREENECTCLONEDIR="libfreenect"
 OPENNI_DIR="${DESTDIR}/${NICLONEDIR}"
 NITE_ARCHIVE="NiTE-Linux-x64-2.2.tar.bz2"
-NITE_DIR="${DESTDIR}/${NITE_ARCHIVE}"
+NITE_DIR="${DESTDIR}/$(basename ${NITE_ARCHIVE} .tar.bz2)"
 
 # uncomment to check out the versions this script was written for
 #NICOMMIT="7bef8f639e4d64a85a794e85fe3049dbb2acd32e"
