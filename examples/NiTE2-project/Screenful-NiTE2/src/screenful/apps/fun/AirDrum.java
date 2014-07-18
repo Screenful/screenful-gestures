@@ -3,14 +3,15 @@ package screenful.apps.fun;
 import screenful.basic.NiTETracker;
 import screenful.detectors.DirectionDetector;
 import screenful.gestures.Gesture;
-import screenful.gestures.GestureData;
+import screenful.gestures.Displacement;
 import screenful.gestures.GestureListener;
 import screenful.gui.visualization.DirectionVisualization;
 import screenful.gui.visualization.HandsVisualization;
 
 /**
  * Just a fun program to play different drum sounds by moving hands in different
- * directions.
+ * directions. It doesn't allow for very speedy playing, only one instance per
+ * clip can be playing at the same time.
  *
  */
 public class AirDrum {
@@ -28,7 +29,7 @@ public class AirDrum {
          * @param gesture gesture data
          */
         @Override
-        public void onGesture(GestureData gesture) {
+        public void onGesture(Displacement gesture) {
             switch (gesture.getDirection()) {
                 case LEFT:
                     SoundEffect.LEFT.play();
@@ -50,7 +51,6 @@ public class AirDrum {
                     break;
             }
         }
-
     }
 
     public static void main(String[] args) {
@@ -60,7 +60,6 @@ public class AirDrum {
         Gesture directions = new Gesture(new DirectionDetector(10), 5, 0);
         // remember to add gesture to tracker's listeners
         tracker.addHandsListener(directions);
-        SoundEffect.init();
         // create drum and add it to gesture listeners
         DrumSounds drums = new DrumSounds();
         directions.addListener(drums);

@@ -4,23 +4,24 @@ import javafx.geometry.Point3D;
 import screenful.gestures.Utilities.CardinalDirection;
 
 /**
- * Extra data related to a detected gesture.
+ * Extra data related to the movement of a point (joint, hand) between two
+ * frames.
  */
-public class GestureData {
+public class Displacement {
 
     CardinalDirection direction;
     Point3D directionVector;
 
-    public GestureData(CardinalDirection direction) {
+    public Displacement(CardinalDirection direction) {
         this.direction = direction;
     }
 
-    public GestureData(Point3D directionVector, CardinalDirection direction) {
+    public Displacement(Point3D directionVector, CardinalDirection direction) {
         this.direction = direction;
         this.directionVector = directionVector;
     }
 
-    public GestureData() {
+    public Displacement() {
     }
 
     public Point3D getDirectionVector() {

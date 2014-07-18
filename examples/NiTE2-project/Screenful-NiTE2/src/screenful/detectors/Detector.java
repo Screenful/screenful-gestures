@@ -1,6 +1,6 @@
 package screenful.detectors;
 
-import screenful.gestures.GestureData;
+import screenful.gestures.Displacement;
 
 /**
  * Interface for detectors, ie. an object that determines whether the movement
@@ -11,6 +11,6 @@ public interface Detector {
 
     boolean detected(ConsecutiveFrames frames);
 
-    GestureData getData();
+    Displacement getData();
 
 }

@@ -7,5 +7,5 @@ package screenful.gestures;
  */
 public interface GestureListener {
 
-    void onGesture(GestureData gesture);
+    void onGesture(Displacement gesture);
 }

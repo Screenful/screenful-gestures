@@ -4,7 +4,7 @@ import com.primesense.nite.HandData;
 import java.util.HashMap;
 import java.util.List;
 import javafx.geometry.Point3D;
-import screenful.gestures.GestureData;
+import screenful.gestures.Displacement;
 import static screenful.gestures.Utilities.CardinalDirection.STABLE;
 import static screenful.gestures.Utilities.determineCardinalDirection;
 import static screenful.gestures.Utilities.displacementVector;
@@ -20,7 +20,7 @@ import static screenful.gestures.Utilities.displacementVector;
  */
 public class DirectionDetector implements Detector {
 
-    GestureData data;
+    Displacement data;
     int sensitivity;
 
     public int getSensitivity() {
@@ -35,7 +35,7 @@ public class DirectionDetector implements Detector {
     HashMap<Short, HandData> previousHandMap;
 
     public DirectionDetector(int sensitivity) {
-        data = new GestureData();
+        data = new Displacement();
         previousHandMap = new HashMap<>();
         this.sensitivity = sensitivity;
     }
@@ -43,7 +43,7 @@ public class DirectionDetector implements Detector {
     @Override
     public boolean detected(ConsecutiveFrames frames) {
 
-        // avoid error when first frame is null (is bones frames are used, check for those too)
+        // avoid error when first frame is null (if bones frames are used, check for those too)
         if (frames.previousHandsFrame == null) {
             return false;
         }
@@ -58,7 +58,7 @@ public class DirectionDetector implements Detector {
                 Point3D displacementVector = displacementVector(previous.getPosition(), current.getPosition());
                 // refresh current data
                 previousHandMap.put(current.getId(), current);
-                this.data = new GestureData(displacementVector, determineCardinalDirection(displacementVector, sensitivity));
+                this.data = new Displacement(displacementVector, determineCardinalDirection(displacementVector, sensitivity));
                 // return direction only if there was one
                 if (getData().getDirection() != STABLE) {
                     return true;
@@ -70,7 +70,7 @@ public class DirectionDetector implements Detector {
     }
 
     @Override
-    public synchronized GestureData getData() {
+    public synchronized Displacement getData() {
         return data;
     }
 }

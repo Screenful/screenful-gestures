@@ -89,7 +89,7 @@ public class NiTETracker implements HandTracker.NewFrameListener, UserTracker.Ne
      *
      * @param listener HandsListener to add
      */
-    public void addHandsListener(HandsListener listener) {
+    public synchronized void addHandsListener(HandsListener listener) {
         handsListeners.add(listener);
     }
 
@@ -98,7 +98,7 @@ public class NiTETracker implements HandTracker.NewFrameListener, UserTracker.Ne
      *
      * @param listener HandsListener to remove
      */
-    public void removeHandsListener(HandsListener listener) {
+    public synchronized void removeHandsListener(HandsListener listener) {
         handsListeners.remove(listener);
     }
 
@@ -107,7 +107,7 @@ public class NiTETracker implements HandTracker.NewFrameListener, UserTracker.Ne
      *
      * @param listener BonesListener to add
      */
-    public void addBonesListener(BonesListener listener) {
+    public synchronized void addBonesListener(BonesListener listener) {
         bonesListeners.add(listener);
     }
 
@@ -116,7 +116,7 @@ public class NiTETracker implements HandTracker.NewFrameListener, UserTracker.Ne
      *
      * @param listener HandsListener to remove
      */
-    public void removeBonesListener(BonesListener listener) {
+    public synchronized void removeBonesListener(BonesListener listener) {
         bonesListeners.remove(listener);
     }
 

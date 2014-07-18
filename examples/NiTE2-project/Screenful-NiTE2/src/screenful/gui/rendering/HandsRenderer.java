@@ -34,8 +34,6 @@ public class HandsRenderer extends Component implements HandsListener {
         if (lastFrame == null) {
             return;
         }
-        int framePosX = 0;
-        int framePosY = 0;
 
         VideoFrameRef depthFrame = lastFrame.getDepthFrame();
         if (depthFrame != null) {
@@ -49,21 +47,23 @@ public class HandsRenderer extends Component implements HandsListener {
 
             bufferedImage.setRGB(0, 0, width, height, depthPixels, 0, width);
 
-            framePosX = (getWidth() - width) / 2;
-            framePosY = (getHeight() - height) / 2;
+            g.drawImage(bufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+            // draw hands
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setStroke(new BasicStroke(6));
+            g2.setColor(Color.BLUE);
 
-            g.drawImage(bufferedImage, framePosX, framePosY, null);
-        }
+            // allow for (almost) arbitrarily resized window
+            double xscale = g2.getClipBounds().width / (double) width;
+            double yscale = g2.getClipBounds().height / (double) height;
 
-        // draw hands
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setStroke(new BasicStroke(6));
-        g2.setColor(Color.RED);
-
-        for (HandData hand : lastFrame.getHands()) {
-            if (hand.isTracking()) {
-                com.primesense.nite.Point2D<Float> pos = tracker.convertHandCoordinatesToDepth(hand.getPosition());
-                g2.drawRect(framePosX + pos.getX().intValue() - 6, framePosY + pos.getY().intValue() - 6, 10, 10);
+            for (HandData hand : lastFrame.getHands()) {
+                if (hand.isTracking()) {
+                    com.primesense.nite.Point2D<Float> pos = tracker.convertHandCoordinatesToDepth(hand.getPosition());
+                    // draw rectangle with respect to window size vs. the 
+                    // coordinates calculated from the depth frame
+                    g2.drawRect((int) (xscale * pos.getX().intValue() - 6), (int) (yscale * pos.getY().intValue() - 6), 10, 10);
+                }
             }
         }
     }
@@ -123,7 +123,7 @@ public class HandsRenderer extends Component implements HandsListener {
             while (frameData.remaining() > 0) {
                 short depth = frameData.getShort();
                 short pixel = (short) histogram[depth];
-                depthPixels[pos] = 0xFF000000 | (pixel << 16) | (pixel << 8);
+                depthPixels[pos] = 0x00FF00FF & (0xFF000000 | (pixel << 16) | (pixel << 8));
                 pos++;
             }
         }

@@ -6,7 +6,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import screenful.gestures.GestureData;
+import screenful.gestures.Displacement;
 import screenful.gestures.GestureListener;
 import screenful.gestures.Utilities.CardinalDirection;
 
@@ -22,7 +22,7 @@ public class DirectionRenderer extends Component implements GestureListener {
     }
 
     @Override
-    public void onGesture(GestureData gesture) {
+    public void onGesture(Displacement gesture) {
         direction = gesture.getDirection();
         repaint();
     }

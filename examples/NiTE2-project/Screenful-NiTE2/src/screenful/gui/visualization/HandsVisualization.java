@@ -12,17 +12,18 @@ public class HandsVisualization extends GenericWindow implements Visualization {
     HandsRenderer renderer;
 
     public void show() {
-        renderer.setSize(320, 240);
+        // hmm..
+        renderer.setSize(640, 494);
         viewFrame.add("Center", renderer);
         viewFrame.setSize(renderer.getWidth(), renderer.getHeight());
         viewFrame.setVisible(true);
         new Thread(this).start();
     }
 
-    public HandsVisualization(NiTETracker nui, String name) {
+    public HandsVisualization(NiTETracker tracker, String name) {
         super(name);
-        renderer = new HandsRenderer(nui.getHandTracker());
-        nui.addHandsListener(renderer);
+        renderer = new HandsRenderer(tracker.getHandTracker());
+        tracker.addHandsListener(renderer);
     }
 
 }
