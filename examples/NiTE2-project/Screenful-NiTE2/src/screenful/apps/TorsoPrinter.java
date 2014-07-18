@@ -23,8 +23,8 @@ public class TorsoPrinter {
         // uncomment for visualization windows
         /*
          // Add visualizations
-         SkeletonVisualization skeleton = new SkeletonVisualization(tracker, "Skeleton tracker window");
-         HandVisualization hands = new HandVisualization(tracker, "Hand tracker window");
+         BonesVisualization skeleton = new BonesVisualization(tracker, "Skeleton tracker window");
+         HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
          // Show visualizations
          skeleton.show();
          hands.show();
