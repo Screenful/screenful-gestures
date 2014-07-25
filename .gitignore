@@ -10,3 +10,5 @@ examples/NiTE2-project/Screenful-NiTE2/dist/
 !examples/NiTE2-project/Screenful-NiTE2/dist/javadoc
 /examples/NiTE2-project/Screenful-NiTE2/nbproject/private/
 /examples/NiTE2-project/Screenful-NiTE2/build/
+
+browserdemo/Demo/target/
