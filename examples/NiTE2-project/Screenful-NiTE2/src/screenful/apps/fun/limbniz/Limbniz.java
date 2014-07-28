@@ -3,12 +3,20 @@ package screenful.apps.fun.limbniz;
 import javax.sound.sampled.*;
 import screenful.basic.NiTETracker;
 import screenful.gui.visualization.HandsVisualization;
-import screenful.gui.visualization.LimbnizVisualization;
 
 /**
- * Experimental "byte beat" controller, unfinished and tacky for now. When the
+ * Experimental "bytebeat" controller, unfinished and tacky for now. When the
  * program starts, two windows will spawn, one for hand tracker depth image and
  * one for beat parameters a, b and c.
+ *
+ * The program simply squeals numbers out of the speakers, and uses a time
+ * counter that increases with each tick. For 8 kHz sound, the data would be
+ * played 8000 times a second. The actual noise comes from simple (or complex)
+ * functions that use the time counter and the parameters as input and return a
+ * number. typically using arithmetic and bitwise operations to generate
+ * repeating and evolving patterns that may be "music", or perhaps something
+ * else. Modifying the parameters in real-time lets one experiment with the
+ * sounds.
  *
  * To start controlling the beat, make a "click" gesture towards the sensor,
  * preferably at around 1.5 meters or more and with the sensor in front of you.
@@ -21,8 +29,24 @@ import screenful.gui.visualization.LimbnizVisualization;
  * directions. The sensitivity can be controlled with the parameters in the
  * controller's constructor.
  *
- * Controls: Left-Right decrease and increase parameter a, Up-Down change the b
- * parameter and In-Out change the c parameter.
+ * Controls:
+ *
+ * Right-Left - a++, a--
+ *
+ * Up-Down - b++, b--
+ *
+ * In-Out - c++, c--
+ *
+ * Pressing Enter in the console rotates between a few functions, not all of
+ * them very good.
+ *
+ * For now it uses only the hand tracker, but could potentially utilize the
+ * X-Y-Z directional movement of all the 15 joint positions times the number of
+ * people + the movement of all tracked hands. If a directional movement in one
+ * of the six directions is considered a command, a single skeleton could be
+ * used to trigger 90 of them. The effects of such a number of inputs may need
+ * some thought in the function, but would probably be interesting, as would
+ * making formulas that make use of complex motions a human can make.
  *
  * Limbniz is not based on but is inspired by IBNIZ by Ville-Matias Heikkilä:
  * http://pelulamu.net/ibniz/

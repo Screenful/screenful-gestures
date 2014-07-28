@@ -1,7 +1,8 @@
 package screenful.apps.fun.limbniz;
 
 /**
- * Byte beats and assorted things.
+ * Byte beats and assorted things. Needs cleanup and the parameters are quite
+ * arbitrary.
  */
 public class Beats {
 

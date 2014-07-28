@@ -1,8 +1,7 @@
-package screenful.gui.visualization;
+package screenful.apps.fun.limbniz;
 
-import screenful.apps.fun.limbniz.LimbnizController;
 import screenful.gui.GenericWindow;
-import screenful.gui.rendering.LimbnizRenderer;
+import screenful.gui.visualization.Visualization;
 
 /**
  * Limbniz parameter visualization window

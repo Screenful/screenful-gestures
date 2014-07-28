@@ -1,4 +1,4 @@
-package screenful.gui.rendering;
+package screenful.apps.fun.limbniz;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicReference;
-import screenful.apps.fun.limbniz.BeatParams;
-import screenful.apps.fun.limbniz.LimbnizListener;
 import screenful.gestures.Utilities.CardinalDirection;
 
 /**
@@ -39,9 +37,9 @@ public class LimbnizRenderer extends Component implements LimbnizListener {
 
         g2.setStroke(new BasicStroke(6));
         g2.setColor(lightblue);
-        g2.setFont(new Font("Serif", Font.BOLD, height / 8));
+        g2.setFont(new Font("Serif", Font.BOLD, 42));
 
-        g2.drawString("a: " + params.get().a + " b: " + params.get().b + " c: " + params.get().c, width / 10, (int) (height / 2.22));
+        g2.drawString("a: " + params.get().a + " b: " + params.get().b + " c: " + params.get().c, width / 10, (int) (height / 2));
     }
 
     @Override
