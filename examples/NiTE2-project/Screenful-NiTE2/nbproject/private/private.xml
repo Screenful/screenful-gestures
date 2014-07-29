@@ -10,6 +10,7 @@
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/AirDrum.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/basic/BonesListener.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizController.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/ScreenfulSwipes.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/GestureListener.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizVisualization.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/HandsDirectionViewer.java</file>
@@ -20,6 +21,7 @@
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/tracker/LastDirection.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/visualization/HandsVisualization.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Displacement.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/DisconnectTest.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/GenericWindow.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizListener.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Utilities.java</file>
@@ -31,6 +33,7 @@
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/BonesAndHandsViewer.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/SoundEffect.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Poses.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/GestureServer.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/tracker/HandSeparation.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/listener/NumberPrinter.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/detectors/Detector.java</file>
