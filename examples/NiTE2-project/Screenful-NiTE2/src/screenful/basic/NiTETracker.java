@@ -11,6 +11,7 @@ import com.primesense.nite.UserTracker;
 import com.primesense.nite.UserTrackerFrameRef;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -144,8 +145,9 @@ public class NiTETracker implements
      * Notify listeners of new hand frames
      */
     private void notifyHandsListeners() {
-        for (HandsListener listener : handsListeners) {
-            listener.onNewHandsFrame(lastHandFrame);
+        for (Iterator<HandsListener> it = handsListeners.iterator(); it.hasNext();) {
+            HandsListener next = it.next();
+            next.onNewHandsFrame(lastHandFrame);
         }
     }
 
@@ -153,8 +155,9 @@ public class NiTETracker implements
      * Notify listeners of new user frames
      */
     private void notifyBonesListeners() {
-        for (BonesListener listener : bonesListeners) {
-            listener.onNewBonesFrame(lastUserFrame);
+        for (Iterator<BonesListener> it = bonesListeners.iterator(); it.hasNext();) {
+            BonesListener next = it.next();
+            next.onNewBonesFrame(lastUserFrame);
         }
     }
 
@@ -224,7 +227,6 @@ public class NiTETracker implements
     public NiTETracker() {
         deviceConnected = false;
         initialize();
-
         OpenNI.addDeviceDisconnectedListener(this);
         OpenNI.addDeviceConnectedListener(this);
     }
@@ -240,6 +242,41 @@ public class NiTETracker implements
         } else {
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * Stop tracking a specific hand ID
+     *
+     * @param id ID number
+     */
+    public void forgetHand(short id) {
+        handTracker.stopHandTracking(id);
+    }
+
+    /**
+     * Stop all hand tracking
+     */
+    public void forgetHands() {
+        if (lastHandFrame != null) {
+            for (HandData hand : lastHandFrame.getHands()) {
+                forgetHand(hand.getId());
+            }
+        }
+    }
+
+    /**
+     * Return a list of all tracked hands
+     *
+     * @return List of HandData
+     */
+    public List<HandData> getTrackedHands() {
+        ArrayList<HandData> trackedHands = new ArrayList<>();
+        for (HandData hand : lastHandFrame.getHands()) {
+            if (hand.isTracking()) {
+                trackedHands.add(hand);
+            }
+        }
+        return trackedHands;
     }
 
     /**

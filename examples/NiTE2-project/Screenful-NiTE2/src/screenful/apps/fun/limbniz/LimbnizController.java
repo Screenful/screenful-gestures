@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 import screenful.basic.NiTETracker;
 import screenful.detectors.DirectionDetector;
-import screenful.gestures.Gesture;
 import screenful.gestures.Displacement;
+import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
 import screenful.gestures.Utilities.CardinalDirection;
 
-    //GestureData current = newDisplacementa(Point3D.ZERO, Utilities.CardinalDirection.STABLE);
 public class LimbnizController implements GestureListener {
 
+    // reference to tracker to control it, ie. stop hand tracking
+    private NiTETracker tracker;
     private final AtomicReference<BeatParams> params;
 
     public BeatParams getParams() {
@@ -25,6 +26,7 @@ public class LimbnizController implements GestureListener {
         this.params = new AtomicReference<>(new BeatParams(0, 0, 0, 0));
         // make controller very sensitive
         direction = new Gesture(new DirectionDetector(magnitude), length, cooldown);
+        this.tracker = tracker;
         tracker.addHandsListener(direction);
         direction.addListener(this);
         listeners = new ArrayList<>();
@@ -57,7 +59,13 @@ public class LimbnizController implements GestureListener {
                 params.set(new BeatParams(cur.t, cur.a, (int) (cur.b + increment), cur.c));
                 break;
             case DOWN:
-                params.set(new BeatParams(cur.t, cur.a, (int) (cur.b - increment), cur.c));
+                // if a second hand that is tracked moves down, stop all hand tracking.
+                // (this is to be able to find a nice spot, then stop there)
+                if (tracker.getTrackedHands().size() > 1) {
+                    tracker.forgetHands();
+                } else {
+                    params.set(new BeatParams(cur.t, cur.a, (int) (cur.b - increment), cur.c));
+                }
                 break;
             case IN:
                 params.set(new BeatParams(cur.t, cur.a, cur.b, (int) (cur.c + increment)));

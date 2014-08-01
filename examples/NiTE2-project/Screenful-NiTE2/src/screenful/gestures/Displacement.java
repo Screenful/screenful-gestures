@@ -11,6 +11,11 @@ public class Displacement {
 
     CardinalDirection direction;
     Point3D directionVector;
+    short id;
+
+    public short getId() {
+        return id;
+    }
 
     public Displacement(CardinalDirection direction) {
         this.direction = direction;
@@ -19,6 +24,12 @@ public class Displacement {
     public Displacement(Point3D directionVector, CardinalDirection direction) {
         this.direction = direction;
         this.directionVector = directionVector;
+    }
+
+    public Displacement(Point3D directionVector, CardinalDirection direction, short id) {
+        this.direction = direction;
+        this.directionVector = directionVector;
+        this.id = id;
     }
 
     public Displacement() {

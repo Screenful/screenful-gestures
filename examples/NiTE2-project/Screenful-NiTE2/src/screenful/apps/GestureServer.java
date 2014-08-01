@@ -12,13 +12,15 @@ import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
 
 /**
- * Test program for gesture recognition recovery.
+ * Test program for gesture recognition recovery. Start and open
+ * html/carousel-ws.html
  *
  */
 public class GestureServer {
 
     /**
-     * Simple listener to demonstrate the directions are still being recognized.
+     * Simple listener to demonstrate the directions are still being recognized
+     * after disconnecting the sensor and plugging it in again.
      */
     static class PrintDirection implements GestureListener {
 
@@ -26,7 +28,6 @@ public class GestureServer {
         public void onGesture(Displacement gesture) {
             System.out.println("" + gesture.getDirection());
         }
-
     }
 
     public static void main(String[] args) {
@@ -34,7 +35,6 @@ public class GestureServer {
         List<DeviceInfo> devs;
         int lastnum = 0;
         // create a gesture listener
-        //ScreenfulSwipes swipes = new ScreenfulSwipes(tracker, new Gesture(new DirectionDetector(5), 5, 50));
         Gesture swipe = new Gesture(new DirectionDetector(5), 5, 10);
         tracker.addHandsListener(swipe);
         PrintDirection printDir = new PrintDirection();

@@ -3,48 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/rendering/DirectionRenderer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/detectors/RecordingDetector.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/GestureRecorder.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/Beats.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/AirDrum.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/basic/BonesListener.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizController.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/ScreenfulSwipes.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/GestureListener.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizVisualization.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/HandsDirectionViewer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizRenderer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/rendering/HandsRenderer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/listener/Notifier.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/Limbniz.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/tracker/LastDirection.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/visualization/HandsVisualization.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Displacement.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/DisconnectTest.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/GenericWindow.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizListener.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Utilities.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/TorsoPrinter.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/rendering/BonesRenderer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Gesture.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/detectors/ConsecutiveFrames.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/visualization/Visualization.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Gesture.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/LimbnizController.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/server/SwipeServer.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/HandsDirectionViewer.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/BonesAndHandsViewer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/SoundEffect.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Poses.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/GestureServer.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/tracker/HandSeparation.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/listener/NumberPrinter.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/detectors/Detector.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/Limbniz.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/basic/NiTETracker.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/JointMetrics.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gui/visualization/BonesVisualization.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/listener/NumberListener.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/BeatParams.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/tracker/TestProgram.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/examples/listener/MainApp.java</file>
-            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/fun/limbniz/Beat.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/apps/DisconnectTest.java</file>
+            <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/gestures/Displacement.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/basic/HandsListener.java</file>
             <file>file:/home/joga/code/screenful-gestures/examples/NiTE2-project/Screenful-NiTE2/src/screenful/detectors/DirectionDetector.java</file>
         </group>

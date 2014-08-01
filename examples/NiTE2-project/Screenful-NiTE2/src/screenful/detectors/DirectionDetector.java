@@ -58,7 +58,7 @@ public class DirectionDetector implements Detector {
                 Point3D displacementVector = displacementVector(previous.getPosition(), current.getPosition());
                 // refresh current data
                 previousHandMap.put(current.getId(), current);
-                this.data = new Displacement(displacementVector, determineCardinalDirection(displacementVector, sensitivity));
+                this.data = new Displacement(displacementVector, determineCardinalDirection(displacementVector, sensitivity), current.getId());
                 // return direction only if there was one
                 if (getData().getDirection() != STABLE) {
                     return true;

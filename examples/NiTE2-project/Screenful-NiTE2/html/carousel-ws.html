@@ -70,8 +70,13 @@
 <script>
 $(document).ready(function(){
 		$('.carousel').carousel({
+			pause: true,
 			interval: false
 			});
+
+		$('.carousel').carousel('pause')
+
+        	startClient();
 		});
 
 <!-- Use these to control slides 
@@ -79,8 +84,52 @@ $('.carousel').carousel('next')
 $('.carousel').carousel('prev')
 -->
 
+  var socket;
+  var registered = false;
+  
+  function startClient() {
+    console.log("opening socket");
+    //on http server use document.domain instead od "localhost"
+    //Start the websocket client
+    socket = new WebSocket("ws://localhost:8887/");
+    
+    //When the connection is opened, login.
+    socket.onopen = function() {
+      console.log("Opened socket.");
+      //register the user
+      //var nickname = "jee";
+      //socket.send(nickname);
+    };
+    
+    //When received a message, parse it and either add/remove user or post message.
+    socket.onmessage = function(a) {
+      //process the message here
+      console.log("received message: " + a.data);
+      //var message = JSON.parse(a.data);
+		switch(a.data) {
+			case "left":
+				$('.carousel').carousel('prev');
+				break;
+			case "right":
+				$('.carousel').carousel('next');
+				break;
+			default:
+				break;
+		}
+      
+      
+    }
+    socket.onclose = function() { document.write("Closed socket."); };
+    socket.onerror = function() { document.write("Error during transfer."); };
+    
+  }
+  
+  function sendMessage() {
+  }
+  
+  
 
-if (typeof (EventSource) !== "undefined") {
+/*if (typeof (EventSource) !== "undefined") {
 	var source = new EventSource("http://localhost:8080/Demo/GestureServlet");
 	source.onmessage = function(event) {
 		document.getElementById("Latest").innerHTML = event.data;
@@ -98,7 +147,7 @@ if (typeof (EventSource) !== "undefined") {
 	};
 } else {
 	document.getElementById("Latest").innerHTML = "Sorry, your browser does not support server-sent events...";
-}
+}*/
 
 
 </script>
