@@ -1,6 +1,4 @@
 # ignore proprietary NiTE2 files
-server/Screenful-GestureServer
-
 server/Screenful-GestureServer/NiTE2/Data/
 server/Screenful-GestureServer/NiTE2/FeatureExtraction.ini
 server/Screenful-GestureServer/NiTE2/HandAlgorithms.ini
