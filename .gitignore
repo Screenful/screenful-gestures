@@ -8,8 +8,7 @@ server/Screenful-GestureServer/NiTE2/h.dat
 server/Screenful-GestureServer/NiTE2/s.dat
 
 *.log
-server/Screenful-GestureServer/dist/
-!server/Screenful-GestureServer/dist/Screenful-GestureServer.jar
-/server/Screenful-GestureServer/nbproject/private/
+/server/Screenful-GestureServer/nbproject
 /server/Screenful-GestureServer/build/
 /server/Screenful-GestureServer/dist/
+!/server/Screenful-GestureServer/dist/Screenful-GestureServer.jar

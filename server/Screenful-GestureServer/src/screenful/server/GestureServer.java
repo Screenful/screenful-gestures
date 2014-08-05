@@ -115,10 +115,11 @@ public class GestureServer extends WebSocketServer {
         // create tracker
         NiTETracker tracker = new NiTETracker();
         // create visualization (for testing)
-        HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
+        //HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
         // create the server
         GestureServer server = new GestureServer();
         // create a messenger to send tracker events to the browser
+        // (the tracker object is used for stopping hand tracking if needed)
         Messenger messenger = new Messenger(tracker);
         // create a gesture for the tracker to detect
         Gesture gesture = new Gesture(new DirectionDetector(5), 5, 10);
@@ -128,7 +129,7 @@ public class GestureServer extends WebSocketServer {
         tracker.addHandsListener(gesture);
 
         // show visualization window (for testing)
-        hands.show();
+        //hands.show();
         // start the server
         server.start();
     }
