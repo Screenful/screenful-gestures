@@ -92,7 +92,6 @@ $('.carousel').carousel('prev')
     //Start the websocket client
     socket = new WebSocket("ws://localhost:8887/");
     
-    //When the connection is opened, login.
     socket.onopen = function() {
       console.log("Opened socket.");
     };
