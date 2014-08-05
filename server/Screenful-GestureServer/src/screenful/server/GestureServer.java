@@ -11,7 +11,6 @@ import screenful.gestures.detectors.DirectionDetector;
 import screenful.gestures.detectors.Displacement;
 import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
-import screenful.gui.visualization.HandsVisualization;
 
 /**
  * Simple WebSocket server for interfacing with the browser UI.
@@ -19,12 +18,8 @@ import screenful.gui.visualization.HandsVisualization;
  */
 public class GestureServer extends WebSocketServer {
 
-    /**
-     * The web socket port number
-     */
-    private static final int PORT = 8887;
-
     private static Set<WebSocket> conns;
+    static Settings settings;
 
     /**
      * Messenger handles sending messages to the browser when gestures are
@@ -34,29 +29,35 @@ public class GestureServer extends WebSocketServer {
 
         boolean run;
         NiTETracker tracker;
+        int startdelay;
 
-        Messenger(NiTETracker tracker) {
+        Messenger(NiTETracker tracker, int startdelay) {
             this.tracker = tracker;
+            this.startdelay = startdelay;
         }
 
         @Override
         public void onGesture(Displacement gesture) {
-            String dir = "stable";
-            switch (gesture.getDirection()) {
-                case LEFT:
-                    dir = "left";
-                    break;
-                case RIGHT:
-                    dir = "right";
-                    break;
-                case OUT:
-                    tracker.forgetHands();
-                    break;
-            }
-            if (!dir.equals("stable")) {
-                for (WebSocket sock : conns) {
-                    sock.send(dir);
-                    System.out.println("Sending command: " + dir);
+            if (System.currentTimeMillis()
+                    > tracker.getLastHandTrackingStartTime() + startdelay) {
+                String dir = "stable";
+                switch (gesture.getDirection()) {
+                    case LEFT:
+                        dir = "left";
+                        break;
+                    case RIGHT:
+                        dir = "right";
+                        break;
+                    case OUT:
+                        tracker.forgetHands();
+                        System.out.println("User stopped interaction.");
+                        break;
+                }
+                if (!dir.equals("stable")) {
+                    for (WebSocket sock : conns) {
+                        sock.send(dir);
+                        System.out.println("Sending command: " + dir);
+                    }
                 }
             }
         }
@@ -66,8 +67,8 @@ public class GestureServer extends WebSocketServer {
      * Creates a new WebSocketServer with the wildcard IP accepting all
      * connections.
      */
-    public GestureServer() {
-        super(new InetSocketAddress(PORT));
+    public GestureServer(String address, int port) {
+        super(new InetSocketAddress(address, port));
         conns = new HashSet<>();
     }
 
@@ -112,17 +113,38 @@ public class GestureServer extends WebSocketServer {
      * @param args ignored
      */
     public static void main(String[] args) {
+        if (args.length > 0) {
+            settings = new Settings(args[0]);
+        } else {
+            settings = new Settings();
+            // create a default.conf as a starting point
+            settings.save();
+        }
+
+        // parse settings
+        int port = Integer.parseInt(settings.prop.getProperty("port"));
+        String address = settings.prop.getProperty("address");
+        int startdelay = Integer.parseInt(settings.prop.getProperty("startdelay"));
+        int traveldistance = Integer.parseInt(settings.prop.getProperty("traveldistance"));
+        int travelframes = Integer.parseInt(settings.prop.getProperty("travelframes"));
+        int cooldown = Integer.parseInt(settings.prop.getProperty("cooldown"));
+
+        System.out.println("Starting server using settings:");
+        System.out.println("Port = " + port + ", address = " + address
+                + ", startdelay = " + startdelay + ", traveldistance = "
+                + traveldistance + " mm, travelframes = " + travelframes
+                + ", cooldown = " + cooldown + " ms");
         // create tracker
         NiTETracker tracker = new NiTETracker();
         // create visualization (for testing)
         //HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
         // create the server
-        GestureServer server = new GestureServer();
+        GestureServer server = new GestureServer(address, port);
         // create a messenger to send tracker events to the browser
         // (the tracker object is used for stopping hand tracking if needed)
-        Messenger messenger = new Messenger(tracker);
+        Messenger messenger = new Messenger(tracker, startdelay);
         // create a gesture for the tracker to detect
-        Gesture gesture = new Gesture(new DirectionDetector(5), 5, 10);
+        Gesture gesture = new Gesture(new DirectionDetector(traveldistance), travelframes, cooldown);
         // add messenger to gesture's listeners
         gesture.addListener(messenger);
         // add gesture to tracker's listeners

@@ -7,7 +7,7 @@
 - 64-bit OpenNI 2.2 and NiTE 2.2 must be installed
     - see [tools/kinect-ubuntu-install](https://github.com/Screenful/screenful-gestures/tree/master/tools/kinect-ubuntu-install)
 - Copy NiTE2 data files (h.dat, s.dat etc.) into server/Screenful-GestureServer/NiTE2/
-- Run server/run-server.sh `<library dir with OpenNI and NiTE .so files>`
+- Edit `server.conf` and Run `./run-server.sh <library dir with OpenNI and NiTE .so files>`
     - If OpenNI and NiTE libraries have been installed system-wide, you can probably remove `-Djava.library.path="${LIBPATH}"` from the command line.
 - Open a web page in a browser that establishes a WebSocket connection to the server (port 8887), for a sample page see [screenful-ui-test.html](https://github.com/Screenful/screenful-gestures/tree/master/server/Screenful-GestureServer/html/screenful-ui-test.html).
 - Connect the Xtion if it's not already connected and wave your hand to the sensor to start tracking the hand and pass commands to the browser.

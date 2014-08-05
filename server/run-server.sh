@@ -7,14 +7,16 @@
 
 # Define your path here or pass it as a command line option
 LIBPATH="$1"
+CONFIGFILE="$(readlink -f server.conf)"
 
-[ -z "${LIBPATH}" ] && echo "Pass library path as parameter or modify script first." && exit 1 
+
+[ -z "${LIBPATH}" ] && echo -e "Pass library path as parameter or modify script first.\ne.g. ./run-server.sh /home/user/openni2-nite2/libs/" && exit 1 
 
 cd Screenful-GestureServer
 
 echo "Hold Ctrl-C to exit."
 while true
-	do java -Djava.library.path="${LIBPATH}" -XX:ErrorFile=/dev/null -jar dist/Screenful-GestureServer.jar
+	do java -Djava.library.path="${LIBPATH}" -XX:ErrorFile=/dev/null -jar dist/Screenful-GestureServer.jar "${CONFIGFILE}"
 	   sleep 1
 done
 

@@ -51,6 +51,7 @@ public class NiTETracker implements
 
     BufferedImage bufferedImage;
     boolean deviceConnected;
+    private long lastHandTrackingStartTime;
 
     /**
      * Return hand tracker for reading hand positions and gestures
@@ -229,9 +230,17 @@ public class NiTETracker implements
      */
     public NiTETracker() {
         deviceConnected = false;
+        lastHandTrackingStartTime = 0;
         initialize();
         OpenNI.addDeviceDisconnectedListener(this);
         OpenNI.addDeviceConnectedListener(this);
+    }
+
+    /**
+     * Return the last time hand tracking was started.
+     */
+    public long getLastHandTrackingStartTime() {
+        return lastHandTrackingStartTime;
     }
 
     /**
@@ -319,6 +328,7 @@ public class NiTETracker implements
                     // start hand tracking
                     System.out.println("Starting hand tracking");
                     handTracker.startHandTracking(gesture.getCurrentPosition());
+                    lastHandTrackingStartTime = System.currentTimeMillis();
                 }
             }
             notifyHandsListeners();
