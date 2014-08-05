@@ -136,7 +136,11 @@ Skeleton
 \end_layout
 
 \begin_layout Section*
-screenful.server
+Public class members:
+\end_layout
+
+\begin_layout Subsection*
+screenful.server - main server program
 \end_layout
 
 \begin_layout Itemize
@@ -163,13 +167,139 @@ Initializes NiTETracker and gesture detection and starts listening for web
 \end_layout
 
 \end_deeper
-\end_deeper
-\begin_layout Section*
-Library code:
+\begin_layout Itemize
+
+\series bold
+onClose(WebSocket conn, int code, String reason, boolean remote)
 \end_layout
 
-\begin_layout Section*
-screenful.basic
+\begin_deeper
+\begin_layout Itemize
+Actions to be done when a socket closes
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onError(WebSocket conn, Exception ex)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Actions to be done when an error occurs with the WebSocket
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onMessage(WebSocket conn, String message)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Actions to be done when a message is received
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onOpen(WebSocket conn, ClientHandShake handshake)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Actions to be done when a connection is opened
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+GestureServer.Messenger
+\series default
+: Inner class of GestureServer sends the command to the browser via WebSockets.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onGesture(Displacement gesture)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+When a detected gesture notifies the Messenger, it checks whether the gesture
+ is assigned to exiting interaction or providing input and either stops
+ hand tracking or sends the appropriate messages over WebSockets.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Settings
+\series default
+: A settings object for the GestureServer.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Settings()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Create default settings
+\end_layout
+
+\begin_layout Itemize
+Default filename 
+\begin_inset Quotes eld
+\end_inset
+
+default.conf
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Settings(String filename)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Load settings from a configuration file
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+save()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Saves the current settings
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection*
+screenful.basic - reading NiTE data
 \end_layout
 
 \begin_layout Itemize
@@ -426,8 +556,8 @@ Handles user tracker frames
 
 \end_deeper
 \end_deeper
-\begin_layout Section*
-screenful.detectors
+\begin_layout Subsection*
+screenful.detectors - movement detection in frames
 \end_layout
 
 \begin_layout Itemize
@@ -533,8 +663,8 @@ getData(): GestureData
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-screenful.gestures
+\begin_layout Subsection*
+screenful.gestures - gesture detection based on movement
 \end_layout
 
 \begin_layout Itemize
@@ -751,8 +881,8 @@ Return distance between two 3D points
 
 \end_deeper
 \end_deeper
-\begin_layout Section*
-Gesture.Detectors
+\begin_layout Subsection*
+screenful.gestures.detectors
 \end_layout
 
 \begin_layout Itemize
@@ -963,8 +1093,8 @@ Set the vector
 
 \end_deeper
 \end_deeper
-\begin_layout Section*
-screenful.gui
+\begin_layout Subsection*
+screenful.gui - GUI windows
 \end_layout
 
 \begin_layout Itemize
@@ -983,8 +1113,8 @@ run()
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-screenful.gui.rendering
+\begin_layout Subsection*
+screenful.gui.rendering - graphics renderers for GUI windows
 \end_layout
 
 \begin_layout Itemize
@@ -1071,8 +1201,8 @@ Draw text to indicate directions.
 
 \end_deeper
 \end_deeper
-\begin_layout Section*
-screenful.gui.visualization
+\begin_layout Subsection*
+screenful.gui.visualization - containers for GUI windows
 \end_layout
 
 \begin_layout Itemize
@@ -1134,8 +1264,8 @@ show()
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-screenful.testapps
+\begin_layout Subsection*
+screenful.testapps - applications for testing
 \end_layout
 
 \begin_layout Itemize

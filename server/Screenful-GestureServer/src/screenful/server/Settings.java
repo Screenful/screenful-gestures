@@ -6,9 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import screenful.gestures.Utilities.CardinalDirection;
 
 /**
  * Settings class for GestureServer. Reads and writes a configuration file and
@@ -18,6 +20,8 @@ public class Settings {
 
     String filename;
     Properties prop;
+    HashSet<CardinalDirection> enabledDirections;
+    HashSet<CardinalDirection> exitDirections;
 
     /**
      * Default values
@@ -26,33 +30,20 @@ public class Settings {
     private final String defaultAddress = "localhost";
     private final String defaultStartDelay = "800";
     private final String defaultTravelDistance = "10";
-    private final String defaultTravelFrames = "10";
+    private final String defaultTravelFrames = "5";
     private final String defaultCooldown = "500";
+    private final String defaultExitDirections = "out";
+    private final String defaultEnabledDirections = "left,right";
 
     /**
      * Create default settings.
      */
     public Settings() {
+        enabledDirections = new HashSet<>();
+        exitDirections = new HashSet<>();
         this.filename = "default.conf";
         prop = new Properties();
-        prop.setProperty("port", defaultPort);
-        prop.setProperty("address", defaultAddress);
-        prop.setProperty("startdelay", defaultStartDelay);
-        prop.setProperty("traveldistance", defaultTravelDistance);
-        prop.setProperty("travelframes", defaultTravelFrames);
-        prop.setProperty("cooldown", defaultCooldown);
-    }
-
-    /**
-     * If some settings are not defined, assign default values to them.
-     */
-    private void fillBlanks() {
-        prop.setProperty("port", prop.getProperty("port", defaultPort));
-        prop.setProperty("address", prop.getProperty("address", defaultAddress));
-        prop.setProperty("startdelay", prop.getProperty("startdelay", defaultStartDelay));
-        prop.setProperty("traveldistance", prop.getProperty("traveldistance", defaultTravelDistance));
-        prop.setProperty("travelframes", prop.getProperty("travelframes", defaultTravelFrames));
-        prop.setProperty("cooldown", prop.getProperty("cooldown", defaultCooldown));
+        fillBlanks();
     }
 
     /**
@@ -61,14 +52,16 @@ public class Settings {
      * @param filename configuration filename
      */
     public Settings(String filename) {
-        prop = new Properties();
+        this();
         this.filename = filename;
 
         InputStream input = null;
         try {
+
             input = new FileInputStream(filename);
             prop.load(input);
             fillBlanks();
+
         } catch (FileNotFoundException ex) {
             System.out.println("Settings file " + filename + " not found.");
             Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,6 +76,46 @@ public class Settings {
                     System.out.println("Error closing " + filename + ".");
                     Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        }
+    }
+
+    /**
+     * If some settings are not defined, assign default values to them.
+     */
+    private void fillBlanks() {
+
+        prop.setProperty("port", prop.getProperty("port", defaultPort));
+        prop.setProperty("address", prop.getProperty("address", defaultAddress));
+        prop.setProperty("startdelay", prop.getProperty("startdelay", defaultStartDelay));
+        prop.setProperty("traveldistance", prop.getProperty("traveldistance", defaultTravelDistance));
+        prop.setProperty("travelframes", prop.getProperty("travelframes", defaultTravelFrames));
+        prop.setProperty("cooldown", prop.getProperty("cooldown", defaultCooldown));
+        prop.setProperty("exitdirections", prop.getProperty("exitdirections", defaultExitDirections));
+        prop.setProperty("enableddirections", prop.getProperty("enableddirections", defaultEnabledDirections));
+
+        parseDirections(prop.getProperty("exitdirections"), prop.getProperty("enableddirections"));
+    }
+
+    /**
+     * Parse comma limited strings to populate exit and enabled directions
+     * lists.
+     *
+     * @param exitdirections comma limited string of exit directions, e.g. "out"
+     * @param enableddirections comma limited string of enabled directions, e.g.
+     * "left,right,up"
+     */
+    private void parseDirections(String exitdirections, String enableddirections) {
+        String[] exittokens = exitdirections.split("[,]+");
+        String[] directiontokens = enableddirections.split("[,]+");
+        if (exittokens.length > 0) {
+            for (String token : exittokens) {
+                exitDirections.add(CardinalDirection.valueOf(token.toUpperCase()));
+            }
+        }
+        if (directiontokens.length > 0) {
+            for (String token : directiontokens) {
+                enabledDirections.add(CardinalDirection.valueOf(token.toUpperCase()));
             }
         }
     }

@@ -46,20 +46,16 @@ public class GestureServer extends WebSocketServer {
         public void onGesture(Displacement gesture) {
             if (System.currentTimeMillis()
                     > tracker.getLastHandTrackingStartTime() + startdelay) {
-                String dir = "stable";
-                switch (gesture.getDirection()) {
-                    case LEFT:
-                        dir = "left";
-                        break;
-                    case RIGHT:
-                        dir = "right";
-                        break;
-                    case OUT:
-                        tracker.forgetHands();
-                        System.out.println("User stopped interaction.");
-                        break;
+                String dir = "STABLE";
+                if (settings.exitDirections.contains(gesture.getDirection())) {
+                    tracker.forgetHands();
+                    System.out.println("User stopped interaction.");
+                } else {
+                    if (settings.enabledDirections.contains(gesture.getDirection())) {
+                        dir = gesture.getDirection().toString().toLowerCase();
+                    }
                 }
-                if (!dir.equals("stable")) {
+                if (!dir.equals("STABLE")) {
                     for (WebSocket sock : conns) {
                         sock.send(dir);
                         System.out.println("Sending command: " + dir);
@@ -135,11 +131,9 @@ public class GestureServer extends WebSocketServer {
         int travelframes = Integer.parseInt(settings.prop.getProperty("travelframes"));
         int cooldown = Integer.parseInt(settings.prop.getProperty("cooldown"));
 
-        System.out.println("Starting server using settings:");
-        System.out.println("Port = " + port + ", address = " + address
-                + ", startdelay = " + startdelay + ", traveldistance = "
-                + traveldistance + " mm, travelframes = " + travelframes
-                + ", cooldown = " + cooldown + " ms");
+        System.out.println("Starting WebSocket server " + address + ":" + port + " ...");
+        System.out.println("Settings: " + settings.prop);
+
         // create tracker
         NiTETracker tracker = new NiTETracker();
         // create visualization (for testing)
