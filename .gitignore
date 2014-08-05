@@ -7,6 +7,8 @@ server/Screenful-GestureServer/NiTE2/s.dat
 
 *.log
 /server/Screenful-GestureServer/nbproject
+/server/Screenful-GestureServer/build.xml
+/server/Screenful-GestureServer/manifest.mf
 /server/Screenful-GestureServer/build/
 /server/Screenful-GestureServer/dist/
 !/server/Screenful-GestureServer/dist/Screenful-GestureServer.jar
