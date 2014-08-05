@@ -69,7 +69,7 @@
 \begin_body
 
 \begin_layout Part*
-Screenful NiTETracker API (July 4th, 2014)
+Screenful NiTETracker API (August 5th, 2014)
 \end_layout
 
 \begin_layout Standard
@@ -136,15 +136,17 @@ Skeleton
 \end_layout
 
 \begin_layout Section*
-screenful.apps
+screenful.server
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-TorsoPrinter
+GestureServer
 \series default
-: Show tracked torso coordinates until Enter is pressed.
+: The main application for browser communication.
+ Implements a WebSocket server for a browser to connect to and passes detected
+ gestures to the UI.
 \end_layout
 
 \begin_deeper
@@ -154,39 +156,18 @@ TorsoPrinter
 main(String[] args)
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-BonesAndHandsViewer
-\series default
-: Views both input methods (skeleton / hand) simultaneously.
-\end_layout
-
 \begin_deeper
 \begin_layout Itemize
-
-\series bold
-main(String[] args)
+Initializes NiTETracker and gesture detection and starts listening for web
+ socket connections.
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
-
-\series bold
-HandsDirectionViewer
-\series default
-: Show general direction of tracked hand movement.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-main(String[] args)
-\end_layout
-
 \end_deeper
+\begin_layout Section*
+Library code:
+\end_layout
+
 \begin_layout Section*
 screenful.basic
 \end_layout
@@ -197,7 +178,7 @@ screenful.basic
 BonesListener (Interface)
 \series default
 : Any class that wants skeleton data should implement this interface and
- add itself to NuiTracker's bones listeners.
+ add itself to NiTETracker's bones listeners.
 \end_layout
 
 \begin_deeper
@@ -214,7 +195,7 @@ onNewBonesFrame(UserTrackerFrameRef frame)
 HandsListener (Interface)
 \series default
 : Any class that wants hand data should implement this interface and add
- itself to NuiTracker's hands listeners.
+ itself to NiTETracker's hands listeners.
 \end_layout
 
 \begin_deeper
@@ -228,7 +209,7 @@ onNewHandFrame(HandTrackerFrameRef frame)
 \begin_layout Itemize
 
 \series bold
-\color red
+\color black
 NiTETracker
 \series default
 \color inherit
@@ -240,43 +221,84 @@ NiTETracker
 \begin_layout Itemize
 
 \series bold
-addHandsListener(HandsListener listener)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
 addBonesListener(BonesListener listener)
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Add a listener for user tracking
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+addHandsListener(HandsListener listener)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Add a listener for hand tracking
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+forgetHand(short id)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Stop tracking a specific tracked hand ID
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+forgetHands()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Stop tracking all tracked hands
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getBones()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return currently detected skeletons
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 getBufferedImage(): BufferedImage
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Return the buffered depth image
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 getHandFrame(): HandTrackerFrameRef
 \end_layout
 
-\begin_layout Itemize
-
-\series bold
-getUserFrame(): UserTrackerFrameRef
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-\color red
-getHands(): List<HandData>
-\end_layout
-
 \begin_deeper
 \begin_layout Itemize
-Get hand tracking data - see HandsRenderer for example of use.
+Return current hand tracker frame
 \end_layout
 
 \end_deeper
@@ -286,16 +308,47 @@ Get hand tracking data - see HandsRenderer for example of use.
 getHandTracker(): HandTracker
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Return the hand tracker
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
-\color red
-getBones(): List<UserData>
+\color black
+getHands(): List<HandData>
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Get skeleton data - see BonesRenderer or TorsoPrinter for example of use.
+Get hand tracking data
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getTrackedHands(): List<HandData>
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Get a list of hands that are being tracked (a hand ID can be present but
+ not tracked)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getUserFrame(): UserTrackerFrameRef
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return current user tracker frame
 \end_layout
 
 \end_deeper
@@ -305,18 +358,73 @@ Get skeleton data - see BonesRenderer or TorsoPrinter for example of use.
 getUserTracker(): UserTracker
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Return the user tracker
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+\color black
+getBones(): List<UserData>
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Get skeleton data
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onDeviceConnected(DeviceInfo di)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Handles OpenNI's device state changes
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onDeviceDisconnected(DeviceInfo di)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Handles OpenNI's device state changes
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 onNewFrame(HandTracker ht)
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Handles hand tracker frames
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 onNewFrame(UserTracker ut)
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Handles user tracker frames
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Section*
 screenful.detectors
@@ -447,7 +555,11 @@ Gesture(Detector detector, int framecount, int cooldown)
 
 \begin_deeper
 \begin_layout Itemize
-constructor, cooldown is in milliseconds
+Create a new gesture using a specified Detector.
+ Framecount is the amount of consecutive frames where the detector's condition
+ should be true for the gesture to be recognized.
+ Cooldown is in milliseconds and defines a period of inaction after a gesture
+ has been successfully detected.
 \end_layout
 
 \end_deeper
@@ -457,88 +569,36 @@ constructor, cooldown is in milliseconds
 addListener(GestureListener listener)
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
-
-\series bold
-onNewHandsFrame(HandTrackerFrameRef frame)
+Add a listener for the gesture
 \end_layout
 
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 onNewBonesFrame(UserTrackerFrameRef frame)
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-GestureData
-\series default
-: Extra data related to a detected gesture.
-\end_layout
-
 \begin_deeper
 \begin_layout Itemize
-
-\series bold
-GestureData(CardinalDirection direction)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-constructor
+Handle user tracker frames
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-GestureData(Point3D directionVector, CardinalDirection direction)
+onNewHandsFrame(HandTrackerFrameRef frame)
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-constructor
+Handle hand tracker frames
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
-
-\series bold
-GestureData()
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-constructor
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getDirectionVector(): Point3D
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-setDirectionVector(Point3D directionVector)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-getDirection(): CardinalDirection
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-setDirection(CardinalDirection dir)
-\end_layout
-
 \end_deeper
 \begin_layout Itemize
 
@@ -556,6 +616,12 @@ GestureListener
 onGesture(GestureData gesture)
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Override to implement behavior
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Itemize
 
@@ -580,26 +646,6 @@ Returns euclidian distance in space between two skeletal joints, eg.
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
-
-\series bold
-elbowHandXOffset(UserData user, JointMetrics.Side side): double
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Returns the X axis distance in millimeters between elbow and hand.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Side
-\series default
-: Side.LEFT or Side.RIGHT (enum)
-\end_layout
-
 \end_deeper
 \begin_layout Itemize
 
@@ -662,7 +708,7 @@ convertPoint(Point3D nitepoint): javafx.Geometry.Point3D
 
 \begin_deeper
 \begin_layout Itemize
-convert a NiTE Point3D into javafx Point3D and round the coordinates to
+Convert a NiTE Point3D into javafx Point3D and round the coordinates to
  integers
 \end_layout
 
@@ -676,7 +722,7 @@ determineCardinalDirection(javafx.geometry.Point3D vector, int minSensitivity):
 
 \begin_deeper
 \begin_layout Itemize
-return a cardinal direction that most closely matches the vector
+Return a cardinal direction that most closely matches the vector
 \end_layout
 
 \end_deeper
@@ -688,7 +734,7 @@ displacementVector(Point3D from, Point3D to): javafx.geometry.Point3D
 
 \begin_deeper
 \begin_layout Itemize
-calculate displacement vector between two points
+Calculate displacement vector between two points
 \end_layout
 
 \end_deeper
@@ -698,6 +744,224 @@ calculate displacement vector between two points
 distance3d(Point3D from, Point3D to): double
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Return distance between two 3D points
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section*
+Gesture.Detectors
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ConsecutiveFrames
+\series default
+: A container for passing two consecutive hand and user tracker frames.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+ConsecutiveFrames(HandTrackerFrameRef handsFrame, HandTrackerFrameRef previousHa
+ndsFrame, UserTrackerFrameRef bonesFrame, UserTrackerFrameRef previousBonesFrame
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Detector
+\series default
+: An interface for defining frame-to-frame detection logic.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+detected(ConsecutiveFrames frames): boolean
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Override.
+ Should return true when the difference between frames is appropriate.
+ A Gesture will use this boolean value to determine if a frame contributed
+ to the gesture.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getData(): Displacement
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return last direction data.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+DirectionDetector
+\series default
+: Detect movement in the cardinal directions.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+detected(ConsecutiveFrames frames): boolean
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Returns true when big enough movement is detected towards some direction.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getData(): Displacement
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return last direction data.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getSensitivity(): int
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return the chosen sensitivity.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+setSensitivity(int sensitivity)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Set the sensitivity in millimeters.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Displacement
+\series default
+: Extra data related to a detected gesture.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Displacement(CardinalDirection direction)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Displacement(Point3D directionVector, CardinalDirection direction)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Displacement(Point3D directionVector, CardinalDirection direction, short
+ id)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Constructors
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getDirection(): CardinalDirection
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return cardinal direction of displacement (left/right/up/down/in/out)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getDirectionVector(): Point3D
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return 3D vector of displacement 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+getId(): short
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Get the ID
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+setDirection(CardinalDirection dir)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Set the direction
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+setDirectionVector(Point3D directionVector)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Set the vector
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Section*
 screenful.gui
@@ -867,6 +1131,42 @@ BonesVisualization
 
 \series bold
 show()
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+screenful.testapps
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+BonesAndHandsViewer
+\series default
+: Views both input methods (skeleton / hand) simultaneously.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+HandsDirectionViewer
+\series default
+: Show general direction of tracked hand movement.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+main(String[] args)
 \end_layout
 
 \end_deeper

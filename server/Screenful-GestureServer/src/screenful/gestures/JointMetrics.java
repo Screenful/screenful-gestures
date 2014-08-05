@@ -9,11 +9,6 @@ import com.primesense.nite.UserData;
  */
 public final class JointMetrics {
 
-    public enum Side {
-
-        LEFT, RIGHT;
-    }
-
     /**
      * Calculate euclidean distance between two joints of a user in space
      *
