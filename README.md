@@ -20,6 +20,7 @@ Implemented using OpenNI 2.2 and NiTE 2.2 for 64-bit Linux.
 - **Server side:**
     - [run-server.sh](https://github.com/Screenful/screenful-gestures/blob/master/server/run-server.sh)
         - crude script to run and restart the GestureServer indefinitely if it dies
+	- **server.conf** contains server settings
     - [GestureServer](https://github.com/Screenful/screenful-gestures/blob/master/server/Screenful-GestureServer/src/screenful/server/GestureServer.java#L33-L63)
         - Main server program, listens for WebSocket connections
         - Initializes the tracker

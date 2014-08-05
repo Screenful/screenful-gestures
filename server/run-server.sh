@@ -7,6 +7,8 @@
 
 # Define your path here or pass it as a command line option
 LIBPATH="$1"
+
+# If CONFIGFILE is an empty string, GestureServer will output a default.conf in the project directory.
 CONFIGFILE="$(readlink -f server.conf)"
 
 

@@ -11,9 +11,11 @@
     - If OpenNI and NiTE libraries have been installed system-wide, you can probably remove `-Djava.library.path="${LIBPATH}"` from the command line.
 - Open a web page in a browser that establishes a WebSocket connection to the server (port 8887), for a sample page see [screenful-ui-test.html](https://github.com/Screenful/screenful-gestures/tree/master/server/Screenful-GestureServer/html/screenful-ui-test.html).
 - Connect the Xtion if it's not already connected and wave your hand to the sensor to start tracking the hand and pass commands to the browser.
-    - Note that while installing the libraries above should add support for the Kinect, for some reason NiTE hand tracker doesn't seem to work with it. The skeleton tracking works fine. For this reason the software in its current state is not usable with the Kinect.
+    - _Note that while installing the libraries above should add support for the Kinect, for some reason NiTE hand tracker doesn't seem to work with it. The skeleton tracking works fine. For this reason the software in its current state **is not usable with the Kinect**._
 
 #### Using in a NetBeans project
+
+**(TODO)**
 
 1. Create a new Java project
 2. Add org.openni.jar, com.primesense.nite.jar, java_websocket.jar to project libraries

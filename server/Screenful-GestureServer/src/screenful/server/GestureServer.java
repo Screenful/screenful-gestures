@@ -36,6 +36,12 @@ public class GestureServer extends WebSocketServer {
             this.startdelay = startdelay;
         }
 
+        /**
+         * When a gesture occurs, first check if enough time has passed after
+         * hand tracking started.
+         *
+         * @param gesture displacement data of the gesture
+         */
         @Override
         public void onGesture(Displacement gesture) {
             if (System.currentTimeMillis()
