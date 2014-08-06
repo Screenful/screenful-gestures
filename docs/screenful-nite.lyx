@@ -147,13 +147,9 @@ Screenful gesture library utilizes OpenNI 2.2 and NiTE 2.2 middleware to send
  This allows users to interact with the screen without external input devices.
  The gestures are detected by server software running on a computer with
  a depth sensor connected.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
-\begin_inset Newline newline
-\end_inset
-
+\begin_layout Standard
 A browser can initiate a WebSocket connection to the gesture server, handle
  the available events as they are received from the server and carry out
  the UI commands in Javascript.
@@ -169,13 +165,9 @@ http://java-websocket.org/
 \end_inset
 
 ) and operates stand-alone.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
-\begin_inset Newline newline
-\end_inset
-
+\begin_layout Standard
 The gesture server has been developed for Asus Xtion Pro.
 \begin_inset Foot
 status collapsed
@@ -188,24 +180,16 @@ The NiTE hand tracker did not seem to work with the Kinect.
 
  The server is run via Java Service Wrapper, which takes care of restarts
  on crashes, logging and integration into system services.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
-\begin_inset Newline newline
-\end_inset
-
+\begin_layout Standard
 Since the server operates over a WebSocket, it can control multiple browsers
  running anywhere on the network.
  There is also no practical limitation on the number of hands tracked simultaneo
 usly as long as they fit in the field of view of the sensor.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
-\begin_inset Newline newline
-\end_inset
-
+\begin_layout Standard
 The messages sent over the WebSocket are simple strings, like 
 \begin_inset Quotes eld
 \end_inset
@@ -244,6 +228,79 @@ user-exit
  used to stop interaction.
  The server also sends events when hand tracking starts and stops.
  These messages should be handled by the Javascript in the browser.
+\end_layout
+
+\begin_layout Section*
+Gesture recognition
+\end_layout
+
+\begin_layout Standard
+Gesture recognition is implemented in a simple way by tracking movement
+ between frames - not depth frames but hand and user tracker frames from
+ NiTE.
+ A NiTE hand tracker frame is a data container of all currently detected
+ hands (and other information) that the library has recognized from the
+ depth data.
+ Likewise user tracker frames contain all currently tracked users and their
+ skeleton joint positions.
+\end_layout
+
+\begin_layout Standard
+The hand tracker is used to supply coordinates of tracked hands - the user
+ should wave or push with their palm at the sensor to start tracking - and
+ these coordinates are inspected between two consecutive frames.
+ The Gesture class implements keeping track of how many frames a motion
+ has been performed for and it uses a class implementing the Detector interface
+ to determine if the movement was appropriate.
+\end_layout
+
+\begin_layout Standard
+In the simple case of directional gestures, a DirectionDetector compares
+ the motion vector between the hand points of current and the previous hand
+ tracker frame, and determines whether a hand was moving mainly in some
+ of the cardinal directions (left / right / up / down / in / out).
+ When the DirectionDetector has returned 
+\begin_inset Quotes eld
+\end_inset
+
+true
+\begin_inset Quotes erd
+\end_inset
+
+ enough times when a Gesture uses it, the Gesture triggers and notifies
+ its listeners that a directional gesture has been recognized.
+\end_layout
+
+\begin_layout Standard
+In practice this means that for each frame the DirectionDetector tells if
+ the movement was big enough and which direction it was, and when this has
+ happened enough times in a row, the hand has moved towards the direction.
+ The parameters that can be adjusted is initial delay after hand tracking
+ starts and gestures are sent (in milliseconds, to avoid accidental gestures
+ after waving), the minimum distance that a hand needs to move per frame
+ (in millimeters) to be considered moving, and the amount of frames the
+ movement needs to continue to the same general direction.
+\end_layout
+
+\begin_layout Standard
+The intermediate tracking object, NiTETracker keeps track of both hand and
+ user trackers and can be queried for any tracking information.
+ It also handles USB disconnects and waits for the sensor to be plugged
+ back in again.
+ The skeleton joints could be used with the gesture detection similarly
+ to hand coordinates, but as of now it is unimplemented due to the hand
+ tracker being more suitable for this application.
+\end_layout
+
+\begin_layout Standard
+After creating a NiTETracker object, you can add a HandsListener, BonesListener
+ or TrackingListener to it to receive hand tracker frames, user tracker
+ frames or notifications of start/stop of hand tracking, respectively.
+ To look for directional gestures from the hand tracker, one would create
+ a Gesture, giving it a DirectionDetector in the constructor along with
+ the parameters, then attach the Gesture to NiTETracker's hand listeners.
+ Then a class implementing GestureListener can be added to the gesture's
+ listeners and receive direction events as they're recognized.
 \end_layout
 
 \begin_layout Section*

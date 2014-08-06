@@ -13,3 +13,8 @@ server/Screenful-GestureServer/NiTE2/s.dat
 /server/Screenful-GestureServer/dist/*
 !/server/Screenful-GestureServer/dist/Screenful-GestureServer.jar
 !/server/Screenful-GestureServer/dist/lib
+
+server/wrapper/bin/gestureserver.java.status
+server/wrapper/bin/gestureserver.pid
+server/wrapper/bin/gestureserver.status
+
