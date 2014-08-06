@@ -180,6 +180,15 @@ The NiTE hand tracker did not seem to work with the Kinect.
 
  The server is run via Java Service Wrapper, which takes care of restarts
  on crashes, logging and integration into system services.
+ Configuration of parameters and library paths is done via 
+\family typewriter
+server.conf
+\family default
+ and 
+\family typewriter
+libpaths.conf
+\family default
+.
 \end_layout
 
 \begin_layout Standard
