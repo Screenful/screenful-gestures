@@ -210,13 +210,17 @@ public class NiTETracker implements
      * Wait until a device is connected. Check every second.
      */
     private void waitForDevice() {
+        boolean printedOnce = false;
         while (OpenNI.enumerateDevices().size() < 1) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(NiTETracker.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("No devices found, waiting...");
+            if (!printedOnce) {
+                System.out.println("No devices found, waiting...");
+                printedOnce = true;
+            }
         }
         deviceConnected = true;
     }

@@ -8,7 +8,7 @@
     - see [tools/kinect-ubuntu-install](https://github.com/Screenful/screenful-gestures/tree/master/tools/kinect-ubuntu-install)
 - Copy NiTE2 data files (`h.dat`, `s.dat` etc.) into `server/Screenful-GestureServer/NiTE2/`
 - Edit or verify `server.conf`
-- Edit `wrapper/conf/wrapper.conf` (line 78) to fill in your library path to `wrapper.java.library.path.2=....`
+- Edit `libpaths.conf` to optionally fill in (or comment out) the path to OpenNI/NiTE libraries
 - Run `./run.sh`
     - If OpenNI and NiTE libraries have been installed system-wide, you may not need to define the extra library path and can comment it out
     - This will start the server in console, to start it as a daemon, use `wrapper/bin/gestureserver start`
