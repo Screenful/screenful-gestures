@@ -18,8 +18,8 @@ Implemented using OpenNI 2.2 and NiTE 2.2 for 64-bit Linux.
     - [Browser with WebSocket support](http://caniuse.com/websockets)
     - [Page with javascript](https://github.com/Screenful/screenful-gestures/blob/master/server/Screenful-GestureServer/html/screenful-ui-test.html#L93-L116) to handle UI effects of gesture messages
 - **Server side:**
-    - [run-server.sh](https://github.com/Screenful/screenful-gestures/blob/master/server/run-server.sh)
-        - crude script to run and restart the GestureServer indefinitely if it dies
+    - [Java Service Wrapper](http://wrapper.tanukisoftware.com)
+        - Used to daemonize the server and handle JVM crashes and other problems that seem to arise with JNI and NiTE
 	- [server.conf](https://github.com/Screenful/screenful-gestures/blob/master/server/server.conf) contains server settings
     - [GestureServer](https://github.com/Screenful/screenful-gestures/blob/master/server/Screenful-GestureServer/src/screenful/server/GestureServer.java#L33-L63)
         - Main server program, listens for WebSocket connections
