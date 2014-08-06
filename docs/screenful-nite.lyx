@@ -69,10 +69,12 @@
 \begin_body
 
 \begin_layout Part*
-Screenful NiTETracker API (August 6th, 2014)
+Screenful gesture library API (August 6th, 2014)
 \end_layout
 
 \begin_layout Standard
+
+\shape italic
 For readability, classes and methods that contribute to the library generally
  use 
 \begin_inset Quotes eld
@@ -133,6 +135,115 @@ Skeleton
  used in NiTE naming scheme.
  Accessors will work as expected, ie.
  NiTETracker.getUserTracker() will return a NiTE UserTracker.
+\end_layout
+
+\begin_layout Section*
+Overview
+\end_layout
+
+\begin_layout Standard
+Screenful gesture library utilizes OpenNI 2.2 and NiTE 2.2 middleware to send
+ user interface commands to a browser running the Screenful dashboard software.
+ This allows users to interact with the screen without external input devices.
+ The gestures are detected by server software running on a computer with
+ a depth sensor connected.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+A browser can initiate a WebSocket connection to the gesture server, handle
+ the available events as they are received from the server and carry out
+ the UI commands in Javascript.
+ The server uses Java-WebSocket (
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://java-websocket.org/
+\end_layout
+
+\end_inset
+
+) and operates stand-alone.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The gesture server has been developed for Asus Xtion Pro.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The NiTE hand tracker did not seem to work with the Kinect.
+\end_layout
+
+\end_inset
+
+ The server is run via Java Service Wrapper, which takes care of restarts
+ on crashes, logging and integration into system services.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Since the server operates over a WebSocket, it can control multiple browsers
+ running anywhere on the network.
+ There is also no practical limitation on the number of hands tracked simultaneo
+usly as long as they fit in the field of view of the sensor.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The messages sent over the WebSocket are simple strings, like 
+\begin_inset Quotes eld
+\end_inset
+
+left
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+right
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+out
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+user-exit
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The server program is accompanied with a configuration file that allows
+ setting which directional gestures are recognized and sent and which are
+ used to stop interaction.
+ The server also sends events when hand tracking starts and stops.
+ These messages should be handled by the Javascript in the browser.
 \end_layout
 
 \begin_layout Section*
