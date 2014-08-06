@@ -69,7 +69,7 @@
 \begin_body
 
 \begin_layout Part*
-Screenful NiTETracker API (August 5th, 2014)
+Screenful NiTETracker API (August 6th, 2014)
 \end_layout
 
 \begin_layout Standard
@@ -339,6 +339,40 @@ onNewHandFrame(HandTrackerFrameRef frame)
 \begin_layout Itemize
 
 \series bold
+TrackingListener (Interface)
+\series default
+: Listener interface to receive hand tracking start/stop events.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+onHandTrackingStarted()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Called when hand tracking starts.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+onHandTrackingStopped()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Called when hand tracking stops (there are no more tracked hands).
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
 \color black
 NiTETracker
 \series default
@@ -351,24 +385,64 @@ NiTETracker
 \begin_layout Itemize
 
 \series bold
-addBonesListener(BonesListener listener)
+NiTETracker(boolean enableHands, boolean enableBones)
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Add a listener for user tracking
+Constructor, true will enable hand and/or user tracker and false will disable
+ them.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-addHandsListener(HandsListener listener)
+addBonesListener(BonesListener listener) / removeBonesListener(BonesListener
+ listener)
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Add a listener for hand tracking
+Add/remove a listener for user tracking
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+addHandsListener(HandsListener listener) / removeHandsListener(HandsListener
+ listener)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Add/remove a listener for hand tracking
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+addTrackingListener(TrackingListener listener) / removeTrackingListener(Tracking
+Listener listener)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Add/remove a listener for hand tracker start/stop events.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+removeAllListeners()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Clears all listener lists.
 \end_layout
 
 \end_deeper

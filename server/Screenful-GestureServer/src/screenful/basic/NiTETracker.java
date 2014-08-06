@@ -42,6 +42,7 @@ public class NiTETracker implements
 
     private ArrayList<HandsListener> handsListeners;
     private ArrayList<BonesListener> bonesListeners;
+    private ArrayList<TrackingListener> trackingListeners;
 
     HandTracker handTracker;
     UserTracker userTracker;
@@ -53,8 +54,9 @@ public class NiTETracker implements
     boolean deviceConnected;
     private long lastHandTrackingStartTime;
 
-    private boolean handTrackingEnabled;
-    private boolean userTrackingEnabled;
+    private final boolean handTrackingEnabled;
+    private final boolean userTrackingEnabled;
+    private boolean handsTracked;
 
     /**
      * Return hand tracker for reading hand positions and gestures
@@ -102,6 +104,24 @@ public class NiTETracker implements
     }
 
     /**
+     * Add a listener for hand tracker start/stop events
+     *
+     * @param listener TrackingListener to add
+     */
+    public synchronized void addTrackerListener(TrackingListener listener) {
+        trackingListeners.add(listener);
+    }
+
+    /**
+     * Remove a tracking listener
+     *
+     * @param listener TrackingListener to remove
+     */
+    public synchronized void removeTrackingListener(TrackingListener listener) {
+        trackingListeners.remove(listener);
+    }
+
+    /**
      * Add a listener for new hand frames
      *
      * @param listener HandsListener to add
@@ -143,6 +163,27 @@ public class NiTETracker implements
     public synchronized void removeAllListeners() {
         handsListeners.clear();
         bonesListeners.clear();
+        trackingListeners.clear();
+    }
+
+    /**
+     * Notify listeners that hand tracking has started.
+     */
+    private void notifyTrackingStarted() {
+        for (Iterator<TrackingListener> it = trackingListeners.iterator(); it.hasNext();) {
+            TrackingListener next = it.next();
+            next.onHandTrackingStarted();
+        }
+    }
+
+    /**
+     * Notify listeners that hand tracking has stopped.
+     */
+    private void notifyTrackingStopped() {
+        for (Iterator<TrackingListener> it = trackingListeners.iterator(); it.hasNext();) {
+            TrackingListener next = it.next();
+            next.onHandTrackingStopped();
+        }
     }
 
     /**
@@ -186,6 +227,7 @@ public class NiTETracker implements
     private void initialize() {
         handsListeners = new ArrayList<>();
         bonesListeners = new ArrayList<>();
+        trackingListeners = new ArrayList<>();
 
         OpenNI.initialize();
         System.out.println("OPENNI INIT");
@@ -236,6 +278,7 @@ public class NiTETracker implements
      */
     public NiTETracker(boolean enableHands, boolean enableBones) {
         deviceConnected = false;
+        handsTracked = false;
         handTrackingEnabled = enableHands;
         userTrackingEnabled = enableBones;
         lastHandTrackingStartTime = 0;
@@ -319,6 +362,11 @@ public class NiTETracker implements
      */
     @Override
     public void onNewFrame(HandTracker ht) {
+        /**
+         * Skip checking for lost hands this frame if tracking is started for a
+         * new hand, otherwise stop event is sent immediately after start.
+         */
+        boolean skip = false;
         if (deviceConnected) {
             if (lastHandFrame != null) {
                 lastHandFrame.release();
@@ -328,7 +376,11 @@ public class NiTETracker implements
             lastHandFrame = ht.readFrame();
 
             if (lastHandFrame.getGestures().size() > 0) {
-                System.out.println("Gestures: " + lastHandFrame.getGestures().size());
+                System.out.print("Detected hand gestures:");
+                for (GestureData gesture : lastHandFrame.getGestures()) {
+                    System.out.print(" " + gesture.getType().name());
+                }
+                System.out.println("");
             }
             // check if any gesture detected
             for (GestureData gesture : lastHandFrame.getGestures()) {
@@ -337,7 +389,18 @@ public class NiTETracker implements
                     System.out.println("Starting hand tracking");
                     handTracker.startHandTracking(gesture.getCurrentPosition());
                     lastHandTrackingStartTime = System.currentTimeMillis();
+                    notifyTrackingStarted();
+                    handsTracked = true;
+                    skip = true;
                 }
+            }
+            /**
+             * If no hands were just found and hands were tracking but none of
+             * them are now, notify tracking has stopped.
+             */
+            if (!skip && handsTracked && getTrackedHands().size() < 1) {
+                notifyTrackingStopped();
+                handsTracked = false;
             }
             notifyHandsListeners();
         }
