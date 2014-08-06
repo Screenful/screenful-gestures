@@ -53,6 +53,9 @@ public class NiTETracker implements
     boolean deviceConnected;
     private long lastHandTrackingStartTime;
 
+    private boolean handTrackingEnabled;
+    private boolean userTrackingEnabled;
+
     /**
      * Return hand tracker for reading hand positions and gestures
      *
@@ -204,23 +207,26 @@ public class NiTETracker implements
      * Create hand and user trackers.
      */
     private void createTrackers() {
-        try {
-            userTracker = UserTracker.create();
-            userTracker.addNewFrameListener(this);
-        } catch (RuntimeException e) {
-            System.out.println("CREATING USER TRACKER FAILED");
+        if (userTrackingEnabled) {
+            try {
+                userTracker = UserTracker.create();
+                userTracker.addNewFrameListener(this);
+            } catch (RuntimeException e) {
+                System.out.println("CREATING USER TRACKER FAILED");
+            }
         }
 
-        try {
-            handTracker = HandTracker.create();
-            handTracker.addNewFrameListener(this);
+        if (handTrackingEnabled) {
+            try {
+                handTracker = HandTracker.create();
+                handTracker.addNewFrameListener(this);
 
-            handTracker.startGestureDetection(GestureType.CLICK);
-            handTracker.startGestureDetection(GestureType.WAVE);
-        } catch (RuntimeException e) {
-            System.out.println("CREATING HAND TRACKER FAILED");
+                handTracker.startGestureDetection(GestureType.CLICK);
+                handTracker.startGestureDetection(GestureType.WAVE);
+            } catch (RuntimeException e) {
+                System.out.println("CREATING HAND TRACKER FAILED");
+            }
         }
-
     }
 
     /**
@@ -228,8 +234,10 @@ public class NiTETracker implements
      * to their listeners and configure hand tracker to look for click and wave
      * gestures to initiate hand tracking.
      */
-    public NiTETracker() {
+    public NiTETracker(boolean enableHands, boolean enableBones) {
         deviceConnected = false;
+        handTrackingEnabled = enableHands;
+        userTrackingEnabled = enableBones;
         lastHandTrackingStartTime = 0;
         initialize();
         OpenNI.addDeviceDisconnectedListener(this);

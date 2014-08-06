@@ -135,8 +135,8 @@ public class GestureServer extends WebSocketServer {
         System.out.println("Starting WebSocket server " + address + ":" + port + " ...");
         System.out.println("Settings: " + settings.prop);
 
-        // create tracker
-        NiTETracker tracker = new NiTETracker();
+        // create tracker, enable hand tracking but disable user tracking
+        NiTETracker tracker = new NiTETracker(true, false);
         // create visualization (for testing)
         //HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
         // create the server

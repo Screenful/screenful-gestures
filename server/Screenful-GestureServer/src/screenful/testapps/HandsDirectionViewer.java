@@ -13,7 +13,7 @@ public class HandsDirectionViewer {
 
     public static void main(String[] args) {
         // create the tracker
-        NiTETracker tracker = new NiTETracker();
+        NiTETracker tracker = new NiTETracker(true, false);
 
         // create a gesture 
         Gesture directions = new Gesture(new DirectionDetector(5), 10, 50);

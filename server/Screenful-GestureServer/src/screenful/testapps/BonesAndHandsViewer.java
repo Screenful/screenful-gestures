@@ -12,7 +12,7 @@ public class BonesAndHandsViewer {
 
     public static void main(String[] args) {
         // Create a tracker (starts automatically)
-        NiTETracker tracker = new NiTETracker();
+        NiTETracker tracker = new NiTETracker(true, true);
         // Add visualizations
         BonesVisualization bones = new BonesVisualization(tracker, "Skeleton tracker window");
         HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
