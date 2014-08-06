@@ -12,7 +12,6 @@ import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
 import screenful.gestures.detectors.DirectionDetector;
 import screenful.gestures.detectors.Displacement;
-import screenful.gui.visualization.HandsVisualization;
 
 /**
  * Simple WebSocket server for interfacing with the browser UI.
@@ -30,9 +29,9 @@ public class GestureServer extends WebSocketServer {
     static class Messenger implements GestureListener, TrackingListener {
 
         private void send(String command) {
+            System.out.println("Sending command '" + command + "' to " + conns.size() + " clients.");
             for (WebSocket sock : conns) {
                 sock.send(command);
-                System.out.println("Sending command: " + command);
             }
         }
 
