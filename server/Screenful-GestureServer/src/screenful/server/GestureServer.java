@@ -50,6 +50,7 @@ public class GestureServer extends WebSocketServer {
                 if (settings.exitDirections.contains(gesture.getDirection())) {
                     tracker.forgetHands();
                     System.out.println("User stopped interaction.");
+                    dir = "exit";
                 } else {
                     if (settings.enabledDirections.contains(gesture.getDirection())) {
                         dir = gesture.getDirection().toString().toLowerCase();
