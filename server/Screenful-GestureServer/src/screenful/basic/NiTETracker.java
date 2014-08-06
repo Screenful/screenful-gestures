@@ -334,9 +334,11 @@ public class NiTETracker implements
      */
     public List<HandData> getTrackedHands() {
         ArrayList<HandData> trackedHands = new ArrayList<>();
-        for (HandData hand : lastHandFrame.getHands()) {
-            if (hand.isTracking()) {
-                trackedHands.add(hand);
+        if (lastHandFrame != null) {
+            for (HandData hand : lastHandFrame.getHands()) {
+                if (hand.isTracking()) {
+                    trackedHands.add(hand);
+                }
             }
         }
         return trackedHands;
@@ -396,9 +398,16 @@ public class NiTETracker implements
             }
             /**
              * If no hands were just found and hands were tracking but none of
-             * them are now, notify tracking has stopped.
+             * them are now, notify tracking has stopped. Doesn't work
+             * perfectly.
              */
-            if (!skip && handsTracked && getTrackedHands().size() < 1) {
+            int numhands = getTrackedHands().size();
+            if (numhands > 0 && handsTracked == false) {
+                notifyTrackingStarted();
+                handsTracked = true;
+            }
+
+            if (!skip && handsTracked && numhands < 1) {
                 notifyTrackingStopped();
                 handsTracked = false;
             }

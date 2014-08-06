@@ -8,17 +8,18 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import screenful.basic.NiTETracker;
 import screenful.basic.TrackingListener;
-import screenful.gestures.detectors.DirectionDetector;
-import screenful.gestures.detectors.Displacement;
 import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
+import screenful.gestures.detectors.DirectionDetector;
+import screenful.gestures.detectors.Displacement;
+import screenful.gui.visualization.HandsVisualization;
 
 /**
  * Simple WebSocket server for interfacing with the browser UI.
  *
  */
 public class GestureServer extends WebSocketServer {
-    
+
     private static Set<WebSocket> conns;
     static Settings settings;
 
@@ -27,28 +28,28 @@ public class GestureServer extends WebSocketServer {
      * detected.
      */
     static class Messenger implements GestureListener, TrackingListener {
-        
+
         private void send(String command) {
             for (WebSocket sock : conns) {
                 sock.send(command);
                 System.out.println("Sending command: " + command);
             }
         }
-        
+
         @Override
         public void onHandTrackingStarted() {
             send("hands-start");
         }
-        
+
         @Override
         public void onHandTrackingStopped() {
             send("hands-stop");
         }
-        
+
         boolean run;
         NiTETracker tracker;
         int startdelay;
-        
+
         Messenger(NiTETracker tracker, int startdelay) {
             this.tracker = tracker;
             this.startdelay = startdelay;
@@ -147,7 +148,7 @@ public class GestureServer extends WebSocketServer {
         int traveldistance = Integer.parseInt(settings.prop.getProperty("traveldistance"));
         int travelframes = Integer.parseInt(settings.prop.getProperty("travelframes"));
         int cooldown = Integer.parseInt(settings.prop.getProperty("cooldown"));
-        
+
         System.out.println("Starting WebSocket server " + address + ":" + port + " ...");
         System.out.println("Settings: " + settings.prop);
 
@@ -172,5 +173,5 @@ public class GestureServer extends WebSocketServer {
         // start the server
         server.start();
     }
-    
+
 }
