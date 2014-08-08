@@ -59,6 +59,27 @@ public class NiTETracker implements
     private boolean handsTracked;
 
     /**
+     * Occasionally (a small percentage of the time) the depth stream does not
+     * start properly. This watchdog will simply wait one second and check if
+     * there are depth frames yet, if not, a restart is needed so we exit the
+     * JVM.
+     */
+    class StreamStartWatchdog implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(NiTETracker.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (lastHandFrame == null) {
+                System.exit(1);
+            }
+        }
+    }
+
+    /**
      * Return hand tracker for reading hand positions and gestures
      *
      * @return HandTracker object
@@ -259,6 +280,8 @@ public class NiTETracker implements
                 userTracker.addNewFrameListener(this);
             } catch (RuntimeException e) {
                 System.out.println("CREATING USER TRACKER FAILED");
+                // If creation failed, there is a problem that's unlikely to be fixed without restarting
+                System.exit(1);
             }
         }
 
@@ -271,6 +294,8 @@ public class NiTETracker implements
                 handTracker.startGestureDetection(GestureType.WAVE);
             } catch (RuntimeException e) {
                 System.out.println("CREATING HAND TRACKER FAILED");
+                // If creation failed, there is a problem that's unlikely to be fixed without restarting
+                System.exit(1);
             }
         }
     }
@@ -287,6 +312,7 @@ public class NiTETracker implements
         userTrackingEnabled = enableBones;
         lastHandTrackingStartTime = 0;
         initialize();
+        new Thread(new StreamStartWatchdog()).start();
         OpenNI.addDeviceDisconnectedListener(this);
         OpenNI.addDeviceConnectedListener(this);
     }

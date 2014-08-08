@@ -69,72 +69,11 @@
 \begin_body
 
 \begin_layout Part*
-Screenful gesture library API (August 6th, 2014)
+Screenful gesture library API
 \end_layout
 
-\begin_layout Standard
-
-\shape italic
-For readability, classes and methods that contribute to the library generally
- use 
-\begin_inset Quotes eld
-\end_inset
-
-Hands
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-Bones
-\begin_inset Quotes erd
-\end_inset
-
- in their names when referring to 
-\begin_inset Quotes eld
-\end_inset
-
-hand tracking
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-skeletal tracking
-\begin_inset Quotes erd
-\end_inset
-
- functionality to distinguish them from 
-\begin_inset Quotes eld
-\end_inset
-
-Hand
-\begin_inset Quotes erd
-\end_inset
-
-/
-\begin_inset Quotes erd
-\end_inset
-
-User
-\begin_inset Quotes erd
-\end_inset
-
-/
-\begin_inset Quotes erd
-\end_inset
-
-Skeleton
-\begin_inset Quotes erd
-\end_inset
-
- used in NiTE naming scheme.
- Accessors will work as expected, ie.
- NiTETracker.getUserTracker() will return a NiTE UserTracker.
+\begin_layout Paragraph*
+August 6th, 2014
 \end_layout
 
 \begin_layout Section*
@@ -314,6 +253,71 @@ After creating a NiTETracker object, you can add a HandsListener, BonesListener
 
 \begin_layout Section*
 Public class members:
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+For readability, classes and methods that contribute to the library generally
+ use 
+\begin_inset Quotes eld
+\end_inset
+
+Hands
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Bones
+\begin_inset Quotes erd
+\end_inset
+
+ in their names when referring to 
+\begin_inset Quotes eld
+\end_inset
+
+hand tracking
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+skeletal tracking
+\begin_inset Quotes erd
+\end_inset
+
+ functionality to distinguish them from 
+\begin_inset Quotes eld
+\end_inset
+
+Hand
+\begin_inset Quotes erd
+\end_inset
+
+/
+\begin_inset Quotes erd
+\end_inset
+
+User
+\begin_inset Quotes erd
+\end_inset
+
+/
+\begin_inset Quotes erd
+\end_inset
+
+Skeleton
+\begin_inset Quotes erd
+\end_inset
+
+ used in NiTE naming scheme.
+ Accessors will work as expected, ie.
+ NiTETracker.getUserTracker() will return a NiTE UserTracker.
 \end_layout
 
 \begin_layout Subsection*
