@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gesture cube</title>
+<link rel="stylesheet" type="text/css" href="css/hand.css">
+</head>
+<body>
+<script src="js/three.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/reconnecting-websocket.js"></script>
+<div class="handicon"><img src="images/hand.png"></div>
+
+<script>
+</script>
+<script>
+ 
+  var xrot; 
+  var socket;
+  
+  function startClient() {
+    console.log("opening socket");
+    //on http server use document.domain instead od "localhost"
+    //Start the reconnecting websocket
+    socket = new ReconnectingWebSocket("ws://localhost:8887/");
+    
+    socket.onopen = function() {
+      console.log("Opened socket.");
+    };
+    
+    //When received a message, parse it and either add/remove user or post message.
+    socket.onmessage = function(a) {
+      //process the message here
+      console.log("received message: " + a.data);
+		amount = 240;
+                switch(a.data) {
+			case "hands-start":
+				$(".handicon").fadeTo("fast", 1);
+				break;
+			case "hands-stop":
+				$(".handicon").fadeTo("fast", 0);
+				break;
+                        case "left":
+                                xpos = xpos - amount;
+                                break;
+                        case "right":
+                                xpos = xpos + amount;
+                                break;
+                        case "up":
+                                ypos = ypos + amount;
+                                break;
+                        case "down":
+                                ypos = ypos - amount;
+                                break;
+                        case "in":
+                                zpos = zpos + amount;
+                                break;
+                        case "user-exit":
+				xpos = 0;
+				ypos = 0;
+                                zpos = 0;
+                                break;
+                        default:
+                                break;
+                }
+      
+      
+    }
+    //socket.onclose = function() { document.write("Closed socket."); };
+    //socket.onerror = function() { document.write("Error during transfer."); };
+    
+  }
+  
+  function sendMessage() {
+  }
+
+    var scene, camera, renderer;
+    var geometry, material, mesh;
+
+    init();
+    animate();
+
+    function init() {
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+	xpos = 0;
+	ypos = 0;
+	zpos = 0;
+
+        geometry = new THREE.BoxGeometry( 200, 200, 200 );
+        material = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe: true, wireframeLinewidth: 4 } );
+
+        mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
+
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setClearColor( 0x000000, 1);
+
+        document.body.appendChild( renderer.domElement );
+
+    }
+
+    function animate() {
+
+        requestAnimationFrame( animate );
+
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.01;
+	movecube();
+
+        renderer.render( scene, camera );
+
+    }
+
+    function movecube() {
+	step = 15;
+	// ...
+	if(mesh.position.x < xpos) {
+		mesh.position.x += step;
+	}
+	if(mesh.position.x > xpos) {
+		mesh.position.x -= step;
+	}
+	if(mesh.position.y < ypos) {
+		mesh.position.y += step;
+	}
+	if(mesh.position.y > ypos) {
+		mesh.position.y -= step;
+	}
+	if(mesh.position.z < zpos) {
+		mesh.position.z += step;
+	}
+	if(mesh.position.z > zpos) {
+		mesh.position.z -= step;
+	}
+    }
+	
+
+$(document).ready(function(){ 
+	$(".handicon").fadeTo(0, 0); 
+	startClient(); 
+});
+
+
+</script>
+</body>
+</html>
+

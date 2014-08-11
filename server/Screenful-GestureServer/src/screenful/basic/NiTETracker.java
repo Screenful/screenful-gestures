@@ -61,8 +61,8 @@ public class NiTETracker implements
     /**
      * Occasionally (a small percentage of the time) the depth stream does not
      * start properly. This watchdog will simply wait one second and check if
-     * there are depth frames yet, if not, a restart is needed so we exit the
-     * JVM.
+     * there are hand tracker frames (which should be there if everything went
+     * correctly), if not, a restart is needed so we exit the JVM.
      */
     class StreamStartWatchdog implements Runnable {
 
