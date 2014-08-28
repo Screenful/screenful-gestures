@@ -6,6 +6,8 @@
 \begin_preamble
 \usepackage{graphicx}
 \pagestyle{empty}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
