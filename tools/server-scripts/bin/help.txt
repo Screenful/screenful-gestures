@@ -1,0 +1,10 @@
+- Use Ctrl+Alt+F1...F8 to switch between virtual terminals
+  * Pressing Ctrl+Alt+F1 will switch to the configuration terminal
+  * Pressing Alt+F8 switches back to the Chromium session
+
+- The configuration menu will respawn when it exits
+  * Use virtual terminals F2...F6 to log in (username is 'screenful')
+
+- If you enable SSH, you can login using an SSH client (eg. OpenSSH, PuTTY)
+  * When logged in via SSH, type 'config' to enter the configuration menu
+  * User 'screenful' can use sudo to run commands as root

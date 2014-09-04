@@ -57,6 +57,9 @@
                         case "in":
                                 zpos = zpos + amount;
                                 break;
+			case "out":
+				zpos = zpos - amount;
+				break;
                         case "user-exit":
 				xpos = 0;
 				ypos = 0;
@@ -93,10 +96,19 @@
 	zpos = 0;
 
         geometry = new THREE.BoxGeometry( 200, 200, 200 );
-        material = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe: true, wireframeLinewidth: 4 } );
+        geometry2 = new THREE.BoxGeometry( 220, 220, 220 );
+        geometry3 = new THREE.BoxGeometry( 180, 180, 180 );
+        material = new THREE.MeshBasicMaterial( { color: 0x0044ff, wireframe: true, wireframeLinewidth: 4 } );
+        material2 = new THREE.MeshBasicMaterial( { color: 0x0000dd, wireframe: true, wireframeLinewidth: 4 } );
+        material3 = new THREE.MeshBasicMaterial( { color: 0x0000aa, wireframe: true, wireframeLinewidth: 4 } );
 
         mesh = new THREE.Mesh( geometry, material );
+        mesh2 = new THREE.Mesh( geometry2, material2 );
+        mesh3 = new THREE.Mesh( geometry3, material3 );
         scene.add( mesh );
+       	scene.add( mesh2 );
+        scene.add( mesh3 );
+
 
 
         renderer = new THREE.CanvasRenderer();
@@ -113,6 +125,10 @@
 
         mesh.rotation.x += 0.01;
         mesh.rotation.y += 0.01;
+        mesh2.rotation.x += 0.01;
+        mesh2.rotation.y += 0.01;
+        mesh3.rotation.x += 0.01;
+        mesh3.rotation.y += 0.01;
 	movecube();
 
         renderer.render( scene, camera );
@@ -121,7 +137,8 @@
 
     function movecube() {
 	step = 15;
-	// ...
+	// copy & paste...
+	
 	if(mesh.position.x < xpos) {
 		mesh.position.x += step;
 	}
@@ -139,6 +156,44 @@
 	}
 	if(mesh.position.z > zpos) {
 		mesh.position.z -= step;
+	}
+	
+	if(mesh2.position.x < xpos) {
+		mesh2.position.x += step;
+	}
+	if(mesh2.position.x > xpos) {
+		mesh2.position.x -= step;
+	}
+	if(mesh2.position.y < ypos) {
+		mesh2.position.y += step;
+	}
+	if(mesh2.position.y > ypos) {
+		mesh2.position.y -= step;
+	}
+	if(mesh2.position.z < zpos) {
+		mesh2.position.z += step;
+	}
+	if(mesh2.position.z > zpos) {
+		mesh2.position.z -= step;
+	}
+	
+	if(mesh3.position.x < xpos) {
+		mesh3.position.x += step;
+	}
+	if(mesh3.position.x > xpos) {
+		mesh3.position.x -= step;
+	}
+	if(mesh3.position.y < ypos) {
+		mesh3.position.y += step;
+	}
+	if(mesh3.position.y > ypos) {
+		mesh3.position.y -= step;
+	}
+	if(mesh3.position.z < zpos) {
+		mesh3.position.z += step;
+	}
+	if(mesh3.position.z > zpos) {
+		mesh3.position.z -= step;
 	}
     }
 	

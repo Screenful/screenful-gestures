@@ -1,0 +1,4 @@
+#!/bin/bash
+DELAY="$1"
+shift
+echo "●" "$*" | aosd_cat -R "#2e93cb" -n "Sans Bold 32" -S "Dim Grey" -u "${DELAY}" -p 0 -y 24 -e 2

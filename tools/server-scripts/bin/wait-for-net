@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# See if any network interface (excluding loopback) is up
+network_enabled () {
+	grep "up" <<< $(for if in $(find /sys/class/net ! -regex ".*lo.*" ! -path /sys/class/net); do cat $if/operstate; done)
+}
+
+while ! network_enabled
+	do sleep 1;
+done

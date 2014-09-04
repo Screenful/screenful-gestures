@@ -1,0 +1,187 @@
+#!/bin/bash
+if [[ $(tty) =~ /dev/tty.* ]]
+	then setterm -blank 0 -powersave off -powerdown 0
+fi
+APPCONF="/home/screenful/conf/app-url.conf"
+APPLOG="/home/screenful/screenful-gestures/server/wrapper/logs/wrapper.log"
+SERVERCONF="/home/screenful/screenful-gestures/server/server.conf"
+HELPTEXT="/home/screenful/bin/help.txt"
+
+getip () {
+	ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'
+}
+
+read_setting () {
+	egrep "^$1=" $SERVERCONF | cut -d= -f 2
+}
+
+restart_application () {
+	sudo /usr/sbin/service gestureserver restart
+	pkill chromium	
+}
+
+read_server_settings () {
+	CURADDRESS="$(read_setting address)"
+	CURPORT="$(read_setting port)"
+	CURSTARTDELAY="$(read_setting startdelay)"
+	CURTRAVELDISTANCE="$(read_setting traveldistance)"
+	CURTRAVELFRAMES="$(read_setting travelframes)"
+	CURCOOLDOWN="$(read_setting cooldown)"
+	CUREXITDIRECTIONS="$(read_setting exitdirections)"
+	CURENABLEDDIRECTIONS="$(read_setting enableddirections)"
+	CURSTARTGESTURES="$(read_setting startgestures)"
+	CURCLICKENABLED="off"
+	CURWAVEENABLED="off"
+	shopt -s nocasematch
+	[[ $CURSTARTGESTURES =~ .*click.* ]] && CURCLICKENABLED="on"
+	[[ $CURSTARTGESTURES =~ .*wave.* ]] && CURWAVEENABLED="on"
+}
+
+help_screen () {
+	clear
+	whiptail --textbox "${HELPTEXT}" 18 80 --title Help
+}
+
+ask () {
+	whiptail --title "Press ESC to keep previous value" --inputbox "$1" 8 "${COLUMNS}" "$2" 3>&2 2>&1 1>&3
+}
+
+
+eval $(resize)
+CHOICE=$(whiptail --backtitle "Screenful Gesture Server" --menu "Configuration menu (ESC to exit)" "${LINES}" "${COLUMNS}" "$(( $LINES - 8 ))" \
+	"Help" "Show help screen" \
+	"Return to app" "Switch back to application (on vt8)" \
+	"Show info" "Show uptime, current IP address, listening TCP ports and logs" \
+	"Show processes" "Show process information ('q' or F10 to exit)" \
+	"Network configuration" "Configure wired and wireless network settings" \
+	"Clean private data" "Remove wireless passwords & command history, regenerate SSH keys" \
+	"Gesture Server settings" "Set gesture tracking parameters and server listening address" \
+	"Set application URL" "Set Chromium kiosk app URL" \
+	"Restart application" "Kill Chromium, restart X and gesture server" \
+	"Change password" "Change password of user 'screenful'" \
+	"SSH Server" "Enable or disable SSH server" \
+	"Update packages" "Update operating system packages" \
+	"Halt" "Power down server" \
+	"Reboot" "Reboot server" 3>&2 2>&1 1>&3)
+
+# lowercase and replace spaces with underscores
+OPTION=$(echo ${CHOICE} | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g')
+case "${OPTION}" in
+	help)
+		help_screen
+	;;
+	return_to_app)
+		sudo /bin/chvt 8
+	;;
+	show_info)
+		IP="$(getip)"
+		[ -z "${IP}" ] && IP="<none>"
+		clear
+		echo "$(date +%F)$(uptime -p)"
+		echo -e "-- Current IP address: ${IP}\n"
+		echo -e "-- Listening TCP ports:\n"
+		sudo /bin/netstat -tlpn
+		echo -e "\n-- Disk usage:\n"
+		df -h --output=target,size,used,avail /
+		echo -e "\n-- Last 8 lines of kernel log:\n"
+		dmesg|tail -n 8
+		echo -e "\n-- Last 8 lines of application log:\n"
+		tail -n 8 "${APPLOG}"
+		echo
+		read -p "Press Enter to continue"
+	;;
+	show_processes)
+		htop
+	;;
+	network_configuration)
+		wicd-curses 2>/dev/null
+	;;
+	clean_private_data)
+		if (whiptail --yesno --title 'Are you sure?' "Remove the following files:\n/etc/wicd/wireless-settings.conf\n/etc/wicd/wired-settings.conf\n/var/lib/wicd/configurations/*\n~/.viminfo\n~/.bash_history\n~/.lesshst\n~/.pki\n~/.cache\n~/.xsession-errors ?\n\nSSH server keys will be regenerated." 25 80)
+			then ~/bin/cleanup-cache-and-keys
+			     sudo /bin/rm -fv /etc/ssh/ssh_host_*
+			     sudo /usr/sbin/dpkg-reconfigure openssh-server
+			     read -p "Press Enter to continue"
+		fi
+	;;
+	gesture_server_settings)
+	 	read_server_settings
+		GOTIP="$(getip)"
+		if [ "${GOTIP}" ]
+			then if (whiptail --yesno "Use current IP (${GOTIP}) as listening address?" 10 60)
+				then ADDRESS="${GOTIP}"
+				else ADDRESS=$(ask "Enter listening address." "${CURADDRESS}" || echo "${CURADDRESS}")
+			     fi
+		else ADDRESS=$(ask "Enter listening address." "${CURADDRESS}" || echo "${CURADDRESS}")
+		fi
+		PORT=$(ask "Enter listening port." "${CURPORT}" || echo "${CURPORT}")
+		STARTDELAY=$(ask "Enter gesture detection start delay (milliseconds after hand detected)." "${CURSTARTDELAY}" || echo "${CURSTARTDELAY}")
+		TRAVELDISTANCE=$(ask "Enter minimum per-frame hand travel to be accounted for (millimeters)." "${CURTRAVELDISTANCE}" || echo "${CURTRAVELDISTANCE}")
+		TRAVELFRAMES=$(ask "Enter number of positive frames required for a successful gesture." "${CURTRAVELFRAMES}" || echo "${CURTRAVELFRAMES}")
+		COOLDOWN=$(ask "Enter cooldown time between gestures (milliseconds)." "${CURCOOLDOWN}" || echo "${CURCOOLDOWN}")
+		EXITDIRECTIONS=$(ask "Enter comma-separated directions (left/right/up/down/in/out) to be used to send 'exit' event. Use 'none' if you don't want to bind exit event to any direction." "${CUREXITDIRECTIONS}" || echo "${CUREXITDIRECTIONS}")
+		ENABLEDDIRECTIONS=$(ask "Enter comma-separated directions (left/right/up/down/in/out) to send events for. Use 'none' if you don't want any direction events." "${CURENABLEDDIRECTIONS}" || echo "${CURENABLEDDIRECTIONS}")
+		STARTGESTURES=$(whiptail --checklist "Select gestures to use for starting hand tracking." 10 80 2 "Click" "A pushing motion with the palm towards the sensor" "${CURCLICKENABLED}" "Wave" "Wave the hand to the sensor" "${CURWAVEENABLED}"  3>&2 2>&1 1>&3 || echo "${CURSTARTGESTURES}" | tr '[:upper:]' '[:lower:]' | sed 's/"//g;s/ /,/g')
+		[[ -z "${STARTGESTURES}" ]] && STARTGESTURES="none"
+		STARTGESTURES=$(echo "${STARTGESTURES}" | tr '[:upper:]' '[:lower:]' | sed 's/"//g;s/ /,/g')
+		if (whiptail --defaultno --yesno "Write these settings to the server configuration file and restart the server?\n\nAddress: ${ADDRESS}\nPort: ${PORT}\nStart delay: ${STARTDELAY} ms\nMinimum distance: ${TRAVELDISTANCE} mm\nRequired frames: ${TRAVELFRAMES}\nCooldown time: ${COOLDOWN} ms\nExit directions: ${EXITDIRECTIONS}\nEnabled directions: ${ENABLEDDIRECTIONS}\nStart gestures: ${STARTGESTURES}\n" 22 60)
+			then /home/screenful/bin/generate-server-config "${ADDRESS}" "${PORT}" "${STARTDELAY}" "${TRAVELDISTANCE}" "${TRAVELFRAMES}" "${COOLDOWN}" "${EXITDIRECTIONS}" "${ENABLEDDIRECTIONS}" "${STARTGESTURES}" > "${SERVERCONF}" && echo "Wrote ${SERVERCONF}, restarting server"
+			     sudo /usr/sbin/service gestureserver restart
+			else whiptail --msgbox "Settings not changed" 8 25
+		fi
+	;;
+	set_application_url)
+		CURURL="$(<${APPCONF})"
+		URL=$(ask "Enter application URL" "${CURURL}" || echo "${CURURL}")
+		if [ "${URL}" != "${CURURL}" ]
+			then echo "${URL}" > "${APPCONF}"
+				if (whiptail --yesno "Saved new URL, restart application and switch to it?" 8 42)
+					then restart_application
+					     sudo /bin/chvt 8
+				fi
+			else whiptail --msgbox "No changes made." 8 25
+		fi
+	;;
+	restart_application)
+		restart_application
+	;;
+	change_password)
+		clear
+		passwd
+		sleep 2
+	;;
+	ssh_server)
+		SSHDISABLED=/etc/init/ssh.conf.disabled
+		SSHENABLED=/etc/init/ssh.conf
+		if (whiptail --defaultno --yes-button "Enable" --no-button "Disable" --yesno "Enable SSH server for remote access?\n\nUse address $(getip) to connect (port 22)." 10 55)
+			then if [ -f "${SSHDISABLED}" ]
+				then 	sudo /bin/mv "${SSHDISABLED}" "${SSHENABLED}"
+			     fi
+			     sudo /usr/sbin/service ssh start
+			else if [ -f "${SSHENABLED}" ]
+				then sudo /bin/mv "${SSHENABLED}" "${SSHDISABLED}"
+			     fi
+			     sudo /usr/sbin/service ssh stop
+			     sudo /usr/bin/pkill sshd
+		fi
+	;;
+	reboot)
+		echo "Rebooting..."
+		sudo /sbin/reboot
+	;;
+	update_packages)
+		sudo /usr/bin/apt-get -y update
+		sudo /usr/bin/apt-get -y upgrade
+		sudo /usr/bin/apt-get clean
+		read -p "Press Enter to continue."
+	;;
+	halt)
+		echo "Shutting down..."
+		sudo /sbin/shutdown -P now
+	;;
+	*)
+		echo "Doing nothing..."
+		exit 1
+	;;
+esac
+

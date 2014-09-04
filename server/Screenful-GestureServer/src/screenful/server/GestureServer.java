@@ -10,6 +10,7 @@ import screenful.basic.NiTETracker;
 import screenful.basic.TrackingListener;
 import screenful.gestures.Gesture;
 import screenful.gestures.GestureListener;
+import screenful.gestures.Utilities.CardinalDirection;
 import screenful.gestures.detectors.DirectionDetector;
 import screenful.gestures.detectors.Displacement;
 
@@ -20,7 +21,7 @@ import screenful.gestures.detectors.Displacement;
 public class GestureServer extends WebSocketServer {
 
     private static Set<WebSocket> conns;
-    static Settings settings;
+    static ServerSettings settings;
 
     /**
      * Messenger handles sending messages to the browser when gestures are
@@ -66,13 +67,17 @@ public class GestureServer extends WebSocketServer {
             if (System.currentTimeMillis()
                     > tracker.getLastHandTrackingStartTime() + startdelay) {
                 String dir = "stable";
-                if (settings.exitDirections.contains(gesture.getDirection())) {
-                    tracker.forgetHands();
-                    System.out.println("User stopped interaction.");
-                    dir = "user-exit";
-                } else {
-                    if (settings.enabledDirections.contains(gesture.getDirection())) {
-                        dir = gesture.getDirection().toString().toLowerCase();
+                HashSet<CardinalDirection> exits = settings.gesturesettings.exitDirections;
+                HashSet<CardinalDirection> enabled = settings.gesturesettings.enabledDirections;
+                if (!settings.gesturesettings.exitDirections.equals("none")) {
+                    if (settings.gesturesettings.exitDirections.contains(gesture.getDirection())) {
+                        tracker.forgetHands();
+                        System.out.println("User stopped interaction.");
+                        dir = "user-exit";
+                    } else {
+                        if (settings.gesturesettings.enabledDirections.contains(gesture.getDirection())) {
+                            dir = gesture.getDirection().toString().toLowerCase();
+                        }
                     }
                 }
                 if (!dir.equals("stable")) {
@@ -133,9 +138,9 @@ public class GestureServer extends WebSocketServer {
      */
     public static void main(String[] args) {
         if (args.length > 0) {
-            settings = new Settings(args[0]);
+            settings = new ServerSettings(args[0]);
         } else {
-            settings = new Settings();
+            settings = new ServerSettings();
             // create a default.conf as a starting point
             settings.save();
         }
@@ -151,8 +156,9 @@ public class GestureServer extends WebSocketServer {
         System.out.println("Starting WebSocket server " + address + ":" + port + " ...");
         System.out.println("Settings: " + settings.prop);
 
-        // create tracker, enable hand tracking but disable user tracking
-        NiTETracker tracker = new NiTETracker(true, false);
+        // disable skeleton tracking
+        settings.trackersettings.skeletonTrackerEnabled = false;
+        NiTETracker tracker = new NiTETracker(settings.trackersettings);
         // create visualization (for testing)
         //HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");
         // create the server

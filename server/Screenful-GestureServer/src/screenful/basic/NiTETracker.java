@@ -40,6 +40,8 @@ public class NiTETracker implements
         OpenNI.DeviceDisconnectedListener,
         OpenNI.DeviceConnectedListener {
 
+    private TrackerSettings trackersettings;
+
     private ArrayList<HandsListener> handsListeners;
     private ArrayList<BonesListener> bonesListeners;
     private ArrayList<TrackingListener> trackingListeners;
@@ -57,6 +59,24 @@ public class NiTETracker implements
     private final boolean handTrackingEnabled;
     private final boolean userTrackingEnabled;
     private boolean handsTracked;
+
+    /**
+     * Initialize OpenNI and NiTE, create user and hand trackers. A watchdog
+     * makes sure the depth stream actually starts or the program exits (to be
+     * respawned again).
+     */
+    public NiTETracker(TrackerSettings settings) {
+        this.trackersettings = settings;
+        this.deviceConnected = false;
+        this.handsTracked = false;
+        this.handTrackingEnabled = settings.handTrackerEnabled;
+        this.userTrackingEnabled = settings.skeletonTrackerEnabled;
+        this.lastHandTrackingStartTime = 0;
+        initialize();
+        new Thread(new StreamStartWatchdog()).start();
+        OpenNI.addDeviceDisconnectedListener(this);
+        OpenNI.addDeviceConnectedListener(this);
+    }
 
     /**
      * Occasionally (a small percentage of the time) the depth stream does not
@@ -289,32 +309,15 @@ public class NiTETracker implements
             try {
                 handTracker = HandTracker.create();
                 handTracker.addNewFrameListener(this);
-
-                handTracker.startGestureDetection(GestureType.CLICK);
-                handTracker.startGestureDetection(GestureType.WAVE);
+                for (GestureType g : trackersettings.startGestures) {
+                    handTracker.startGestureDetection(g);
+                }
             } catch (RuntimeException e) {
                 System.out.println("CREATING HAND TRACKER FAILED");
                 // If creation failed, there is a problem that's unlikely to be fixed without restarting
                 System.exit(1);
             }
         }
-    }
-
-    /**
-     * Initialize OpenNI and NiTE, create user and hand trackers, add NuiTracker
-     * to their listeners and configure hand tracker to look for click and wave
-     * gestures to initiate hand tracking.
-     */
-    public NiTETracker(boolean enableHands, boolean enableBones) {
-        deviceConnected = false;
-        handsTracked = false;
-        handTrackingEnabled = enableHands;
-        userTrackingEnabled = enableBones;
-        lastHandTrackingStartTime = 0;
-        initialize();
-        new Thread(new StreamStartWatchdog()).start();
-        OpenNI.addDeviceDisconnectedListener(this);
-        OpenNI.addDeviceConnectedListener(this);
     }
 
     /**

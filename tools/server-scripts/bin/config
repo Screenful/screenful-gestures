@@ -1,0 +1,4 @@
+#!/bin/bash
+while /home/screenful/bin/configmenu
+	do true # nothing
+done

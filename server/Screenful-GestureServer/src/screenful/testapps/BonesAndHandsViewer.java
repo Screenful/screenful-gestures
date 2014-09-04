@@ -1,6 +1,7 @@
 package screenful.testapps;
 
 import screenful.basic.NiTETracker;
+import screenful.basic.TrackerSettings;
 import screenful.gui.visualization.HandsVisualization;
 import screenful.gui.visualization.BonesVisualization;
 
@@ -12,7 +13,7 @@ public class BonesAndHandsViewer {
 
     public static void main(String[] args) {
         // Create a tracker (starts automatically)
-        NiTETracker tracker = new NiTETracker(true, true);
+        NiTETracker tracker = new NiTETracker(new TrackerSettings());
         // Add visualizations
         BonesVisualization bones = new BonesVisualization(tracker, "Skeleton tracker window");
         HandsVisualization hands = new HandsVisualization(tracker, "Hand tracker window");

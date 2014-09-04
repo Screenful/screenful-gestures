@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# remove saved network profiles and passwords
+sudo rm -fv /etc/wicd/wireless-settings.conf /etc/wicd/wired-settings.conf /var/lib/wicd/configurations/*
+
+# remove command history and other junk files
+rm -rfv ~/.viminfo ~/.bash_history ~/.lesshst ~/.pki ~/.cache ~/.xsession-errors

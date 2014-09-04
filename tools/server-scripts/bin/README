@@ -1,0 +1,4 @@
+These scripts implement the configuration menu and things relevant to UI such
+as OSD messages and waiting for the network connection.
+
+The X init script ~/.xsession contains the rest.

@@ -1,6 +1,7 @@
 package screenful.testapps;
 
 import screenful.basic.NiTETracker;
+import screenful.basic.TrackerSettings;
 import screenful.gestures.detectors.DirectionDetector;
 import screenful.gestures.Gesture;
 import screenful.gui.visualization.DirectionVisualization;
@@ -13,7 +14,7 @@ public class HandsDirectionViewer {
 
     public static void main(String[] args) {
         // create the tracker
-        NiTETracker tracker = new NiTETracker(true, false);
+        NiTETracker tracker = new NiTETracker(new TrackerSettings());
 
         // create a gesture 
         Gesture directions = new Gesture(new DirectionDetector(5), 10, 50);

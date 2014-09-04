@@ -75,7 +75,7 @@ Screenful gesture library API
 \end_layout
 
 \begin_layout Paragraph*
-August 6th, 2014
+September 4th, 2014
 \end_layout
 
 \begin_layout Section*
@@ -88,27 +88,44 @@ Screenful gesture library utilizes OpenNI 2.2 and NiTE 2.2 middleware to send
  This allows users to interact with the screen without external input devices.
  The gestures are detected by server software running on a computer with
  a depth sensor connected.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 A browser can initiate a WebSocket connection to the gesture server, handle
  the available events as they are received from the server and carry out
  the UI commands in Javascript.
- The server uses Java-WebSocket (
-\begin_inset Flex URL
+ The server uses Java-WebSocket
+\begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-
 http://java-websocket.org/
 \end_layout
 
 \end_inset
 
-) and operates stand-alone.
+ decorated with ReconnectingWebSocket
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+https://github.com/joewalnes/reconnecting-websocket
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+ and operates stand-alone without additional web server software.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
 The gesture server has been developed for Asus Xtion Pro.
 \begin_inset Foot
 status collapsed
@@ -130,16 +147,24 @@ server.conf
 libpaths.conf
 \family default
 .
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 Since the server operates over a WebSocket, it can control multiple browsers
  running anywhere on the network.
  There is also no practical limitation on the number of hands tracked simultaneo
 usly as long as they fit in the field of view of the sensor.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 The messages sent over the WebSocket are simple strings, like 
 \begin_inset Quotes eld
 \end_inset
@@ -178,6 +203,370 @@ user-exit
  used to stop interaction.
  The server also sends events when hand tracking starts and stops.
  These messages should be handled by the Javascript in the browser.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+For hand tracking to work optimally, the sensor should face the user at
+ around two meter distance without too much tilt.
+ The user should have the palm of the hand face the sensor during interaction.
+\end_layout
+
+\begin_layout Section*
+WebSocket events
+\end_layout
+
+\begin_layout Standard
+Events are configured in server.conf.
+ The user can set the directions that should be used for sending directional
+ events, the directions that are used for exiting interaction and the gestures
+ (
+\begin_inset Quotes eld
+\end_inset
+
+wave
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+click
+\begin_inset Quotes erd
+\end_inset
+
+) to be used for starting hand tracking.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Event
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+String
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Start hand tracking
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hands-start
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a start gesture is recognized and hand tracking starts
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stop hand tracking
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hands-stop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when hand tracking stops, will also be sent after user-exit
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User exit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+user-exit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent if an 
+\begin_inset Quotes eld
+\end_inset
+
+exit
+\begin_inset Quotes erd
+\end_inset
+
+ motion was recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Left
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+left
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture to the left is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Right
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+right
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture to the right is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Up
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+up
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture upwards is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Down
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+down
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture downwards is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+in
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture towards the sensor is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Out
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+out
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sent when a directional gesture away from the sensor is recognized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Using with Javascript
+\end_layout
+
+\begin_layout Standard
+The file cube.html contains an example implementation for pushing a 3D cube
+ around with gestures.
+ The required steps are connecting to the server WebSocket and defining
+ event handlers that parse the messages into meaningful action.
 \end_layout
 
 \begin_layout Section*
@@ -193,18 +582,26 @@ Gesture recognition is implemented in a simple way by tracking movement
  depth data.
  Likewise user tracker frames contain all currently tracked users and their
  skeleton joint positions.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 The hand tracker is used to supply coordinates of tracked hands - the user
  should wave or push with their palm at the sensor to start tracking - and
  these coordinates are inspected between two consecutive frames.
  The Gesture class implements keeping track of how many frames a motion
  has been performed for and it uses a class implementing the Detector interface
  to determine if the movement was appropriate.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 In the simple case of directional gestures, a DirectionDetector compares
  the motion vector between the hand points of current and the previous hand
  tracker frame, and determines whether a hand was moving mainly in some
@@ -219,9 +616,13 @@ true
 
  enough times when a Gesture uses it, the Gesture triggers and notifies
  its listeners that a directional gesture has been recognized.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 In practice this means that for each frame the DirectionDetector tells if
  the movement was big enough and which direction it was, and when this has
  happened enough times in a row, the hand has moved towards the direction.
@@ -230,9 +631,13 @@ In practice this means that for each frame the DirectionDetector tells if
  after waving), the minimum distance that a hand needs to move per frame
  (in millimeters) to be considered moving, and the amount of frames the
  movement needs to continue to the same general direction.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 The intermediate tracking object, NiTETracker keeps track of both hand and
  user trackers and can be queried for any tracking information.
  It also handles USB disconnects and waits for the sensor to be plugged
@@ -240,9 +645,13 @@ The intermediate tracking object, NiTETracker keeps track of both hand and
  The skeleton joints could be used with the gesture detection similarly
  to hand coordinates, but as of now it is unimplemented due to the hand
  tracker being more suitable for this application.
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
+
+\begin_inset Newline newline
+\end_inset
+
 After creating a NiTETracker object, you can add a HandsListener, BonesListener
  or TrackingListener to it to receive hand tracker frames, user tracker
  frames or notifications of start/stop of hand tracking, respectively.

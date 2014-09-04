@@ -1,3 +1,15 @@
+#!/bin/bash
+[ -z "$9" ] && echo "Usage: $0 <address> <port> <startdelay> <traveldistance> <travelframes> <cooldown> <exitdirections> <enableddirections> <startgestures>" && exit 1
+ADDRESS="$1"
+PORT="$2"
+STARTDELAY="$3"
+TRAVELDISTANCE="$4"
+TRAVELFRAMES="$5"
+COOLDOWN="$6"
+EXITDIRECTIONS="$7"
+ENABLEDDIRECTIONS="$8"
+STARTGESTURES="$9"
+IFS= read -d '' CONFIG <<EOF
 ### Screenful UI Gesture Server configuration file
 ###
 ### Adjust these values to set the server settings and gesture recognition sensitivity.
@@ -7,29 +19,31 @@
 ### cooldown = how long to wait after each gesture before another can be sent
 
 ### WebSocket server port
-port=8887
+port=${PORT}
 
 ### Server bind address
-address=localhost
+address=${ADDRESS}
 
 ### Delay after hand tracking starts to allow for stopping the hand wave before gestures are sent
 ### (milliseconds)
-startdelay=800
+startdelay=${STARTDELAY}
 
 ### Minimum travel distance per frame to be considered in the gesture (millimeters)
-traveldistance=10
+traveldistance=${TRAVELDISTANCE}
 
 ### Amount of frames travelled that triggers the directional gesture
-travelframes=5
+travelframes=${TRAVELFRAMES}
 
 ### Cooldown time for the gesture, ie. milliseconds to wait before another gesture is sent
-cooldown=500
+cooldown=${COOLDOWN}
 
 ### List of exit directions that signal exit of interaction and all hand tracking is stopped
-exitdirections=out
+exitdirections=${EXITDIRECTIONS}
 
 ### A comma separated list of directions that are sent as gestures through the WebSocket
-enableddirections=left,right,up,down,in
+enableddirections=${ENABLEDDIRECTIONS}
 
-### A comma separated list of Gestures that start hand tracking ('wave' and/or 'click')
-startgestures=wave,click
+### A comma separated list of gestures that start hand tracking ("click" and/or "wave" or "none")
+startgestures=${STARTGESTURES}
+EOF
+echo -e "$CONFIG"
