@@ -34,34 +34,41 @@
 - **Install kernel 3.14.1**
     - Needed for Xtion to work with USB 3.0 controller.
         - You may also need to update the Xtion firmware!
-    - ```bash
+
+      ```bash
       wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.14.1-trusty/linux-headers-3.14.1-031401_3.14.1-031401.201404141220_all.deb
       wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.14.1-trusty/linux-headers-3.14.1-031401-generic_3.14.1-031401.201404141220_amd64.deb
       wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.14.1-trusty/linux-image-3.14.1-031401-generic_3.14.1-031401.201404141220_amd64.deb
       sudo dpkg -i linux-headers-3.14.1-*.deb linux-image-3.14.1-*.deb
       ```
+
     - Reboot.
 
 - **Install some needed packages**
     - This assumes server installation.
-    - ```bash
+
+       ```bash
        sudo add-apt-repository ppa:webupd8team/java
        sudo apt-get update
        sudo apt-get install xserver-xorg xinit x11-apps chromium-browser screen elinks unclutter oracle-java8-installer git-core nodm aosd-cat
-      ```
+       ```
+
     - screen, elinks, unclutter, nodm and aosd-cat are not required for the server but in the actual appliance image are utilities for the admin and allow automatic login, hiding the mouse cursor and showing messages in the GUI.
 
 - **Add user to group 'video'**
-    - ```bash 
+
+      ```bash 
       sudo gpasswd -a screenful video
       ```
+
 - **Add udev rules for the sensor**
     - Copy the file ```55-primesense.rules``` to ```/etc/udev/rules.d/``` to allow the 'video' group to access the sensor.
 
 #### Gesture server installation
 
 - **Create a library directory**
-    - ```bash
+
+      ```bash
       mkdir /home/screenful/libs
       sudo echo '/home/screenful/libs' > /etc/ld.so.conf.d/openni2.conf
       ```
@@ -77,6 +84,7 @@
     - Edit ```wrapper.java.library.path.2=/home/screenful/libs``` to point to the library directory above.
 
 - **The resulting library directory should look like this:**
+
     ```
     libs
     ├── libMWClosestPoint.so
