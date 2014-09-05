@@ -1,6 +1,5 @@
 package screenful.server;
 
-import com.primesense.nite.GestureType;
 import java.util.HashSet;
 import screenful.gestures.Utilities.CardinalDirection;
 
@@ -19,20 +18,19 @@ public class GestureSettings {
     public HashSet<CardinalDirection> enabledDirections;
 
     public GestureSettings() {
-        this.exitDirections = new HashSet<CardinalDirection>();
-        this.enabledDirections = new HashSet<CardinalDirection>();
+        this.exitDirections = new HashSet<>();
+        this.enabledDirections = new HashSet<>();
     }
 
-    public GestureSettings(int td, int tf, int cd, int sd,
-            HashSet<CardinalDirection> exitd,
-            HashSet<CardinalDirection> ed,
-            HashSet<GestureType> sg) {
-        this.travelDistance = td;
-        this.travelFrames = tf;
-        this.cooldown = cd;
-        this.startDelay = sd;
-        this.exitDirections = exitd;
-        this.enabledDirections = ed;
+    public GestureSettings(int travelDistance, int travelFrames, int cooldown, int startDelay,
+            HashSet<CardinalDirection> exitDirections,
+            HashSet<CardinalDirection> enabledDirections) {
+        this.travelDistance = travelDistance;
+        this.travelFrames = travelFrames;
+        this.cooldown = cooldown;
+        this.startDelay = startDelay;
+        this.exitDirections = exitDirections;
+        this.enabledDirections = enabledDirections;
     }
 
 }

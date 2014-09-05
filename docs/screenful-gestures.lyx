@@ -71,11 +71,11 @@
 \begin_body
 
 \begin_layout Part*
-Screenful gesture library API
+Screenful gesture library
 \end_layout
 
 \begin_layout Paragraph*
-September 4th, 2014
+September 5th, 2014
 \end_layout
 
 \begin_layout Section*
@@ -83,8 +83,20 @@ Overview
 \end_layout
 
 \begin_layout Standard
-Screenful gesture library utilizes OpenNI 2.2 and NiTE 2.2 middleware to send
- user interface commands to a browser running the Screenful dashboard software.
+Screenful gesture library utilizes 
+\family typewriter
+\series bold
+OpenNI 2.2
+\family default
+\series default
+ and 
+\family typewriter
+\series bold
+NiTE 2.2
+\family default
+\series default
+ middleware to send user interface commands to a browser running the Screenful
+ dashboard software.
  This allows users to interact with the screen without external input devices.
  The gestures are detected by server software running on a computer with
  a depth sensor connected.
@@ -95,10 +107,19 @@ Screenful gesture library utilizes OpenNI 2.2 and NiTE 2.2 middleware to send
 \begin_inset Newline newline
 \end_inset
 
-A browser can initiate a WebSocket connection to the gesture server, handle
- the available events as they are received from the server and carry out
- the UI commands in Javascript.
- The server uses Java-WebSocket
+A browser can initiate a WebSocket
+\series bold
+ 
+\series default
+connection to the gesture server, handle the available events as they are
+ received from the server and carry out the UI commands in Javascript.
+ The server uses 
+\family typewriter
+\series bold
+Java-WebSocket
+\family default
+\series default
+
 \begin_inset Foot
 status collapsed
 
@@ -108,7 +129,13 @@ http://java-websocket.org/
 
 \end_inset
 
- decorated with ReconnectingWebSocket
+ decorated with 
+\family typewriter
+\series bold
+ReconnectingWebSocket
+\family default
+\series default
+
 \begin_inset Foot
 status collapsed
 
@@ -126,7 +153,13 @@ https://github.com/joewalnes/reconnecting-websocket
 \begin_inset Newline newline
 \end_inset
 
-The gesture server has been developed for Asus Xtion Pro.
+The gesture server has been developed for 
+\family typewriter
+\series bold
+Asus Xtion Pro
+\family default
+\series default
+
 \begin_inset Foot
 status collapsed
 
@@ -136,16 +169,37 @@ The NiTE hand tracker did not seem to work with the Kinect.
 
 \end_inset
 
- The server is run via Java Service Wrapper, which takes care of restarts
- on crashes, logging and integration into system services.
+.
+ The server is run via 
+\family typewriter
+\series bold
+Java Service Wrapper
+\family default
+\series default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+http://wrapper.tanukisoftware.com/doc/english/download.jsp
+\end_layout
+
+\end_inset
+
+, which takes care of restarts on crashes, logging and integration into
+ system services.
  Configuration of parameters and library paths is done via 
 \family typewriter
+\series bold
 server.conf
 \family default
+\series default
  and 
 \family typewriter
+\series bold
 libpaths.conf
 \family default
+\series default
 .
 \begin_inset Newline newline
 \end_inset
@@ -202,7 +256,7 @@ user-exit
  setting which directional gestures are recognized and sent and which are
  used to stop interaction.
  The server also sends events when hand tracking starts and stops.
- These messages should be handled by the Javascript in the browser.
+ These messages should be handled by Javascript code in the browser.
 \begin_inset Newline newline
 \end_inset
 
@@ -210,9 +264,55 @@ user-exit
 \begin_inset Newline newline
 \end_inset
 
-For hand tracking to work optimally, the sensor should face the user at
- around two meter distance without too much tilt.
- The user should have the palm of the hand face the sensor during interaction.
+For hand tracking to work optimally, the sensor should face the user from
+ about two meters away without too much tilt.
+ The user should have the hand upright with the palm facing the sensor and
+ fingers together during interaction.
+\end_layout
+
+\begin_layout Section*
+Server appliance hardware
+\end_layout
+
+\begin_layout Standard
+The complete prototype system consists of:
+\end_layout
+
+\begin_layout Itemize
+Intel NUC DN2820FYKH
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+4 GB of RAM
+\end_layout
+
+\begin_layout Itemize
+60 GB SSD
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Asus Xtion Pro sensor
+\end_layout
+
+\begin_layout Itemize
+A customized, clonable 
+\begin_inset Quotes eld
+\end_inset
+
+kiosk
+\begin_inset Quotes erd
+\end_inset
+
+ type 
+\family typewriter
+\series bold
+Ubuntu Server 14.04 LTS
+\family default
+\series default
+ configuration that starts the Chromium browser with a certain application
+ URL to pass the gestures to.
 \end_layout
 
 \begin_layout Section*
@@ -220,7 +320,13 @@ WebSocket events
 \end_layout
 
 \begin_layout Standard
-Events are configured in server.conf.
+Events are configured in 
+\family typewriter
+\series bold
+server.conf
+\family default
+\series default
+.
  The user can set the directions that should be used for sending directional
  events, the directions that are used for exiting interaction and the gestures
  (
@@ -244,9 +350,66 @@ click
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+The server only sends data and does not respond to messages sent to it.
+ It would be useful if the UI code could change the tracker parameters or
+ request a depth image or other data from the server, but this is unimplemented
+ as of now.
+ To add such support, one should look in 
+\family typewriter
+\series bold
+GestureServer
+\family default
+\series default
+ (which extends 
+\family typewriter
+\series bold
+WebSocketServer
+\family default
+\series default
+) and implement the 
+\family typewriter
+\series bold
+onMessage
+\family default
+\series default
+ method in some appropriate way.
+ The Java-WebSocket chat server examples
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/ChatSe
+rver.java
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+ will help.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="10" columns="3">
 <features tabularvalignment="middle">
@@ -558,15 +721,271 @@ Sent when a directional gesture away from the sensor is recognized
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Using with Javascript
 \end_layout
 
 \begin_layout Standard
-The file cube.html contains an example implementation for pushing a 3D cube
- around with gestures.
+The file 
+\family typewriter
+\series bold
+cube.html
+\family default
+\series default
+ contains an example implementation for pushing a 3D cube around with gestures.
  The required steps are connecting to the server WebSocket and defining
  event handlers that parse the messages into meaningful action.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To create a ReconnectingWebSocket in Javascript:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\series bold
+socket = new ReconnectingWebSocket("ws://localhost:8887/");
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+Typically the gesture server would run on the same host the browser runs
+ on and the UI code creating the socket should point to the localhost address.
+ By default the gesture server binds to the localhost address which means
+ it will not be accessible externally.
+ The listening address can be changed in the server configuration file.
+
+\family typewriter
+ A 
+\series bold
+ReconnectingWebSocket
+\series default
+ 
+\family default
+is used so the client keeps trying to reconnect to the server if a disconnect
+ occurs because of a network problem or the server becoming unreachable
+ otherwise.
+\family typewriter
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+In cases where multiple applications running on different computers wish
+ to access the same sensor data, the server listening address should be
+ set to an IP the clients can contact.
+ In a real-world scenario - using IP addresses instead of hostnames - this
+ might mean that there is a gesture server computer (192.168.1.20) within a
+ (virtual) local area network (subnet 192.168.1.0/24) and several client computers
+ (192.168.1.[1-15]) where the browser application connects to this common gesture
+ server.
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+The applications running on the computers could be different but they will
+ all receive the same events from the server.
+ To create such a scenario, the application webpages should contain the
+ following line:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\series bold
+socket = new ReconnectingWebSocket("ws://192.168.1.20:8887/");
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\series default
+The port number can also be configured in server settings and should be
+ allowed in any firewalls for outbound connections from the clients.
+\end_layout
+
+\begin_layout Subsection*
+Reading events in Javascript
+\end_layout
+
+\begin_layout Standard
+To read gesture events after connecting the WebSocket (
+\family typewriter
+\series bold
+socket
+\family default
+\series default
+) one should define an onmessage function:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\series bold
+socket.onmessage = function(a) { ...
+ }
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\series default
+Simple example:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},language=Java,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+function startClient() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	socket = new ReconnectingWebSocket("ws://localhost:8887/");
+\end_layout
+
+\begin_layout Plain Layout
+
+	socket.onmessage = function(msg) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		switch(msg.data) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			case "hands-start": ...
+ ; break;
+\end_layout
+
+\begin_layout Plain Layout
+
+			case "hands-stop": ...
+ ; break;
+\end_layout
+
+\begin_layout Plain Layout
+
+			case "left": ...
+ ; break;
+\end_layout
+
+\begin_layout Plain Layout
+
+			case "right": ...
+ ; break;
+\end_layout
+
+\begin_layout Plain Layout
+
+			...
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+$(document).ready(function(){
+\end_layout
+
+\begin_layout Plain Layout
+
+	startClient();
+\end_layout
+
+\begin_layout Plain Layout
+
+}); 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -582,6 +1001,8 @@ Gesture recognition is implemented in a simple way by tracking movement
  depth data.
  Likewise user tracker frames contain all currently tracked users and their
  skeleton joint positions.
+ The NiTE library calculates frames in real-time as the depth frames arrive
+ from the sensor.
 \begin_inset Newline newline
 \end_inset
 
@@ -589,24 +1010,115 @@ Gesture recognition is implemented in a simple way by tracking movement
 \begin_inset Newline newline
 \end_inset
 
-The hand tracker is used to supply coordinates of tracked hands - the user
- should wave or push with their palm at the sensor to start tracking - and
- these coordinates are inspected between two consecutive frames.
- The Gesture class implements keeping track of how many frames a motion
- has been performed for and it uses a class implementing the Detector interface
- to determine if the movement was appropriate.
-\begin_inset Newline newline
+The hand tracker is used to supply real world 3D coordinates of tracked
+ hands relative to the sensor in millimeters.
+ The user should wave or push with their palm towards the sensor to start
+ tracking.
+ These are 
+\begin_inset Quotes eld
+\end_inset
+
+start gestures
+\begin_inset Quotes erd
+\end_inset
+
+ and the NiTE library supports two: 
+\begin_inset Quotes eld
 \end_inset
 
 
-\begin_inset Newline newline
+\series bold
+click
+\series default
+
+\begin_inset Quotes erd
 \end_inset
 
-In the simple case of directional gestures, a DirectionDetector compares
- the motion vector between the hand points of current and the previous hand
- tracker frame, and determines whether a hand was moving mainly in some
- of the cardinal directions (left / right / up / down / in / out).
- When the DirectionDetector has returned 
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+
+\series bold
+wave
+\series default
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The coordinates of all tracked hands are inspected between two consecutive
+ frames.
+ The 
+\family typewriter
+\series bold
+Gesture
+\family default
+\series default
+ class implements keeping track of how many frames a motion has been performed
+ for and it uses a class implementing the 
+\family typewriter
+\series bold
+Detector
+\family default
+\series default
+ interface to determine if the movement was appropriate.
+\end_layout
+
+\begin_layout Subsection*
+Detector interface
+\end_layout
+
+\begin_layout Standard
+In the simple case of directional gestures, a 
+\family typewriter
+\series bold
+DirectionDetector
+\family default
+\series default
+ compares the motion vector between the hand points of current and the previous
+ hand tracker frame, and determines whether a hand was moving mainly in
+ some of the cardinal directions (
+\family typewriter
+\series bold
+left
+\family default
+\series default
+ / 
+\family typewriter
+\series bold
+right
+\family default
+\series default
+ / 
+\family typewriter
+\series bold
+up
+\family default
+\series default
+ / 
+\family typewriter
+\series bold
+down
+\family default
+\series default
+ / 
+\family typewriter
+\series bold
+in
+\family default
+\series default
+ / 
+\family typewriter
+\series bold
+out
+\family default
+\series default
+).
+ The DirectionDetector returns a boolean value signifying whether the movement
+ between the current and the last frame meets the criteria of the parameters
+ and is along one of the axes.
+ A Gesture calls the detector to inspect the frames and should 
 \begin_inset Quotes eld
 \end_inset
 
@@ -614,8 +1126,14 @@ true
 \begin_inset Quotes erd
 \end_inset
 
- enough times when a Gesture uses it, the Gesture triggers and notifies
- its listeners that a directional gesture has been recognized.
+ be returned the desired number of times - parameter 
+\family typewriter
+\series bold
+travelframes
+\family default
+\series default
+ - the Gesture triggers and notifies its listeners that a directional gesture
+ has been recognized.
 \begin_inset Newline newline
 \end_inset
 
@@ -624,13 +1142,110 @@ true
 \end_inset
 
 In practice this means that for each frame the DirectionDetector tells if
- the movement was big enough and which direction it was, and when this has
- happened enough times in a row, the hand has moved towards the direction.
- The parameters that can be adjusted is initial delay after hand tracking
- starts and gestures are sent (in milliseconds, to avoid accidental gestures
- after waving), the minimum distance that a hand needs to move per frame
- (in millimeters) to be considered moving, and the amount of frames the
- movement needs to continue to the same general direction.
+ the movement was big enough and along one of the defined directions, and
+ when this has happened enough times in a row, the hand is considered to
+ have performed a directional gesture.
+\end_layout
+
+\begin_layout Subsection*
+Parameters and performance
+\end_layout
+
+\begin_layout Standard
+The parameters that can be adjusted are listed below.
+ The recommended values in parenthesis are suitable for a presentation applicati
+on that detects fairly short motions with some cooldown time between the
+ gestures.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+\series bold
+startdelay (800 ms)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+initial delay after hand tracking starts and gestures events are sent to
+ avoid accidental gestures
+\end_layout
+
+\begin_layout Itemize
+in milliseconds
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+\series bold
+traveldistance (10 mm)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+minimum distance a hand needs to move per frame to be considered moving
+\end_layout
+
+\begin_layout Itemize
+in millimeters
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+\series bold
+travelframes (5)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+number of frames the movement needs to continue to the same cardinal direction
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+\series bold
+cooldown (500 ms)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+the cooldown time after a gesture event is sent until new ones
+\end_layout
+
+\begin_layout Itemize
+in milliseconds
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+NiTE should be able to process depth frames in real-time as they're received,
+ so assuming 30 depth frames per second, setting the 
+\begin_inset Quotes eld
+\end_inset
+
+travel distance
+\begin_inset Quotes erd
+\end_inset
+
+ to 10 millimeters and 
+\begin_inset Quotes eld
+\end_inset
+
+travel frames
+\begin_inset Quotes erd
+\end_inset
+
+ to 15 would mean that a hand should move in the same cardinal direction
+ relative to the camera for at least 150 millimeters within half a second.
+ Should the motion stop at some point or start going in the wrong direction,
+ the Gesture starts counting from zero until the movement meets the criteria
+ again.
 \begin_inset Newline newline
 \end_inset
 
@@ -638,13 +1253,43 @@ In practice this means that for each frame the DirectionDetector tells if
 \begin_inset Newline newline
 \end_inset
 
-The intermediate tracking object, NiTETracker keeps track of both hand and
- user trackers and can be queried for any tracking information.
+The number of 
+\begin_inset Quotes eld
+\end_inset
+
+travel frames
+\begin_inset Quotes erd
+\end_inset
+
+ directly affects the length of the detection period and should be kept
+ fairly low for fast swipes and flicking motions.
+ Using too long a detection period can be straining for the user and look
+ awkward.
+ With very short travel distance and a small number of frames even the minute
+ motions of the hand will trigger the gesture.
+ Using a short cooldown time such as below 50 milliseconds will make the
+ control feel very responsive, which may be useful if the application requires
+ sliders or similar continuous motion.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The intermediate tracking object, 
+\family typewriter
+\series bold
+NiTETracker
+\family default
+\series default
+ keeps track of both hand and user trackers and can be queried for any tracking
+ information.
  It also handles USB disconnects and waits for the sensor to be plugged
  back in again.
  The skeleton joints could be used with the gesture detection similarly
- to hand coordinates, but as of now it is unimplemented due to the hand
- tracker being more suitable for this application.
+ to hand coordinates, but as of now a detector for it is unimplemented due
+ to the hand tracker being more suitable for this application.
 \begin_inset Newline newline
 \end_inset
 
@@ -652,1319 +1297,6974 @@ The intermediate tracking object, NiTETracker keeps track of both hand and
 \begin_inset Newline newline
 \end_inset
 
-After creating a NiTETracker object, you can add a HandsListener, BonesListener
- or TrackingListener to it to receive hand tracker frames, user tracker
- frames or notifications of start/stop of hand tracking, respectively.
+After creating a NiTETracker object, you can add a 
+\family typewriter
+\series bold
+HandsListener
+\family default
+\series default
+, 
+\family typewriter
+\series bold
+BonesListener
+\family default
+\series default
+ or 
+\family typewriter
+\series bold
+TrackingListener
+\family default
+\series default
+ to it to receive hand tracker frames, user tracker frames or notifications
+ of start/stop of hand tracking, respectively.
  To look for directional gestures from the hand tracker, one would create
  a Gesture, giving it a DirectionDetector in the constructor along with
  the parameters, then attach the Gesture to NiTETracker's hand listeners.
- Then a class implementing GestureListener can be added to the gesture's
- listeners and receive direction events as they're recognized.
+ Then a class implementing 
+\family typewriter
+\series bold
+GestureListener
+\family default
+\series default
+ can be added to the gesture's listeners and receive direction events as
+ they're recognized.
 \end_layout
 
 \begin_layout Section*
-Public class members:
+Visualizing
+\end_layout
+
+\begin_layout Standard
+The library allows rendering a NiTETracker's hand and user tracker information
+ in a GUI window.
+ The rendering methods are adapted from NiTE examples.
+ Graphical windows can be spawned to show the depth image overlaid with
+ tracker data.
+ The hand tracker window will show the depth image and draw a blue box centered
+ on any tracked hand.
+ The skeleton tracker window also shows the depth image and draws stick
+ figures of the skeletons it recognizes.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Assuming hand and user tracker is enabled
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+By default the NiTETracker is created with both hand and skeleton tracker
+ enabled, but the 
+\family typewriter
+\series bold
+GestureServer
+\family default
+\series default
+ disables skeleton tracking because it is not used in the application.
+\end_layout
+
+\end_inset
+
+ a GUI window for both can be spawned:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},breaklines=true,language=Java,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+// Create a NiTETracker
+\end_layout
+
+\begin_layout Plain Layout
+
+NiTETracker tracker = new NiTETracker(new TrackerSettings());
+\end_layout
+
+\begin_layout Plain Layout
+
+// Add visualizations
+\end_layout
+
+\begin_layout Plain Layout
+
+BonesVisualization bones = new BonesVisualization(tracker, "Skeletons");
+\end_layout
+
+\begin_layout Plain Layout
+
+HandsVisualization hands = new HandsVisualization(tracker, "Hands");
+\end_layout
+
+\begin_layout Plain Layout
+
+// Show visualizations
+\end_layout
+
+\begin_layout Plain Layout
+
+bones.show();
+\end_layout
+
+\begin_layout Plain Layout
+
+hands.show();
+\end_layout
+
+\begin_layout Plain Layout
+
+// The program will run until both windows
+\end_layout
+
+\begin_layout Plain Layout
+
+// have been closed (with Escape)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This piece of code also works as a 
+\begin_inset Quotes eld
+\end_inset
+
+hello world
+\begin_inset Quotes erd
+\end_inset
+
+ program for the library and is the content of the 
+\family typewriter
+\series bold
+main
+\family default
+\series default
+ method in 
+\family typewriter
+\series bold
+screenful.testapps.BonesAndHandsViewer
+\family default
+\series default
+.
+\end_layout
+
+\begin_layout Section*
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+API for public class methods
+\end_layout
+
+\begin_layout Standard
+For readability, classes and methods that contribute to the library generally
+ use “Hands” and “Bones” in their names when referring to “hand tracking”
+ and “skeletal tracking” functionality to distinguish them from “Hand”/”User”/”S
+keleton” used in NiTE naming scheme.
+ Accessors will work as expected, ie.
+ 
+\family typewriter
+\series bold
+NiTETracker.getUserTracker()
+\family default
+\series default
+ will return a NiTE 
+\family typewriter
+\series bold
+UserTracker.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\series default
+The source code contains more in-depth information about each class.
+ Only methods are included in this listing - container classes such as TrackerSe
+ttings have public fields that can be set to change the settings, but for
+ brevity these are omitted.
+ The settings classes are somewhat convoluted.
+\end_layout
+
+\begin_layout Subsection*
+Package screenful.server
 \end_layout
 
 \begin_layout Standard
 
 \shape italic
-For readability, classes and methods that contribute to the library generally
- use 
-\begin_inset Quotes eld
-\end_inset
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
 
-Hands
-\begin_inset Quotes erd
-\end_inset
+\begin_layout Plain Layout
 
- and 
-\begin_inset Quotes eld
-\end_inset
-
-Bones
-\begin_inset Quotes erd
-\end_inset
-
- in their names when referring to 
-\begin_inset Quotes eld
-\end_inset
-
-hand tracking
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-skeletal tracking
-\begin_inset Quotes erd
-\end_inset
-
- functionality to distinguish them from 
-\begin_inset Quotes eld
-\end_inset
-
-Hand
-\begin_inset Quotes erd
-\end_inset
-
-/
-\begin_inset Quotes erd
-\end_inset
-
-User
-\begin_inset Quotes erd
-\end_inset
-
-/
-\begin_inset Quotes erd
-\end_inset
-
-Skeleton
-\begin_inset Quotes erd
-\end_inset
-
- used in NiTE naming scheme.
- Accessors will work as expected, ie.
- NiTETracker.getUserTracker() will return a NiTE UserTracker.
-\end_layout
-
-\begin_layout Subsection*
-screenful.server - main server program
-\end_layout
-
-\begin_layout Itemize
-
+\family typewriter
 \series bold
+\size large
 GestureServer
+\size default
+ 
 \series default
-: The main application for browser communication.
+extends
+\series bold
+ WebSocketServer
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+The main application for browser communication.
  Implements a WebSocket server for a browser to connect to and passes detected
  gestures to the UI.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-main(String[] args)
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+GestureServer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+String address, int port : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Creates a new gesture server listening on the specified address and port.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+main
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+String[] args : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
 Initializes NiTETracker and gesture detection and starts listening for web
  socket connections.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-onClose(WebSocket conn, int code, String reason, boolean remote)
+onClose
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Actions to be done when a socket closes
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-onError(WebSocket conn, Exception ex)
+WebSocket conn, int code, String reason, boolean remote : void
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions to be done when a socket closes.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onError
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+WebSocket conn, Exception ex : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
 Actions to be done when an error occurs with the WebSocket
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onMessage(WebSocket conn, String message)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Actions to be done when a message is received
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onOpen(WebSocket conn, ClientHandShake handshake)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Actions to be done when a connection is opened
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-GestureServer.Messenger
+\family default
 \series default
-: Inner class of GestureServer sends the command to the browser via WebSockets.
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-onGesture(Displacement gesture)
+onMessage
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+WebSocket conn, String message : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Actions to be done when a message is received
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onOpen
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+WebSocket conn, ClientHandShake handshake : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions to be done when a connection is opened.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+GestureServer.Messenger
+\size default
+ 
+\series default
+implements
+\series bold
+ WebSocketServer
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Inner class of GestureServer sends the command to the browser via WebSockets.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="12cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Messenger
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+NiTETracker tracker, int startdelay : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new Messenger specifying the NiTETracker to use and the time to
+ wait after tracking has started before sending events.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onGesture
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Displacement Gesture : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 When a detected gesture notifies the Messenger, it checks whether the gesture
  is assigned to exiting interaction or providing input and either stops
  hand tracking or sends the appropriate messages over WebSockets.
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Settings
-\series default
-: A settings object for the GestureServer.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Settings()
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Create default settings
-\end_layout
-
-\begin_layout Itemize
-Default filename 
-\begin_inset Quotes eld
 \end_inset
+</cell>
+</row>
+</lyxtabular>
 
-default.conf
-\begin_inset Quotes erd
 \end_inset
 
 
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
 
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Settings(String filename)
+\size large
+GestureSettings
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Load settings from a configuration file
+\begin_layout Plain Layout
+
+\family sans
+Directional gesture detection parameter container.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-save()
+GestureSettings
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Saves the current settings
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : (constructor)
 \end_layout
 
-\end_deeper
-\end_deeper
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Creates empty settings.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+GestureSettings
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+int travelDistance, int travelFrames, int cooldown, int startDelay, HashSet<Card
+inalDirection> exitDirections, HashSet<CardinalDirection> enabledDirections
+ : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create new settings with specified values.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+ServerSettings
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+ServerSettings class for GestureServer.
+ Reads and writes a configuration file and allows accessing the fields via
+ a Properties object.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+ServerSettings
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create default settings.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+ServerSettings
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+String filename : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Load settings from a file.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+save
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save settings into a file.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.basic - reading NiTE data
+Package screenful.basic
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-BonesListener (Interface)
+\size large
+interface BonesListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Any class that wants skeleton data should implement this interface and add
+ itself to NiTETracker's listeners.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewBonesFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserTrackerFrameRef frame : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Override to implement behavior using the user tracker frame data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+interface HandsListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Any class that wants hand data should implement this interface and add itself
+ to NiTETracker's listeners.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewHandsFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandTrackerFrameRef frame : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Override to implement behavior using the hand tracker frame data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+NiTETracker
+\size default
+ 
 \series default
-: Any class that wants skeleton data should implement this interface and
- add itself to NiTETracker's bones listeners.
+implements
+\series bold
+ HandTracker.NewFrameListener, UserTracker.NewFrameListener, OpenNI.DeviceDisconnec
+tedListener, OpenNI.DeviceConnectedListener
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family sans
+Tracker for NUI features.
+ When a NiTETracker is created, it creates instances of 
+\family typewriter
 \series bold
-onNewBonesFrame(UserTrackerFrameRef frame)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-HandsListener (Interface)
+UserTracker
+\family sans
 \series default
-: Any class that wants hand data should implement this interface and add
- itself to NiTETracker's hands listeners.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+ and 
+\family typewriter
 \series bold
-onNewHandFrame(HandTrackerFrameRef frame)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-TrackingListener (Interface)
+HandTracker
+\family sans
 \series default
-: Listener interface to receive hand tracking start/stop events.
+, starts them and adds itself to their listeners to get notified of new
+ data.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="47" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="60col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-onHandTrackingStarted()
+NiTETracker
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Called when hand tracking starts.
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-onHandTrackingStopped()
+TrackerSettings settings : (constructor)
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Initialize OpenNI and NiTE, create user and hand trackers.
+ A watchdog is started to make sure the depth stream actually starts or
+ the program exits (to be respawned again).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+addBonesListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+BonesListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Add a listener for new user frames.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+addHandsListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandsListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Add a listener for new hand frames.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+addTrackerListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+TrackerListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Add a listener for hand tracker start/stop events.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+forgetHand
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+short id : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stop tracking a specific hand ID.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+forgetHands
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stop all hand tracking.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getBones
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : List<UserData>
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return list of detected skeletons.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getBufferedImage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : BufferedImage
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access current depth image frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getHandFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : HandTrackerFrameRef frame
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access current hand tracker frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getHandTracker
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : HandTracker
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return hand tracker for reading hand positions and gestures.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getHands
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : List<HandData>
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return list of detected hands.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getLastHandTrackingStartTime
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : long
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return the last time hand tracking was started.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getTrackedHands
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : List<HandData>
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return a list of all hands that are currently being tracked.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getUserFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : UserTrackerFrameRef
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access current user tracker frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getUserTracker
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : UserTracker
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return user tracker for reading user poses and skeletal data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onDeviceConnected
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+DeviceInfo di : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions to be done when a sensor connects.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onDeviceDisconnected
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+DeviceInfo di : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions to be done when a sensor disconnects.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandTracker ht : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handle hand tracker frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserTracker ut : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handle user tracker frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+removeAllListeners
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Remove all hands, bones and tracking listeners.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+removeBonesListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+BonesListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Remove a bones listener.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+removeHandsListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandsListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Remove a hands listener.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+removeTrackingListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+TrackingListener listener : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Remove a tracking listener.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+TrackerSettings
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Container class for NiTETracker settings.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+TrackerSettings
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create default settings - enable hand and user tracking with empty start
+ gesture list.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+TrackerSettings
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+boolean handEnable, boolean skeletonEnable, HashSet<GestureType> startGestures
+ : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create settings with hand and/or user tracker enabled and a set of start
+ gestures defined (click / wave).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+interface TrackingListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+As NiTE hand tracker lacks its own mechanism of notifying when tracking
+ starts or stops, a class can implement TrackingListener to get the events.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="67col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onHandTrackingStarted
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Called when hand tracking has been started.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onHandTrackingStopped
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 Called when hand tracking stops (there are no more tracked hands).
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
-\series bold
-\color black
-NiTETracker
-\series default
-\color inherit
-: Tracker for NUI features (implements HandListener and SkeletonListener
- from the NiTE library).
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
 
-\series bold
-NiTETracker(boolean enableHands, boolean enableBones)
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Constructor, true will enable hand and/or user tracker and false will disable
- them.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-addBonesListener(BonesListener listener) / removeBonesListener(BonesListener
- listener)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Add/remove a listener for user tracking
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-addHandsListener(HandsListener listener) / removeHandsListener(HandsListener
- listener)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Add/remove a listener for hand tracking
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-addTrackingListener(TrackingListener listener) / removeTrackingListener(Tracking
-Listener listener)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Add/remove a listener for hand tracker start/stop events.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-removeAllListeners()
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Clears all listener lists.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-forgetHand(short id)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Stop tracking a specific tracked hand ID
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-forgetHands()
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Stop tracking all tracked hands
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getBones()
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return currently detected skeletons
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getBufferedImage(): BufferedImage
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return the buffered depth image
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getHandFrame(): HandTrackerFrameRef
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return current hand tracker frame
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getHandTracker(): HandTracker
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return the hand tracker
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-\color black
-getHands(): List<HandData>
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Get hand tracking data
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getTrackedHands(): List<HandData>
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Get a list of hands that are being tracked (a hand ID can be present but
- not tracked)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getUserFrame(): UserTrackerFrameRef
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return current user tracker frame
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-getUserTracker(): UserTracker
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Return the user tracker
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-\color black
-getBones(): List<UserData>
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Get skeleton data
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onDeviceConnected(DeviceInfo di)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Handles OpenNI's device state changes
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onDeviceDisconnected(DeviceInfo di)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Handles OpenNI's device state changes
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onNewFrame(HandTracker ht)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Handles hand tracker frames
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-onNewFrame(UserTracker ut)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Handles user tracker frames
-\end_layout
-
-\end_deeper
-\end_deeper
 \begin_layout Subsection*
-screenful.detectors - movement detection in frames
+Package screenful.gestures
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-ConsecutiveFrames
+\size large
+Gesture 
 \series default
-:
+\size default
+implements
 \series bold
+\size large
+ HandsListener,
+\size default
  
-\series default
-A container object for passing two consecutive hand and user tracker frames.
+\size large
+BonesListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-ConsecutiveFrames(HandTrackerFrameRef handsFrame, HandTrackerFrameRef previousHa
-ndsFrame, UserTrackerFrameRef bonesFrame, UserTrackerFrameRef previousBonesFrame
-)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Detector
-\series default
-:
-\series bold
+\family sans
+Gesture implements a generic gesture that notifies its listeners when a
+ gesture has been detected for long enough.
  
-\series default
-Interface for detectors, ie.
- an object that determines whether the movement of something during two
- consecutive (hand and/or skeleton) frames was appropriate (true / false).
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-detected(ConsecutiveFrames frames): boolean
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
 \end_layout
 
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\series bold
-getData(): GestureData
+\begin_layout Plain Layout
+Description
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
-\series bold
-DirectionDetector
-\series default
-:
-\series bold
- 
-\series default
-Detects hand point movement direction by calculating the displacement vector
- of each hand point (could also use skeletons) between two consecutive frames.
- When any tracked hand performs a big enough movement (sensitivity set in
- millimeters), the detected(..) method returns true.
-\end_layout
+\begin_layout Plain Layout
 
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-getSensitivity(): int
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-setSensitivity(int sensitivity)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-DirectionDetector(int sensitivity)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-constructor
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-detected(ConsecutiveFrames frames): boolean
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-getData(): GestureData 
-\end_layout
-
-\end_deeper
-\begin_layout Subsection*
-screenful.gestures - gesture detection based on movement
-\end_layout
-
-\begin_layout Itemize
-
+\family typewriter
 \series bold
 Gesture
-\series default
-: Gesture implements a generic gesture that notifies its listeners when
- a gesture has been detected for long enough.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Gesture(Detector detector, int framecount, int cooldown)
+Detector detector, int framecount, int cooldown : (constructor)
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Create a new gesture using a specified Detector.
- Framecount is the amount of consecutive frames where the detector's condition
- should be true for the gesture to be recognized.
- Cooldown is in milliseconds and defines a period of inaction after a gesture
- has been successfully detected.
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Create a new gesture.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-addListener(GestureListener listener)
+addListener
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Add a listener for the gesture
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-onNewBonesFrame(UserTrackerFrameRef frame)
+GestureListener listener : void
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Handle user tracker frames
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Add a listener for the gesture.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-onNewHandsFrame(HandTrackerFrameRef frame)
+onNewBonesFrame
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Handle hand tracker frames
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-GestureListener
-\series default
-: A class that wants notifications when a gesture is detected should implement
- GestureListener and add itself to the gesture's listeners.
+UserTrackerFrameRef frame : void
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handle user frames.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-onGesture(GestureData gesture)
+onNewHandsFrame
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Override to implement behavior
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
+HandTrackerFrameRef frame : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handle hand frames.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+interface GestureListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+A class that wants notifications when a gesture is detected should implement
+ GestureListener and add itself to a gesture's listeners.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onGesture
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Displacement gesture : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Override to implement behavior with the displacement data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
 JointMetrics
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Static methods for getting skeleton measurements etc.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="70col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+jointToJointDistance
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserData user, JointType from, JointType to : double
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Calculate euclidean distance between two joints (
+\family typewriter
+\series bold
+JointType.RIGHT_HAND
+\family default
 \series default
-: Static methods for getting skeleton measurements etc.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+ and 
+\family typewriter
 \series bold
-jointToJointDistance(UserData user, JointType from, JointType to): double
+JointType.NECK
+\family default
+\series default
+ for example) of a user in space.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Returns euclidian distance in space between two skeletal joints, eg.
- JointType.RIGHT_HAND, JointType.NECK etc.
- in millimeters
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\end_inset
 
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
+\size large
 Poses
-\series default
-: Methods to detect skeletal poses based on joint positions, eg.
- 
-\begin_inset Quotes eld
+\size default
+
+\begin_inset Newline newline
 \end_inset
 
-hands above neck
-\begin_inset Quotes erd
-\end_inset
 
- etc.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family sans
+Some examples of basic poses that can be calculated in a single frame based
+ on user data.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-dorkyClick(UserData user): boolean
+dorkyClick
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Returns true if hands are above the neck and distance between the hands
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserData user : boolean
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+"Click" by essentially clapping the hands in front of the face or otherwise
+ bringing them close enough.
+ Returns true if hands were above the neck and distance between the hands
  was less than 150 mm.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-handsAboveNeck(UserData user): boolean
+handsAboveNeck
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserData user : boolean
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 Returns true if a user's both hands are above the neck.
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
+\size large
 Utilities
-\series default
-: Some general utility methods
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family sans
+Some examples of basic poses that can be calculated in a single frame based
+ on user data.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="60col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-convertPoint(Point3D nitepoint): javafx.Geometry.Point3D
+convertPoint
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Convert a NiTE Point3D into javafx Point3D and round the coordinates to
- integers
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-determineCardinalDirection(javafx.geometry.Point3D vector, int minSensitivity):
- CardinalDirection
+Point3D nitepoint : javafx.geometry.Point3D
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return a cardinal direction that most closely matches the vector
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Convert a NiTE Point3D into a JavaFX Point3D.
+ For readability, round coordinates.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-displacementVector(Point3D from, Point3D to): javafx.geometry.Point3D
+determineCardinalDirection
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Calculate displacement vector between two points
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-distance3d(Point3D from, Point3D to): double
+javafx.geometry.Point3D vector, int minSensitivity : CardinalDirection
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return distance between two 3D points
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\end_deeper
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Detect general direction of a vector.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+displacementVector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Point3D from, Point3D to : javafx.geometry.Point3D
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return displacement vector from starting point to endpoint (simple subtraction).
+ Note that the returned Point3D is JavaFX, the handled Point3Ds are from
+ NiTE.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+distance3d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Point3D from, Point3D to : double
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Calculate euclidean distance between two 3D points.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.gestures.detectors
+Package screenful.gestures.detectors
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+ConsecutiveFrames
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+A container object for passing two consecutive hand and user tracker frames.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="70col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 ConsecutiveFrames
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandTrackerFrameRef handsFrame, HandTrackerFrameRef previousHandsFrame,
+ UserTrackerFrameRef bonesFrame, UserTrackerFrameRef previousBonesFrame
+ : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new object with current and previous hand and user frames.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+interface Detector
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Interface for detectors, ie.
+ an object that determines whether the movement during two consecutive frames
+ was appropriate (true / false).
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+detected
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Displacement gesture : boolean
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Override to implement behavior.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getData
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : Displacement
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return the displacement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+DirectionDetector 
 \series default
-: A container for passing two consecutive hand and user tracker frames.
+\size default
+implements
+\series bold
+\size large
+ Detector
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family sans
+Detects hand point movement direction by calculating the displacement vector
+ of each hand point between two consecutive frames.
+ When any tracked hand performs a big enough movement towards the cardinal
+ directions, the 
+\family typewriter
 \series bold
-ConsecutiveFrames(HandTrackerFrameRef handsFrame, HandTrackerFrameRef previousHa
-ndsFrame, UserTrackerFrameRef bonesFrame, UserTrackerFrameRef previousBonesFrame
-)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Detector
+detected(..)
+\family sans
 \series default
-: An interface for defining frame-to-frame detection logic.
+ method returns true.
+ This class is used by the Gesture class for defining the logic of detecting
+ a gesture.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-detected(ConsecutiveFrames frames): boolean
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="72col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Override.
- Should return true when the difference between frames is appropriate.
- A Gesture will use this boolean value to determine if a frame contributed
- to the gesture.
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
-\series bold
-getData(): Displacement
-\end_layout
+\begin_layout Plain Layout
 
-\begin_deeper
-\begin_layout Itemize
-Return last direction data.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-
+\family typewriter
 \series bold
 DirectionDetector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+int sensitivity : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new direction detector.
+ Sensitivity is in millimeters, the server parameter 
+\family typewriter
+\series bold
+traveldistance
+\family default
 \series default
-: Detect movement in the cardinal directions.
+ is used here.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-detected(ConsecutiveFrames frames): boolean
+detected
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Returns true when big enough movement is detected towards some direction.
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-getData(): Displacement
+Displacement gesture : boolean
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return last direction data.
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Return true when movement was detected along the cardinal directions.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-getSensitivity(): int
+getData
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return the chosen sensitivity.
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-setSensitivity(int sensitivity)
+no arguments : Displacement
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Set the sensitivity in millimeters.
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Return the displacement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getSensitivity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : int
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return the sensitivity setting.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+setSensitivity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+int sensitivity : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set the sensitivity.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+Displacement
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Extra data related to the movement of a point (joint, hand) between two
+ frames.
+ Stores the general direction and the actual vector.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="17" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="72col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 Displacement
-\series default
-: Extra data related to a detected gesture.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Displacement(CardinalDirection direction)
+CardinalDirection direction : (constructor)
 \end_layout
 
-\begin_layout Itemize
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new displacement with only a general direction.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Displacement(Point3D directionVector, CardinalDirection direction)
+Displacement
 \end_layout
 
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Displacement(Point3D directionVector, CardinalDirection direction, short
- id)
+Point3D directionVector, CardinalDirection direction : (constructor)
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Constructors
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Create a new displacement with a vector and the direction.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-getDirection(): CardinalDirection
+Displacement
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return cardinal direction of displacement (left/right/up/down/in/out)
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-getDirectionVector(): Point3D
+Point3D directionVector, CardinalDirection direction, short id : (constructor)
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Return 3D vector of displacement 
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Create a new displacement with a vector, direction and an ID number.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-getId(): short
+getDirection
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Get the ID
-\end_layout
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family typewriter
 \series bold
-setDirection(CardinalDirection dir)
+no arguments : CardinalDirection
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Set the direction
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+Return the general direction of the displacement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-setDirectionVector(Point3D directionVector)
+getDirectionVector
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Set the vector
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : Point3D
 \end_layout
 
-\end_deeper
-\end_deeper
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return the direction vector.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+getId
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : short
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Return the ID number.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+setDirection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+CardinalDirection dir : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set the general direction.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+setDirectionVector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Point3D directionVector : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set the direction vector.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.gui - GUI windows
+Package screenful.gui
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+GenericWindow 
+\family sans
+\series default
+\size default
+implements
+\family typewriter
+\series bold
+\size large
+ Runnable
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Generic frame for displaying graphics.
+ Can be closed by pressing Escape.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 GenericWindow
-\series default
-: Generic frame for displaying graphics
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-run()
+String name : (constructor)
 \end_layout
 
-\end_deeper
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create new window with a chosen title.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+run
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Keeps the window running until it is closed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.gui.rendering - graphics renderers for GUI windows
+Package screenful.gui.rendering
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-HandsRenderer
+\size large
+BonesRenderer 
+\family sans
 \series default
-: Draw tracked hands (red rectangles when tracking) on top of depth image.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+\size default
+extends
+\family typewriter
 \series bold
-onNewHandsFrame(HandTrackerFrameRef frame)
-\end_layout
-
-\begin_layout Itemize
-
+\size large
+ Component
+\size default
+ 
+\family sans
+\series default
+implements
+\family typewriter
 \series bold
-paint(Graphics g)
+ 
+\size large
+BonesListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Draw depth image and tracked hands.
+\begin_layout Plain Layout
+
+\family sans
+Draw stick characters from skeleton data on top of depth image.
+ Adapted from NiTE examples.
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 BonesRenderer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserTracker skel : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new renderer for a UserTracker.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewBonesFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+UserTrackerFrameRef frame : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handle the user frame.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+paint
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Graphics g : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Draw image and skeletons.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+DirectionRenderer 
+\family sans
 \series default
-: Draw stick characters from skeleton data on top of depth image.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+\size default
+extends
+\family typewriter
 \series bold
-onNewBonesFrame(UserTrackerFrameRef frame)
-\end_layout
-
-\begin_layout Itemize
-
+\size large
+ Component
+\size default
+ 
+\family sans
+\series default
+implements
+\family typewriter
 \series bold
-paint(Graphics g)
+ 
+\size large
+GestureListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Draw depth image and skeletons.
+\begin_layout Plain Layout
+
+\family sans
+Draw some feedback to directional gestures, ie.
+ text signifying the detected direction.
 \end_layout
 
-\end_deeper
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="70col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 DirectionRenderer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new renderer for directional gestures.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onGesture
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Displacement gesture : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reads the direction from the gesture.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+paint
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Graphics g : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Draw image.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+HandsRenderer 
+\family sans
 \series default
-: Draw some feedback to directional gestures.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+\size default
+extends
+\family typewriter
 \series bold
-onGesture(GestureData gesture)
-\end_layout
-
-\begin_layout Itemize
-
+\size large
+ Component
+\size default
+ 
+\family sans
+\series default
+implements
+\family typewriter
 \series bold
-paint(Graphics g)
+ 
+\size large
+HandsListener
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Draw text to indicate directions.
+\begin_layout Plain Layout
+
+\family sans
+Draw boxes over tracked hands in the depth image.
+ Adapted from NiTE examples.
 \end_layout
 
-\end_deeper
-\end_deeper
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="75col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandsRenderer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandTracker hands : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new renderer for hand tracker data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+onNewHandsFrame
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandTrackerFrameRef frame : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Handles the hand frame and calls 
+\family typewriter
+\series bold
+repaint
+\family default
+\series default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+paint
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Graphics g : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Draw image.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.gui.visualization - containers for GUI windows
+Package screenful.gui.visualization
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-Visualization (Interface)
+\size large
+BonesVisualization
+\family sans
 \series default
-: Interface for classes that provide some sort of graphical presentation
- of the sensor data.
- A visualization will take a NiTETracker in its constructor to start listening
- to events.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
+\size default
+ extends
+\family typewriter
 \series bold
-show()
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-DirectionVisualization
+\size large
+ GenericWindow
+\size default
+ 
+\family sans
 \series default
-: Directional gesture visualization window
-\end_layout
-
-\begin_layout Itemize
-
+implements
+\family typewriter
 \series bold
-HandsVisualization
-\series default
-: Hand tracker visualization window
+ 
+\size large
+Visualization
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-show()
+\family sans
+Skeleton tracker visualization window.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="70col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
 BonesVisualization
-\series default
-: Skeleton tracker visualization window
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-show()
+NiTETracker tracker, String name : (constructor)
 \end_layout
 
-\end_deeper
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new visualization window for the user tracker with a custom title.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+show
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Makes the window visible.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+DirectionVisualization
+\family sans
+\series default
+\size default
+ extends
+\family typewriter
+\series bold
+\size large
+ GenericWindow
+\size default
+ 
+\family sans
+\series default
+implements
+\family typewriter
+\series bold
+ 
+\size large
+Visualization
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Directional gesture visualization window.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="66col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+DirectionVisualization
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Gesture direction, String name : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new visualization window for directional gestures with a custom
+ title.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+show
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Makes the window visible.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+HandsVisualization
+\family sans
+\series default
+\size default
+ extends
+\family typewriter
+\series bold
+\size large
+ GenericWindow
+\size default
+ 
+\family sans
+\series default
+implements
+\family typewriter
+\series bold
+ 
+\size large
+Visualization
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Hand tracker visualization window.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="70col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+HandsVisualization
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+NiTETracker tracker, String name : (constructor)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a new visualization window for the hand tracker with a custom title.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+show
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Makes the window visible.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
+interface Visualization
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family sans
+Interface for classes that provide some sort of graphical presentation of
+ the sensor data.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+show
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+no arguments : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Makes the window visible.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
-screenful.testapps - applications for testing
+Package screenful.testapps
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
+\shape italic
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
+\size large
 BonesAndHandsViewer
-\series default
-: Views both input methods (skeleton / hand) simultaneously.
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
-\series bold
-main(String[] args)
+\family sans
+Shows two graphical windows, one for hand tracker and one for user tracker.
+ Program exits when both windows have been closed with Escape.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
+main
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+String[] args : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs the program, spawning two GUI windows for the tracker data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+\size large
 HandsDirectionViewer
-\series default
-: Show general direction of tracked hand movement.
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
+\begin_layout Plain Layout
 
+\family sans
+Show the hand tracker visualization and general direction of tracked hand
+ movement.
+\end_layout
+
+\begin_layout Plain Layout
+
+\shape italic
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features islongtable="true" longtabularalignment="left">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
 \series bold
-main(String[] args)
+main
 \end_layout
 
-\end_deeper
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+String[] args : void
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs the program, spawning two GUI windows for the tracker data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document

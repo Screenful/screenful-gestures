@@ -1,6 +1,7 @@
 package screenful.server;
 
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 import org.java_websocket.WebSocket;
@@ -69,13 +70,13 @@ public class GestureServer extends WebSocketServer {
                 String dir = "stable";
                 HashSet<CardinalDirection> exits = settings.gesturesettings.exitDirections;
                 HashSet<CardinalDirection> enabled = settings.gesturesettings.enabledDirections;
-                if (!settings.gesturesettings.exitDirections.equals("none")) {
-                    if (settings.gesturesettings.exitDirections.contains(gesture.getDirection())) {
+                if (!exits.equals("none")) {
+                    if (exits.contains(gesture.getDirection())) {
                         tracker.forgetHands();
                         System.out.println("User stopped interaction.");
                         dir = "user-exit";
                     } else {
-                        if (settings.gesturesettings.enabledDirections.contains(gesture.getDirection())) {
+                        if (enabled.contains(gesture.getDirection())) {
                             dir = gesture.getDirection().toString().toLowerCase();
                         }
                     }
@@ -88,8 +89,7 @@ public class GestureServer extends WebSocketServer {
     }
 
     /**
-     * Creates a new WebSocketServer with the wildcard IP accepting all
-     * connections.
+     * Creates a new gesture server listening on the specified address and port.
      */
     public GestureServer(String address, int port) {
         super(new InetSocketAddress(address, port));

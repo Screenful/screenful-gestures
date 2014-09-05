@@ -190,16 +190,16 @@ public class NiTETracker implements
     }
 
     /**
-     * Remove a hand listener
+     * Remove a bones listener
      *
-     * @param listener HandsListener to remove
+     * @param listener BonesListener to remove
      */
     public synchronized void removeBonesListener(BonesListener listener) {
         bonesListeners.remove(listener);
     }
 
     /**
-     * Remove all hands and bones listeners
+     * Remove all hands, bones and tracking listeners
      */
     public synchronized void removeAllListeners() {
         handsListeners.clear();
