@@ -1,7 +1,6 @@
 package screenful.server;
 
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 import org.java_websocket.WebSocket;
