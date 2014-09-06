@@ -104,8 +104,8 @@ OpenNI 2.2
 NiTE 2.2
 \family default
 \series default
- middleware to send user interface commands to a browser running the Screenful
- dashboard software.
+ middleware to implement prototype software for sending user interface commands
+ to a browser running the Screenful dashboard software.
  This allows users to interact with the screen without external input devices.
  The gestures are detected by server software running on a computer with
  a depth sensor connected.
@@ -138,7 +138,8 @@ http://java-websocket.org/
 
 \end_inset
 
- decorated with 
+ and operates stand-alone without additional web server software.
+ The client code in the browser is decorated with 
 \family typewriter
 \series bold
 ReconnectingWebSocket
@@ -154,7 +155,7 @@ https://github.com/joewalnes/reconnecting-websocket
 
 \end_inset
 
- and operates stand-alone without additional web server software.
+ to enable reconnecting after disconnects.
 \begin_inset Newline newline
 \end_inset
 
@@ -261,9 +262,9 @@ user-exit
 \end_inset
 
 .
- The server program is accompanied with a configuration file that allows
- setting which directional gestures are recognized and sent and which are
- used to stop interaction.
+ The server program is accompanied by a configuration file that allows setting
+ which directional gestures are recognized and sent and which are used to
+ stop interaction.
  The server also sends events when hand tracking starts and stops.
  These messages should be handled by Javascript code in the browser.
 \begin_inset Newline newline
@@ -761,12 +762,26 @@ To create a ReconnectingWebSocket in Javascript:
 \end_inset
 
 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
 \family typewriter
 \series bold
 socket = new ReconnectingWebSocket("ws://localhost:8887/");
-\series default
+\end_layout
 
-\begin_inset Newline newline
 \end_inset
 
 
@@ -774,11 +789,13 @@ socket = new ReconnectingWebSocket("ws://localhost:8887/");
 \end_inset
 
 
-\family default
+\begin_inset Newline newline
+\end_inset
+
 Typically the gesture server would run on the same host the browser runs
  on and the UI code creating the socket should point to the localhost address.
- By default the gesture server binds to the localhost address which means
- it will not be accessible externally.
+ By default the server binds to the localhost address which means it will
+ not be accessible externally.
  The listening address can be changed in the server configuration file.
 
 \family typewriter
@@ -831,7 +848,30 @@ The applications running on the computers could be different but they will
 
 \family typewriter
 \series bold
+
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
 socket = new ReconnectingWebSocket("ws://192.168.1.20:8887/");
+\end_layout
+
+\end_inset
+
+
 \begin_inset Newline newline
 \end_inset
 
@@ -842,8 +882,8 @@ socket = new ReconnectingWebSocket("ws://192.168.1.20:8887/");
 
 \family default
 \series default
-The port number can also be configured in server settings and should be
- allowed in any firewalls for outbound connections from the clients.
+The port number can also be configured in server settings and outbound connectio
+ns from the clients should be allowed through any firewalls.
 \end_layout
 
 \begin_layout Subsection*
@@ -857,26 +897,17 @@ To read gesture events after connecting the WebSocket (
 socket
 \family default
 \series default
-) one should define an onmessage function:
-\begin_inset Newline newline
-\end_inset
-
-
+) one should define an 
 \family typewriter
 \series bold
-socket.onmessage = function(a) { ...
- }
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
+onmessage
 \family default
 \series default
-Simple example:
+ function:
+\begin_inset Newline newline
+\end_inset
+
+
 \begin_inset Newline newline
 \end_inset
 
@@ -1082,8 +1113,7 @@ DirectionDetector
 \family default
 \series default
  compares the motion vector between the hand points of current and the previous
- hand tracker frame, and determines whether a hand was moving mainly in
- some of the cardinal directions (
+ hand tracker frame, and determines which cardinal direction (
 \family typewriter
 \series bold
 left
@@ -1119,11 +1149,18 @@ in
 out
 \family default
 \series default
-).
- The DirectionDetector returns a boolean value signifying whether the movement
- between the current and the last frame meets the criteria of the parameters
- and is along one of the axes.
- A Gesture calls the detector to inspect the frames and should 
+) the hand is moving.
+ The DirectionDetector returns a boolean value signifying whether the magnitude
+ of the movement between the current and the previous frame is greater than
+ 
+\family typewriter
+\series bold
+traveldistance
+\family default
+\series default
+ and provides the direction.
+ A Gesture calls the detector to compare every frame to the previous one
+ and should 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1147,9 +1184,13 @@ travelframes
 \end_inset
 
 In practice this means that for each frame the DirectionDetector tells if
- the movement was big enough and along one of the defined directions, and
- when this has happened enough times in a row, the hand is considered to
- have performed a directional gesture.
+ the movement was big enough and what the direction was, and when this has
+ happened enough times in a row, the hand is considered to have performed
+ a directional gesture.
+ The actual gesture direction is determined when the last required frame
+ is handled - that is, there is no interpolation or smoothing used but in
+ practice it works, since with typical parameters the magnitude of the movement
+ is great enough to trigger the gesture in the middle of the motion.
 \end_layout
 
 \begin_layout Subsection*
@@ -1172,7 +1213,7 @@ startdelay (800 ms)
 
 \begin_deeper
 \begin_layout Itemize
-initial delay after hand tracking starts and gestures events are sent to
+initial delay after hand tracking starts and gesture events are sent to
  avoid accidental gestures
 \end_layout
 
@@ -1207,7 +1248,7 @@ travelframes (5)
 
 \begin_deeper
 \begin_layout Itemize
-number of frames the movement needs to continue to the same cardinal direction
+number of frames the movement needs to continue for a successful gesture
 \end_layout
 
 \end_deeper
@@ -1220,7 +1261,7 @@ cooldown (500 ms)
 
 \begin_deeper
 \begin_layout Itemize
-the cooldown time after a gesture event is sent until new ones
+the cooldown time between sending gesture events
 \end_layout
 
 \begin_layout Itemize
@@ -1246,11 +1287,10 @@ travel frames
 \begin_inset Quotes erd
 \end_inset
 
- to 15 would mean that a hand should move in the same cardinal direction
- relative to the camera for at least 150 millimeters within half a second.
- Should the motion stop at some point or start going in the wrong direction,
- the Gesture starts counting from zero until the movement meets the criteria
- again.
+ to 15 would mean that a hand should move relative to the camera for at
+ least 150 millimeters within half a second.
+ Should the motion stop at some point, the Gesture starts counting from
+ zero until the movement meets the criteria again.
 \begin_inset Newline newline
 \end_inset
 
@@ -1258,7 +1298,7 @@ travel frames
 \begin_inset Newline newline
 \end_inset
 
-The number of 
+The parameters 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1266,12 +1306,18 @@ travel frames
 \begin_inset Quotes erd
 \end_inset
 
- directly affects the length of the detection period and should be kept
- fairly low for fast swipes and flicking motions.
- Using too long a detection period can be straining for the user and look
- awkward.
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+travel distance
+\begin_inset Quotes erd
+\end_inset
+
+ should be kept fairly low for fast swipes and flicking motions.
+ Using too long motions can be straining for the user and look awkward.
  With very short travel distance and a small number of frames even the minute
- motions of the hand will trigger the gesture.
+ motions of the hand will trigger the gestures.
  Using a short cooldown time such as below 50 milliseconds will make the
  control feel very responsive, which may be useful if the application requires
  sliders or similar continuous motion.
@@ -1494,11 +1540,27 @@ Bugs and shortcomings
 \end_layout
 
 \begin_layout Itemize
-The code base needs refactoring, settings are scattered
+The code base needs refactoring, settings are scattered and functionality
+ dispersed
 \end_layout
 
 \begin_layout Itemize
-Needs a lot more testing of the various edge cases
+Server does not listen to messages sent by the clients
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If implemented, the client could for example request changing of parameters
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sent events are minimalistic and do not convey extra information such as
+ the location where hand tracking starts
+\end_layout
+
+\begin_layout Itemize
+Needs a lot more testing, littered with bugs and oversights
 \end_layout
 
 \begin_deeper
@@ -1521,11 +1583,48 @@ The DirectionDetector could be generalized to work with skeleton joints
 The detection method is crude and simple
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Could smooth out movement and calculate a running average for the vector
+\end_layout
+
+\begin_layout Itemize
+Should compare the motion to a vector instead of having predefined cardinal
+ directions
+\end_layout
+
+\begin_layout Itemize
+Could use a completely different detection scheme
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 If the sensor is at an angle, the user needs to perform the motions at an
  angle so they're aligned with the axes from the sensor's perspective
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Could have some automatic calibration to alleviate
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+NiTE library is unstable and prone to various crashes in native code
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+No source available, unfixable, alleviated with Java Service Wrapper, using
+ a watchdog for the depth stream and tweaking heap size
+\end_layout
+
+\begin_layout Itemize
+The entire library should be reimplemented on top of an open source equivalent
+ when such becomes available
+\end_layout
+
+\end_deeper
 \begin_layout Section*
 \begin_inset Newpage pagebreak
 \end_inset
@@ -1612,8 +1711,8 @@ extends
 
 \family sans
 The main application for browser communication.
- Implements a WebSocket server for a browser to connect to and passes detected
- gestures to the UI.
+ Implements a WebSocket server for a browser to connect to and sends strings
+ of the detected gestures to the UI running in the browser.
 \end_layout
 
 \begin_layout Plain Layout
