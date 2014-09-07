@@ -323,6 +323,18 @@ Ubuntu Server 14.04 LTS
 \series default
  configuration that starts the Chromium browser with a certain application
  URL to pass the gestures to.
+ Screenshot of the configuration menu:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename server-config-menu.png
+	width 60page%
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
