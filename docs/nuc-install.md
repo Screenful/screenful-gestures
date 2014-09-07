@@ -1,4 +1,4 @@
-### Installing the gesture server in Intel NUC
+### Installing the gesture server on Intel NUC DN2820FYKH
 
 **A preconfigured appliance image was created for this project, it is likely to become available at some point but is too big for pushing to this repository.**
 
