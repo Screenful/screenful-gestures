@@ -18,8 +18,6 @@
 
 #### Using in a NetBeans project
 
-**(TODO)**
-
 1. Create a new Java project
 2. Add org.openni.jar, com.primesense.nite.jar, java_websocket.jar to project libraries
 3. (If needed) Adjust project properties, Run section: add VM parameter: `-Djava.library.path=<absolute path of the directory with all the .so files>`
