@@ -823,10 +823,25 @@ In cases where multiple applications running on different computers wish
  to access the same sensor data, the server listening address should be
  set to an IP the clients can contact.
  In a real-world scenario - using IP addresses instead of hostnames - this
- might mean that there is a gesture server computer (192.168.1.20) within a
- (virtual) local area network (subnet 192.168.1.0/24) and several client computers
- (192.168.1.[1-15]) where the browser application connects to this common gesture
- server.
+ might mean that there is a gesture server computer (
+\family typewriter
+\series bold
+192.168.1.20
+\family default
+\series default
+) within a (virtual) local area network (subnet 
+\family typewriter
+\series bold
+192.168.1.0/24
+\family default
+\series default
+) and several client computers (
+\family typewriter
+\series bold
+192.168.1.[1-15]
+\family default
+\series default
+) where the browser application connects to this common gesture server.
 \begin_inset Newline newline
 \end_inset
 
@@ -840,8 +855,14 @@ In cases where multiple applications running on different computers wish
 \family default
 The applications running on the computers could be different but they will
  all receive the same events from the server.
- To create such a scenario, the application webpages should contain the
- following line:
+ To create such a scenario, the server listening address should be set to
+ 
+\family typewriter
+\series bold
+192.168.1.20
+\family default
+\series default
+ and application webpages should contain the following line:
 \begin_inset Newline newline
 \end_inset
 
