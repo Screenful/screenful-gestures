@@ -1,0 +1,959 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\pagestyle{empty}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 1.5cm
+\rightmargin 2cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+Cloning the gesture server with Clonezilla
+\end_layout
+
+\begin_layout Subsection*
+Requirements
+\end_layout
+
+\begin_layout Itemize
+8GB+ USB drive (and one extra for creating an automatic recovery stick)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Create two FAT partitions: a 256MB one (for Clonezilla) and a bigger one
+ (rest of the space, used for saving images)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Clonezilla (64-bit) .ISO image: http://clonezilla.org/downloads/download.php?branch
+=alternative
+\end_layout
+
+\begin_layout Itemize
+Use Tuxboot: http://tuxboot.org/
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Write the Clonezilla image to first (256MB partition)
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
+Cloning overview
+\end_layout
+
+\begin_layout Standard
+After requirements are met, a bootable stick for cloning has been produced.
+ This stick can be used to boot a Clonezilla live environment for creating
+ disk images.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Note that when writing an image to a new disk, the destination disk must
+ be the same size as the source disk or bigger! This means that if you clone
+ a 60GB disk, the compressed image may fit on a USB stick, but the image
+ cannot be restored to a 40GB disk.
+ The size can be minimised by resizing the source partitions' filesystems
+ and the partitions themselves before creating the image, if possible.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+During cloning process, following operations are performed:
+\end_layout
+
+\begin_layout Itemize
+Save a Clonezilla disk image of the hard disk to the second (bigger) partition
+ on the USB stick
+\end_layout
+
+\begin_layout Itemize
+After image is finished, rerun Clonezilla (using option 
+\begin_inset Quotes eld
+\end_inset
+
+rerun2
+\begin_inset Quotes erd
+\end_inset
+
+ in the menu)
+\end_layout
+
+\begin_layout Itemize
+Save a recovery ISO of the disk image to the second partition on the stick.
+\end_layout
+
+\begin_layout Standard
+This should result in an image directory and an .ISO image file being created
+ on the USB stick.
+ The .ISO image can again be written to another USB stick with Tuxboot to
+ install the imaged system automatically onto a hard disk.
+\end_layout
+
+\begin_layout Subsection*
+Cloning step-by-step
+\end_layout
+
+\begin_layout Enumerate
+Boot NUC with the USB stick and press Enter in the boot loader to start
+ with default settings
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 1-bootloader.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Press Enter to select default language (English)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 0a-language.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Press Enter to select default keymap
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 0b-keymap.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+After reaching the main menu, press Enter to select 
+\begin_inset Quotes eld
+\end_inset
+
+Start Clonezilla
+\begin_inset Quotes erd
+\end_inset
+
+ (we will come back here again)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 2-mainmenu.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+device-image
+\begin_inset Quotes erd
+\end_inset
+
+ operation
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 3-diskimage.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose 
+\begin_inset Quotes eld
+\end_inset
+
+Use local device
+\begin_inset Quotes erd
+\end_inset
+
+ for the image directory.
+ There are other options but these instructions assume we want to save on
+ the same USB stick we booted from.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 4-localdev.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select the other (bigger) partition on the USB stick.
+ In this case the 
+\begin_inset Quotes eld
+\end_inset
+
+NUC
+\begin_inset Quotes erd
+\end_inset
+
+ hard disk (actually a virtual machine disk) is the 2GB one that has two
+ partitions, sda1 and sda2.
+ The Clonezilla stick is sdb, with partitions sdb1 we booted from (hidden
+ in this menu) and sdb2, the bigger partition we want to save the image
+ to.
+ Pick sdb2.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 5-secondpartition.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+Top directory
+\begin_inset Quotes erd
+\end_inset
+
+ to save images to the root of the stick.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 6-topdirectory.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose 
+\begin_inset Quotes eld
+\end_inset
+
+Beginner mode
+\begin_inset Quotes erd
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 7-beginner.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose 
+\begin_inset Quotes eld
+\end_inset
+
+Save local disk as an image
+\begin_inset Quotes erd
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 8-savedisk.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Specify a name for the image or use the default.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 9-imagename.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select the source disk (sda) to clone by pressing Enter.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 10-sourcedisk.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+Interactively check and repair source file system before saving
+\begin_inset Quotes erd
+\end_inset
+
+ to make sure the file system is alright, unless you're doing disaster recovery.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 11-fsck.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose the default 
+\begin_inset Quotes eld
+\end_inset
+
+Yes, check the saved image
+\begin_inset Quotes erd
+\end_inset
+
+ to check the image (quickly) after it's created.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 12-checkimage.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Clonezilla will prompt if you wish to continue, answer 'y'.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 13-answeryes.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Several progress screens will flash by when each partition is cloned and
+ checked.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 14-imaging.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+When creating the image has finished, press Enter to return to the menu.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 15-finishedfirst.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The stick now contains a directory that holds the disk image and metadata.
+ This procedure alone is sufficient to restore an image to a disk using
+ Clonezilla's restore function.
+ In the main menu you can select to power off the computer, but if you wish
+ to have an automatic installer, stay in the menu and read the next section.
+\end_layout
+
+\begin_layout Subsection*
+Creating an automatic installer stick
+\end_layout
+
+\begin_layout Standard
+If you wish to create a bootable stick that automatically writes an image
+ to the first hard disk, stay in the menu after you have created the disk
+ image.
+\end_layout
+
+\begin_layout Enumerate
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+rerun2
+\begin_inset Quotes erd
+\end_inset
+
+ to run Clonezilla again using the same image repository (the big partition
+ on the USB stick)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 16-rerun2.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Again we see the main menu, press Enter to start Clonezilla
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 17-mainmenuagain.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+And once again, select 
+\begin_inset Quotes eld
+\end_inset
+
+device-image
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 18-deviceimageagain.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Select the 
+\begin_inset Quotes eld
+\end_inset
+
+skip
+\begin_inset Quotes erd
+\end_inset
+
+ option!
+\series default
+ This means that when we chose 
+\begin_inset Quotes eld
+\end_inset
+
+rerun2
+\begin_inset Quotes erd
+\end_inset
+
+ the directory is already mounted so nothing needs to be done.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 19-skip.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose 
+\begin_inset Quotes eld
+\end_inset
+
+Beginner mode
+\begin_inset Quotes erd
+\end_inset
+
+ again.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 20-beginner.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Now, select 
+\begin_inset Quotes eld
+\end_inset
+
+Create recovery Clonezilla live
+\begin_inset Quotes erd
+\end_inset
+
+.
+
+\series default
+ This option was (maybe) not visible before because it will not be shown
+ unless Clonezilla finds image directories in the image repository.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 21-recovery-iso.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose an image to use
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 22-recovery-image.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set the destination disk that will be used when the automatic recovery stick
+ is booted.
+ 
+\series bold
+This means that the disk 
+\begin_inset Quotes eld
+\end_inset
+
+sda
+\begin_inset Quotes erd
+\end_inset
+
+ will be overwritten with the image and everything on it will be erased!
+\series default
+ Typically 
+\begin_inset Quotes eld
+\end_inset
+
+sda
+\begin_inset Quotes erd
+\end_inset
+
+ is the first hard disk and in the case of NUC, the only one.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 23-sda.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select the language used for the recovery system, default (English) is fine
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 24-language.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose the keymap to use in the recovery system.
+ The default is 
+\begin_inset Quotes eld
+\end_inset
+
+NONE
+\begin_inset Quotes erd
+\end_inset
+
+, but if you want the Finnish layout for one reason or another, you can
+ enter 
+\begin_inset Quotes eld
+\end_inset
+
+fi
+\begin_inset Quotes erd
+\end_inset
+
+ here.
+ The keymap doesn't matter much as the only interaction required is pressing
+ 
+\begin_inset Quotes eld
+\end_inset
+
+y
+\begin_inset Quotes erd
+\end_inset
+
+ and Enter.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 25-finnish-optional.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+Create an iso file for CD/DVD use
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 26-iso-image.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+After pressing Enter when prompted the ISO creation starts and the image
+ is saved on the stick
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 27-iso-finished.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+After the recovery image is finished, choose 
+\begin_inset Quotes eld
+\end_inset
+
+Poweroff
+\begin_inset Quotes erd
+\end_inset
+
+ to shut down the system and ensure the data is flushed to the stick.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 28-poweroff.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The content of the second partition should now look something like this.
+ Copy the file 
+\begin_inset Quotes eld
+\end_inset
+
+clonezilla-live-<image name>
+\begin_inset Quotes erd
+\end_inset
+
+ somewhere safe.
+ Now you can eject the cloning stick.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 29-finalresult.png
+	width 40page%
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Insert a stick to write the automatic recovery image on and start Tuxboot.
+ The destination stick should be formatted with the FAT filesystem and mounted
+ in the system, ie.
+ files visible in the file explorer.
+ Tuxboot should suggest the device name (
+\begin_inset Quotes eld
+\end_inset
+
+/dev/sdb1
+\begin_inset Quotes erd
+\end_inset
+
+ in the screenshot below) if it finds USB drives with mounted filesystems.
+ Make sure to pick the right one and press OK to create the recovery stick.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename 30-tuxboot.png
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+After Tuxboot is finished, you can remove the stick, boot a computer with
+ it and the image within will be automatically written to the first hard
+ disk.
+\end_layout
+
+\end_body
+\end_document
