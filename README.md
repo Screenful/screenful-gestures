@@ -2,7 +2,7 @@
 
 Enables natural user interaction for the Screenful dashboard software. The user can change the active slide and get more detail by making simple hand gestures.
 
-Implemented using OpenNI 2.2 and NiTE 2.2 for 64-bit Linux.
+Implemented using OpenNI 2.2 and NiTE 2.2 for 64-bit Linux. Content of this repository is MIT licensed.
 
 #### High-level overview
 
