@@ -1562,6 +1562,13 @@ screenful.testapps.BonesAndHandsViewer
 \end_inset
 
 
+\begin_inset Graphics
+	filename trackers.png
+	width 80page%
+
+\end_inset
+
+
 \begin_inset Newline newline
 \end_inset
 
@@ -5242,8 +5249,7 @@ Utilities
 \begin_layout Plain Layout
 
 \family sans
-Some examples of basic poses that can be calculated in a single frame based
- on user data.
+Some general utility methods.
 \end_layout
 
 \begin_layout Plain Layout
